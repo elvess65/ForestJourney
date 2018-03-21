@@ -1,0 +1,17 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class KeyboardInputManager : BaseInputManager
+{
+    public override void Update ()
+    {
+        if (!Enabled)
+            return;
+
+        Vector2 dir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        if (OnMove != null)
+            OnMove(new Vector3(dir.x, 0, dir.y));
+    }
+}
