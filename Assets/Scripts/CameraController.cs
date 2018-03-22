@@ -64,6 +64,7 @@ public class CameraController : MonoBehaviour
 
         //Slerp to rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, 
-            Quaternion.LookRotation(Player.transform.position - transform.position), SmoothFactor);
+            Quaternion.LookRotation(Player.transform.position - transform.position), Time.deltaTime);
+        //transform.rotation = Quaternion.LookRotation(Player.transform.position - transform.position);
     }
 }

@@ -69,9 +69,12 @@ public class PlayerController : MonoBehaviour
         //Move
         m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
 
-        //Rotate in move dir
-        float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        if (m_MoveDir != Vector3.zero)
+        {
+            //Rotate in move dir
+            float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        }
 
         //Move animation
         PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, m_MoveDir.magnitude, DampTime, Time.deltaTime);
