@@ -14,4 +14,9 @@ public abstract class Action_AutoAction : BaseAction
                 Action();
         }
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(DistanceToInteract));
+    }
 }

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController m_CharacterController;
 
     private const string m_ANIMATION_SPEED_NAME = "speedPercent";
+
     private const string m_ACTION_FIELD_RESTART_NAME = "Restart";
     private const string m_ACTION_FIELD_ROTATE_CAMERA_NAME = "RotateCamera";
     private const string m_ACTION_FIELD_REMOVE_OBSTACLE_NAME = "RemoveObstacle";
@@ -61,6 +62,12 @@ public class PlayerController : MonoBehaviour
             case m_ACTION_FIELD_FINISH_ROUND_NAME:
                 Debug.Log("FINISH ROUND");
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                break;
+            case "Assistant":
+                other.GetComponent<AssistantController>().Pick();
+                break;
+            case "Enemy":
+                Debug.Log("Enemy");
                 break;
         }
     }
