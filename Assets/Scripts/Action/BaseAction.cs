@@ -2,9 +2,13 @@
 
 public abstract class BaseAction : MonoBehaviour
 {
+    [Header(" - BASE -")]
+    [Header("Effects")]
+    public GameObject ActiveEffect;
+    [Header("Objects")]
     public BoxCollider Collder;
-
-    private bool m_IsActive = true;
+    
+    protected bool m_IsActive = true;
 
     public virtual void Action()
     {
@@ -17,11 +21,15 @@ public abstract class BaseAction : MonoBehaviour
     protected virtual void Acivate()
     {
         m_IsActive = true;
+
+        Collder.enabled = true;
+        ActiveEffect.SetActive(true);
     }
     protected virtual void Deactivate()
     {
         m_IsActive = false;
-        Collder.enabled = false;
-    }
 
+        Collder.enabled = false;
+        ActiveEffect.SetActive(false);
+    }
 }

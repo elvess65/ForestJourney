@@ -14,8 +14,11 @@ public class InputManager : MonoBehaviour
 
 	void Update ()
     {
-        KeyboardInput.Update();
-        VirtualJoystickInput.Update();
+        if (GameManager.Instance.IsActive)
+        {
+            KeyboardInput.Update();
+            VirtualJoystickInput.Update();
+        }
     }
 }
 
