@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class AssistantController : MonoBehaviour
+public class AssistantController : Pickable_Base
 {
     [Header("Settings")]
     public Vector3 AnchorOffset;
@@ -21,47 +21,33 @@ public class AssistantController : MonoBehaviour
     public float SqrDistToDisable = 10;
     [Header("References")]
     public TrailRenderer Trail;
-    public BoxCollider Collider;
-    public ParticleSystem[] Particles;
+    public Effect_Particles_StopLoop Effect;
 
     //Idle
     private bool m_Idle = true;
     //Picked
-    private bool m_Picked = false;
     private bool m_InitFocus = false;
     private Vector3 m_CurAnchorOffset;
     //Way
     private NavMeshAgent m_Agent;
-    //Assist
-    private bool m_Assisting = false;
     //Assisted
     private float m_CurWaitTime = 0;
     private bool m_WaitingForThePlayerToDisapear = false;
 
-    private void Start()
+    protected override void Start()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         Trail.enabled = false;
     }
 
-    public void Pick()
-    {
-        Collider.enabled = false;
-
-        m_CurAnchorOffset = AnchorOffset;
-        Trail.enabled = true;
-        m_Idle = false;
-        m_Picked = true;
-    }
-
-    private void Update()
+    protected override void Update()
     {
         if (!GameManager.Instance.IsActive)
             return;
 
         if (m_Idle)
         {
-            transform.position = new Vector3(transform.position.x, 
+            transform.position = new Vector3(transform.position.x,
                                              transform.position.y + Mathf.Sin(Time.time * IdleFrequency) * IdleAmplitude,
                                              transform.position.z);
         }
@@ -92,11 +78,11 @@ public class AssistantController : MonoBehaviour
                 transform.position = Vector3.Slerp(transform.position, newPos, speed);
             }
         }
-        else if (m_Assisting)
+        else if (m_Using)
         {
             if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 0.1f)
             {
-                m_Assisting = false;
+                m_Using = false;
                 m_WaitingForThePlayerToDisapear = true;
             }
         }
@@ -122,11 +108,20 @@ public class AssistantController : MonoBehaviour
         }
     }
 
-    public void Assist()
+    public override void Pick()
     {
+        m_CurAnchorOffset = AnchorOffset;
+        Trail.enabled = true;
         m_Idle = false;
-        m_Picked = false;
-        m_Assisting = true;
+
+        base.Pick();
+    }
+
+    public override void Use()
+    {
+        base.Use();
+
+        m_Idle = false;
         MoveTo(new Vector3(11.78f, 8.87f, 24.53f));
     }
 
@@ -138,9 +133,8 @@ public class AssistantController : MonoBehaviour
 
     void Disable()
     {
-        for (int i = 0; i < Particles.Length; i++)
-            Particles[i].loop = false;
-
+        Effect.Deactivate();
+       
         Destroy(gameObject, 5);
     }
 }

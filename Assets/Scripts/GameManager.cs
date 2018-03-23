@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,13 +11,16 @@ public class GameManager : MonoBehaviour
     public Transform PlayerSpawnPoint;
 
     private bool m_IsActive = false;
+    private UIManager m_UIManager;
     private PlayerController m_Player;
     private PrefabsLibrary m_PrefabsLibrary;
+    private List<EnemyController> m_Enemies;
     
     public bool IsActive
     {
         get { return m_IsActive; }
     }
+    public UIManager UIController;
     public PlayerController Player
     {
         get { return m_Player; }
@@ -24,6 +28,16 @@ public class GameManager : MonoBehaviour
     public PrefabsLibrary PrefabLibrary
     {
         get { return m_PrefabsLibrary; }
+    }
+    public List<EnemyController> Enemies
+    {
+        get
+        {
+            if (m_Enemies == null)
+                m_Enemies = new List<EnemyController>();
+
+            return m_Enemies;
+        }
     }
 
     private void Awake()
@@ -33,8 +47,28 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        m_UIManager = GetComponent<UIManager>();
+
         CreateMainEntities();
         CreatePlayer();
+    }
+
+    public void AddEnemy(EnemyController enemy)
+    {
+        if (m_Enemies == null)
+            m_Enemies = new List<EnemyController>();
+
+        m_Enemies.Add(enemy);
+    }
+
+    public void FinishRound()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void RestartRound()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     void StartLoop()

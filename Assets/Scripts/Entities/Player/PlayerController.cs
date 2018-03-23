@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private CharacterController m_CharacterController;
     private PlayerAnimationController m_PlayerAnimationController;
 
-    private AssistantController m_Assistant;
-    private Action_Soul m_Soul;
+    private Pickable_Base m_Assistant;
+    private WeaponController m_Weapon;
 
     void Start()
     {
@@ -23,15 +23,6 @@ public class PlayerController : MonoBehaviour
 
         InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
         InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-            UseAssistant();
-
-        if (Input.GetKeyDown(KeyCode.I))
-            UseSoul();
     }
 
     public void MoveInDir(Vector3 dir)
@@ -52,38 +43,43 @@ public class PlayerController : MonoBehaviour
         m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude);
     }
 
+    public void DestroyPlayer()
+    {
+        InputManager.Instance.VirtualJoystickInput.OnMove -= MoveInDir;
+        InputManager.Instance.KeyboardInput.OnMove -= MoveInDir;
 
-    public void AddAssistant(AssistantController assistant)
+        m_PlayerAnimationController.PlayMoveAnimation(0);
+        m_PlayerAnimationController.enabled = false;
+        m_CollisionController.enabled = false;
+        enabled = false;
+    }
+
+
+    public void AddAssistant(Pickable_Base assistant)
     {
         m_Assistant = assistant;
     }
 
-    public void AddSoul(Action_Soul soul)
+    public void AddWeapon(Pickable_Base weapon)
     {
-        m_Soul = soul;
+        m_Weapon = (WeaponController)weapon;
     }
 
-    void UseAssistant()
+    public void UseAssistant()
     {
         if (m_Assistant != null)
         {
-            m_Assistant.Assist();
+            m_Assistant.Use();
             m_Assistant = null;
         }
     }
 
-    void UseSoul()
+    public void UseWeapon()
     {
-        if (m_Soul != null)
+        if (m_Weapon != null)
         {
-            m_Soul.Activate();
-            m_Soul = null;
-
-            EnemyController enemy = FindObjectOfType<EnemyController>();
-            GameObject ob = Instantiate(enemy.ExplisionPrefab);
-            ob.transform.position = enemy.transform.position;
-            Destroy(ob, 3);
-            Destroy(enemy.gameObject);
+            m_Weapon.Use();
+            m_Weapon = null;
         }
     }
 

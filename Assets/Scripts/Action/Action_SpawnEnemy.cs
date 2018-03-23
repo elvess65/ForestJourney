@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Action_SpawnEnemy : Action_Base {
 
-    public GameObject Enemy;
-    public Transform SpawnPosition;
+    public EnemyController EnemyPrefab;
+    public Transform SpawnPoint;
 
     public override void Action()
     {
         base.Action();
 
-        Enemy.transform.position = SpawnPosition.position;
-        Enemy.GetComponent<EnemyController>().Init();
+        EnemyController enemy = Instantiate(EnemyPrefab, SpawnPoint.position, Quaternion.identity);
+        enemy.Init();
     }
 }

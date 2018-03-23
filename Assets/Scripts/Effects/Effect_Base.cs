@@ -9,6 +9,11 @@ public abstract class Effect_Base : MonoBehaviour
     public abstract void Activate();
     public abstract void Deactivate();
 
+    public void ForceAutoDestruct()
+    {
+        ForceAutoDestruct(AutoDestructSec);
+    }
+
     public void ForceAutoDestruct(float time)
     {
         if (AutoDestructAfterActivation)
