@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 198270614023448360}
   - component: {fileID: 199814651352791682}
   - component: {fileID: 96316431109846790}
+  - component: {fileID: 114455516176950350}
   m_Layer: 0
   m_Name: Assistant Graphic
   m_TagString: Untagged
@@ -49,7 +50,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1995214055218546
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -70,10 +71,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1421821605822286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.68, y: 0, z: -7.22}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: -4.68, y: 0, z: -8.318}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4730682562272236}
+  - {fileID: 4842507474302506}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,10 +86,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626666563861614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_Children:
-  - {fileID: 4842507474302506}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
   m_Father: {fileID: 4281416625735164}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98,11 +99,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1995214055218546}
   m_LocalRotation: {x: 0.49243817, y: 0.50744915, z: -0.50744915, w: 0.49243817}
-  m_LocalPosition: {x: 0.0315083, y: -0.313822, z: 0.30558088}
+  m_LocalPosition: {x: 0.031508446, y: 1.686178, z: 0.3055811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4730682562272236}
-  m_RootOrder: 0
+  m_Father: {fileID: 4281416625735164}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &65289841947866782
 BoxCollider:
@@ -114,8 +115,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.1, y: 15, z: 7.37}
-  m_Center: {x: 0, y: 10, z: 0}
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!96 &96316431109846790
 TrailRenderer:
   serializedVersion: 2
@@ -213,7 +214,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.73495597, g: 0.7254902, b: 1, a: 1}
-  m_Intensity: 4.24
+  m_Intensity: 8.47
   m_Range: 2.4363594
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -239,6 +240,22 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114455516176950350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626666563861614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7912794ff59ec4691125b4fcc4f4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoDestructAfterActivation: 0
+  AutoDestructSec: 5
+  MainParticleSystemObj: {fileID: 198270614023448360}
+  ParticleSystems:
+  - {fileID: 198270614023448360}
 --- !u!114 &114516554416419640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0913478f6d473da4bb3518409a31353b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 65289841947866782}
   AnchorOffset: {x: 0.5, y: 0, z: 0}
   IdleAmplitude: 0.1
   IdleFrequency: 2
@@ -260,9 +278,7 @@ MonoBehaviour:
   MaxAssistedWaitTime: 30
   SqrDistToDisable: 10
   Trail: {fileID: 96316431109846790}
-  Collider: {fileID: 65289841947866782}
-  Particles:
-  - {fileID: 198270614023448360}
+  Effect: {fileID: 114455516176950350}
 --- !u!195 &195266196291321006
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -344,7 +360,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 719989221
+  randomSeed: -1839355479
   InitialModule:
     serializedVersion: 3
     enabled: 1
