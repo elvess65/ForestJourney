@@ -2,7 +2,7 @@
 
 public class KeyboardInputManager : BaseInputManager
 {
-    public override void Update ()
+    public override void UpdateInput ()
     {
         if (!Enabled)
             return;

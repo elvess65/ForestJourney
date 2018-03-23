@@ -16,8 +16,8 @@ public class InputManager : MonoBehaviour
     {
         if (GameManager.Instance.IsActive)
         {
-            KeyboardInput.Update();
-            VirtualJoystickInput.Update();
+            KeyboardInput.UpdateInput();
+            VirtualJoystickInput.UpdateInput();
         }
     }
 }
@@ -28,5 +28,5 @@ public abstract class BaseInputManager : MonoBehaviour
 
     public bool Enabled = true;
 
-    public abstract void Update();
+    public abstract void UpdateInput();
 }

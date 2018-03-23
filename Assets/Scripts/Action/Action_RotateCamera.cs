@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Action_RotateCamera : BaseAction
+public class Action_RotateCamera : Action_Base
 {
     public override void Action()
     {

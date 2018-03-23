@@ -7,7 +7,7 @@ public class VirtualJoystickInputManager : BaseInputManager
 
     private Vector2 m_PrevDir = Vector2.zero;
 
-	public override void Update () 
+	public override void UpdateInput() 
     {
         if (!Enabled)
             return;

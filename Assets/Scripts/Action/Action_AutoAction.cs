@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class Action_AutoAction : BaseAction
+public abstract class Action_AutoAction : Action_Base
 {
     [Header(" - DERRIVED -")]
     public float DistanceToInteract = 4;
