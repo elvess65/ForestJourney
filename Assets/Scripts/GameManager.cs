@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     private bool m_IsActive = false;
     private UIManager m_UIManager;
+    private QueueAssistManager m_QueueAssistManager;
     private PlayerController m_Player;
     private PrefabsLibrary m_PrefabsLibrary;
     private List<EnemyController> m_Enemies;
@@ -21,6 +22,10 @@ public class GameManager : MonoBehaviour
         get { return m_IsActive; }
     }
     public UIManager UIController;
+    public QueueAssistManager AssistManager
+    {
+        get { return m_QueueAssistManager; }
+    }
     public PlayerController Player
     {
         get { return m_Player; }
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         m_UIManager = GetComponent<UIManager>();
+        m_QueueAssistManager = GetComponent<QueueAssistManager>();
 
         CreateMainEntities();
         CreatePlayer();

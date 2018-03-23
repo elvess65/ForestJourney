@@ -55,14 +55,24 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void AddAssistant(Pickable_Base assistant)
+    public bool AddAssistant(Pickable_Base assistant)
     {
+        if (m_Assistant != null)
+            return false;
+
         m_Assistant = assistant;
+
+        return true;
     }
 
-    public void AddWeapon(Pickable_Base weapon)
+    public bool AddWeapon(Pickable_Base weapon)
     {
+        if (m_Weapon != null)
+            return false;
+
         m_Weapon = (WeaponController)weapon;
+
+        return true;
     }
 
     public void UseAssistant()

@@ -8,6 +8,7 @@ public abstract class Action_Base : MonoBehaviour
     public Effect_Base[] Effects_Action;
     [Header("Objects")]
     public BoxCollider Collider;
+    public Transform AssistantPoint;
     
     protected bool m_IsActive = true;
 
@@ -47,5 +48,8 @@ public abstract class Action_Base : MonoBehaviour
             for (int i = 0; i < Effects_IsActive.Length; i++)
                 Effects_IsActive[i].Deactivate();
         }
+
+        if (AssistantPoint != null)
+            GameManager.Instance.AssistManager.RemovePoint(AssistantPoint);
     }
 }

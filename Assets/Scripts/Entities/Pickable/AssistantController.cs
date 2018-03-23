@@ -80,7 +80,7 @@ public class AssistantController : Pickable_Base
         }
         else if (m_Using)
         {
-            if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 0.1f)
+            if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 0.1f && m_Agent.remainingDistance > 0)
             {
                 m_Using = false;
                 m_WaitingForThePlayerToDisapear = true;
@@ -89,7 +89,6 @@ public class AssistantController : Pickable_Base
         else if (m_WaitingForThePlayerToDisapear)
         {
             float sqrDist = (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude;
-
             //If player not arrived wait time
             if (sqrDist > SqrDistToDisable)
             {
@@ -121,8 +120,8 @@ public class AssistantController : Pickable_Base
     {
         base.Use();
 
-        m_Idle = false;
-        MoveTo(new Vector3(11.78f, 8.87f, 24.53f));
+        MoveTo(GameManager.Instance.AssistManager.FindNext());
+        m_Using = true;
     }
 
     void MoveTo(Vector3 pos)
