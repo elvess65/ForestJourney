@@ -34,7 +34,7 @@ public class AssistantController : Pickable_Base
     private float m_CurWaitTime = 0;
     private bool m_WaitingForThePlayerToDisapear = false;
 
-    protected override void Start()
+    protected override void Start() 
     {
         m_Agent = GetComponent<NavMeshAgent>();
         Trail.enabled = false;
