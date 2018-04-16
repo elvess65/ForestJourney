@@ -2,6 +2,8 @@
 
 public abstract class Action_Base : MonoBehaviour
 {
+    public System.Action OnAction;
+
     [Header(" - BASE -")]
     [Header("Effects")]
     public Effect_Base[] Effects_IsActive;
@@ -24,6 +26,9 @@ public abstract class Action_Base : MonoBehaviour
             for (int i = 0; i < Effects_Action.Length; i++)
                 Effects_Action[i].Activate();
         }
+
+        if (OnAction != null)
+            OnAction();
     }
 
     protected virtual void Acivate()

@@ -3,11 +3,12 @@
 public class Action_RemoveObstacle : Action_Base
 {
     [Header(" - DERRIVED -")]
+    public bool RotateCamera = false;
     public ActionComponent_Obstacle ObstacleObj;
+    public KeyController.KeyTypes[] ActivationKeys;
     [Header("Projectile")]
     public Projectile_Behaviour ProjectilePrefab;
     public Transform ProjectileSpawnPoint;
-
     public float ProjectileSpawnOffset;
     public GameObject ExplosionPrefab;
     
@@ -15,9 +16,21 @@ public class Action_RemoveObstacle : Action_Base
 
     public override void Action()
     {
+        if (ActivationKeys.Length > 0)
+        {
+            if (!GameManager.Instance.HasKeysForActivation(ActivationKeys))
+            {
+                Debug.Log("not enough activation keys");
+                return;
+            }
+        }
+
         base.Action();
 
         CreateProjectile();
+
+        if (RotateCamera)
+            GameManager.Instance.CamController.RotateRandomly();
     }
 
     void CreateProjectile()

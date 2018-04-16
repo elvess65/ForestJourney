@@ -10,6 +10,7 @@ public class PlayerCollisionController : CollisionController
     private const string m_OBJECT_ASSISTANT =            "Assistant";
     private const string m_OBJECT_WEAPON =               "Weapon";
     private const string m_OBJECT_ENEMY =                "Enemy";
+    private const string m_PICKABLE =                    "Pickable";
 
     public override void HandleCollistion(Collider other)
     {
@@ -35,6 +36,9 @@ public class PlayerCollisionController : CollisionController
             case m_OBJECT_ENEMY:
                 GetComponent<PlayerController>().DestroyPlayer(); 
                 other.GetComponent<EnemyController>().TakeDamage(transform);
+                break;
+            case m_PICKABLE:
+                other.GetComponent<Pickable_Base>().Pick();
                 break;
         }
     }

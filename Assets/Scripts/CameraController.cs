@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
 
     private Transform m_Target;
     private float m_CurRotationSpeed = 0;
+    [SerializeField]
     private Vector3 m_CamOffset;
     private bool m_InitFocus = false;
 
@@ -19,10 +20,16 @@ public class CameraController : MonoBehaviour
         m_CamOffset = transform.position - m_Target.transform.position;
     }
 
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 150, 50), "Rotate Camera"))
+            RotateRandomly();
+    }
+
     public void RotateRandomly()
     {
         int dir = Random.Range(0, 100) > 50 ? -1 : 1;
-        m_CurRotationSpeed = RotationsSpeed * dir;
+        m_CurRotationSpeed = Random.Range(0.5f, 2f) * dir;
 
         StartCoroutine(RotatePeriod(Random.Range(0.5f, 2f)));
     }
