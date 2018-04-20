@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class KeyController : Pickable_Base
+public class KeyController : Item_Base
 {
     public enum KeyTypes
     {
@@ -19,9 +19,9 @@ public class KeyController : Pickable_Base
     {
     }
 
-    public override void Pick()
+    public override void Interact()
     {
-        base.Pick();
+        base.Interact();
 
         Use();
     }

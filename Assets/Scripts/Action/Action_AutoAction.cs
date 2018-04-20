@@ -11,7 +11,7 @@ public abstract class Action_AutoAction : Action_Base
         {
             float sqrDistToTarget = (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude;
             if (sqrDistToTarget <= DistanceToInteract)
-                Action();
+                Interact();
         }
     }
 

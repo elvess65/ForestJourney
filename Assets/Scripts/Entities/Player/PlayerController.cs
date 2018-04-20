@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController m_CharacterController;
     private PlayerAnimationController m_PlayerAnimationController;
 
-    private Pickable_Base m_Assistant;
+    private Item_Base m_Assistant;
     private WeaponController m_Weapon;
 
     void Start()
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public bool AddAssistant(Pickable_Base assistant)
+    public bool AddAssistant(Item_Base assistant)
     {
         if (m_Assistant != null)
             return false;
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    public bool AddWeapon(Pickable_Base weapon)
+    public bool AddWeapon(Item_Base weapon)
     {
         if (m_Weapon != null)
             return false;

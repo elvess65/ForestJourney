@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Событие триггера - Создание лабиринта
+/// </summary>
 public class EventAction_DynamicMazeSimple : MonoBehaviour
 {
     public GameObject DynamicMazeObject;

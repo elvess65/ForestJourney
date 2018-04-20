@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponController : Pickable_Base
+public class WeaponController : Item_Base
 {
     [Header("Idle")]
     public Effect_Base EffectPick;
@@ -41,9 +41,9 @@ public class WeaponController : Pickable_Base
         }
     }
 
-    public override void Pick()
+    public override void Interact()
     {
-        base.Pick();
+        base.Interact();
 
         EffectIdle.Deactivate();
         EffectIdle.ForceAutoDestruct();

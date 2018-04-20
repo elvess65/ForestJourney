@@ -1,11 +1,6 @@
-﻿using UnityEngine;
-
+﻿/// <summary>
+/// Триггер вращения камеры
+/// </summary>
 public class Action_RotateCamera : Action_Base
 {
-    public override void Action()
-    {
-        base.Action();
-
-        GameManager.Instance.CamController.RotateRandomly();
-    }
 }

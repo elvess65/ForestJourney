@@ -21,24 +21,24 @@ public class PlayerCollisionController : CollisionController
             case m_ACTIONFIELD_ROTATE_CAMERA:
             case m_ACTIONFIELD_REMOVE_OBSTACLE:
             case m_ACTIONFIELD_FINISH_ROUND:
-                other.GetComponent<Action_Base>().Action();
+                other.GetComponent<Action_Base>().Interact();
                 break;
             case m_OBJECT_ASSISTANT:
                 AssistantController assistant = other.GetComponent<AssistantController>();   
                 if (GameManager.Instance.Player.AddAssistant(assistant))
-                    assistant.Pick();
+                    assistant.Interact();
                 break;
             case m_OBJECT_WEAPON:
-                Pickable_Base weapon = other.GetComponent<Pickable_Base>();
+                Item_Base weapon = other.GetComponent<Item_Base>();
                 if (GameManager.Instance.Player.AddWeapon(weapon))
-                    weapon.Pick();
+                    weapon.Interact();
                 break;
             case m_OBJECT_ENEMY:
                 GetComponent<PlayerController>().DestroyPlayer(); 
                 other.GetComponent<EnemyController>().TakeDamage(transform);
                 break;
             case m_PICKABLE:
-                other.GetComponent<Pickable_Base>().Pick();
+                other.GetComponent<Item_Base>().Interact();
                 break;
         }
     }
