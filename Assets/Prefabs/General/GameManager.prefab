@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb1760bc7e2643a29ab4cefe421987a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enabled: 0
+  Enabled: 1
   MainJoystickName: MainJoystick
 --- !u!114 &114090137088631028
 MonoBehaviour:
