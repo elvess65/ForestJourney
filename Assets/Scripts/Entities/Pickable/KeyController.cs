@@ -38,7 +38,7 @@ public class KeyController : Item_Base
 
         }
 
-        GameManager.Instance.AddKey(Type);
+        GameManager.Instance.GameState.AddKey(Type);
 
         Destroy(gameObject);
     }

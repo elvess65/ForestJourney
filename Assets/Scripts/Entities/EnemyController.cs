@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
     public void Init()
     {
         StartCoroutine(DelayAndActivate(1));
-        GameManager.Instance.AddEnemy(this);
+        GameManager.Instance.GameState.AddEnemy(this);
     }
 
     public void TakeDamage(Transform target)
@@ -72,7 +72,7 @@ public class EnemyController : MonoBehaviour
         if (GameManager.Instance.IsActive)
         {
             if (m_IsActive)
-                m_Agent.destination = GameManager.Instance.Player.transform.position;
+                m_Agent.destination = GameManager.Instance.GameState.Player.transform.position;
         }
     }
 }

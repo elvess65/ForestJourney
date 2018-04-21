@@ -57,7 +57,7 @@ public class AssistantController : Item_Base
             if (!m_InitFocus)
             {
                 //Move to offset position
-                Vector3 destPos = GameManager.Instance.Player.transform.position + AnchorOffset;
+                Vector3 destPos = GameManager.Instance.GameState.Player.transform.position + AnchorOffset;
                 transform.position = Vector3.Slerp(transform.position, destPos, FocusingSpeed);
 
                 if ((destPos - transform.position).sqrMagnitude <= 0.1f)
@@ -75,7 +75,7 @@ public class AssistantController : Item_Base
                 float speed = Mathf.Sin(Time.time) + 1.1f;
 
                 //Slerp to offset
-                Vector3 newPos = GameManager.Instance.Player.transform.position + m_CurAnchorOffset;
+                Vector3 newPos = GameManager.Instance.GameState.Player.transform.position + m_CurAnchorOffset;
                 transform.position = Vector3.Slerp(transform.position, newPos, speed);
             }
         }
@@ -89,7 +89,7 @@ public class AssistantController : Item_Base
         }
         else if (m_WaitingForThePlayerToDisapear)
         {
-            float sqrDist = (GameManager.Instance.Player.transform.position - transform.position).sqrMagnitude;
+            float sqrDist = (GameManager.Instance.GameState.Player.transform.position - transform.position).sqrMagnitude;
             //If player not arrived wait time
             if (sqrDist > SqrDistToDisable)
             {

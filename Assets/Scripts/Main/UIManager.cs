@@ -14,11 +14,11 @@ public class UIManager : MonoBehaviour
 
     public void Assist_PressHandler()
     {
-        GameManager.Instance.Player.UseAssistant();
+        GameManager.Instance.GameState.Player.UseAssistant();
     }
 
     public void Weapon_PressHandler()
     {
-        GameManager.Instance.Player.UseWeapon();
+        GameManager.Instance.GameState.Player.UseWeapon();
     }
 }

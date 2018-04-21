@@ -25,7 +25,7 @@ public class Action_RemoveObstacle : Action_Base
         //Проверка на достаточное количество ключей
         if (ActivationKeys.Length > 0)
         {
-            if (!GameManager.Instance.HasKeysForActivation(ActivationKeys))
+            if (!GameManager.Instance.GameState.HasKeysForActivation(ActivationKeys))
             {
                 Debug.Log("not enough activation keys");
                 return;

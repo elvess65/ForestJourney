@@ -30,13 +30,13 @@ public class WeaponController : Item_Base
         if (m_Picked)
         {
             transform.position = Vector3.Slerp(transform.position,
-                                               GameManager.Instance.Player.transform.position - PlayerOffset,
+                                               GameManager.Instance.GameState.Player.transform.position - PlayerOffset,
                                                Time.deltaTime * Speed);
         }
         else if (m_Using)
         {
             transform.position = Vector3.Slerp(transform.position,
-                                               GameManager.Instance.Player.transform.position - UseOffset,
+                                               GameManager.Instance.GameState.Player.transform.position - UseOffset,
                                                Time.deltaTime * Speed);
         }
     }
@@ -83,9 +83,9 @@ public class WeaponController : Item_Base
     void AddEnemiesInRange()
     {
         m_EnemiesInRange = new List<EnemyController>();
-        foreach (EnemyController enemy in GameManager.Instance.Enemies)
+        foreach (EnemyController enemy in GameManager.Instance.GameState.Enemies)
         {
-            float distToEnemy = Vector3.Distance(GameManager.Instance.Player.transform.position, enemy.transform.position);
+            float distToEnemy = Vector3.Distance(GameManager.Instance.GameState.Player.transform.position, enemy.transform.position);
             if (distToEnemy <= AffectRange)
             {
                 m_EnemiesInRange.Add(enemy);

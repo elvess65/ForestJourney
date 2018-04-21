@@ -25,12 +25,12 @@ public class PlayerCollisionController : CollisionController
                 break;
             case m_OBJECT_ASSISTANT:
                 AssistantController assistant = other.GetComponent<AssistantController>();   
-                if (GameManager.Instance.Player.AddAssistant(assistant))
+                if (GameManager.Instance.GameState.Player.AddAssistant(assistant))
                     assistant.Interact();
                 break;
             case m_OBJECT_WEAPON:
                 Item_Base weapon = other.GetComponent<Item_Base>();
-                if (GameManager.Instance.Player.AddWeapon(weapon))
+                if (GameManager.Instance.GameState.Player.AddWeapon(weapon))
                     weapon.Interact();
                 break;
             case m_OBJECT_ENEMY:
