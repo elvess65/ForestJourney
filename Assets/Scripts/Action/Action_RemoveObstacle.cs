@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Триггер удаления преграды
+/// </summary>
 public class Action_RemoveObstacle : Action_Base
 {
     [Header(" - DERRIVED -")]
+    [Tooltip("Вращать ли камеру при взаимодействии")]
     public bool RotateCamera = false;
     public ActionComponent_Obstacle ObstacleObj;
+    [Tooltip("Массив ключей, необходимых для активации")]
     public KeyController.KeyTypes[] ActivationKeys;
+
     [Header("Projectile")]
     public Projectile_Behaviour ProjectilePrefab;
     public Transform ProjectileSpawnPoint;
@@ -14,8 +20,9 @@ public class Action_RemoveObstacle : Action_Base
     
     private Projectile_Behaviour m_Projectile;
 
-    public override void Action()
+    public override void Interact()
     {
+        //Проверка на достаточное количество ключей
         if (ActivationKeys.Length > 0)
         {
             if (!GameManager.Instance.HasKeysForActivation(ActivationKeys))
@@ -25,15 +32,13 @@ public class Action_RemoveObstacle : Action_Base
             }
         }
 
-        base.Action();
+        //Создать объект, который разарушит преграду
+        CreateObject();
 
-        CreateProjectile();
-
-        if (RotateCamera)
-            GameManager.Instance.CamController.RotateRandomly();
+        base.Interact();
     }
 
-    void CreateProjectile()
+    void CreateObject()
     {
         Vector3 pos = ProjectileSpawnPoint.position;
         Quaternion rot = Quaternion.LookRotation(pos - ObstacleObj.HitPoint.position);

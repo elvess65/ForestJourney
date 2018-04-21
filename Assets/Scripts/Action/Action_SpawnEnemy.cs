@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
 
-public class Action_SpawnEnemy : Action_Base {
-
+/// <summary>
+/// Триггер создания врага
+/// </summary>
+public class Action_SpawnEnemy : Action_Base 
+{
+    [Header(" - DERRIVED -")]
+    [Tooltip("Объект")]
     public EnemyController EnemyPrefab;
+    [Tooltip("Точка создания врага")]
     public Transform SpawnPoint;
 
-    public override void Action()
+    public override void Interact()
     {
-        base.Action();
+        base.Interact();
 
         EnemyController enemy = Instantiate(EnemyPrefab, SpawnPoint.position, Quaternion.identity);
         enemy.Init();

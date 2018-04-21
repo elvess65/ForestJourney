@@ -11,6 +11,7 @@ TagManager:
   - Assistant
   - Enemy
   - Weapon
+  - Pickable
   layers:
   - Default
   - TransparentFX

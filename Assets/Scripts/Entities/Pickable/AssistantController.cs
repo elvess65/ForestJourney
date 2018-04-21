@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class AssistantController : Pickable_Base
+public class AssistantController : Item_Base
 {
+	[Header(" - DERRIVED -")]
     [Header("Settings")]
     public Vector3 AnchorOffset;
     [Header(" - Idle")]
@@ -107,13 +108,13 @@ public class AssistantController : Pickable_Base
         }
     }
 
-    public override void Pick()
+    public override void Interact()
     {
         m_CurAnchorOffset = AnchorOffset;
         Trail.enabled = true;
         m_Idle = false;
 
-        base.Pick();
+        base.Interact();
     }
 
     public override void Use()

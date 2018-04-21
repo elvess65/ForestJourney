@@ -1,8 +1,11 @@
-﻿public class Action_FinishRound : Action_Base
+﻿/// <summary>
+/// Триггер конца раунда
+/// </summary>
+public class Action_FinishRound : Action_Base
 {
-    public override void Action()
+    public override void Interact()
     {
-        base.Action();
+        base.Interact();
 
         GameManager.Instance.FinishRound();
     }
