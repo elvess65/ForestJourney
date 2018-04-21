@@ -20,6 +20,11 @@ public class CameraController : MonoBehaviour
         m_CamOffset = transform.position - m_Target.transform.position;
     }
 
+    public void FocusAt(Transform target)
+    {
+        m_Target = target;
+    }
+
     private void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 150, 50), "Rotate Camera"))

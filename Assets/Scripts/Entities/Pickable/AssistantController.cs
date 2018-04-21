@@ -90,6 +90,7 @@ public class AssistantController : Item_Base
         else if (m_WaitingForThePlayerToDisapear)
         {
             float sqrDist = (GameManager.Instance.GameState.Player.transform.position - transform.position).sqrMagnitude;
+            Debug.Log(GameManager.Instance.GameState.Player.transform.position + " " + transform.position + " " + sqrDist);
             //If player not arrived wait time
             if (sqrDist > SqrDistToDisable)
             {
@@ -110,11 +111,14 @@ public class AssistantController : Item_Base
 
     public override void Interact()
     {
-        m_CurAnchorOffset = AnchorOffset;
-        Trail.enabled = true;
-        m_Idle = false;
+        if (GameManager.Instance.GameState.Player.TryAddAssistant(this))
+        {
+            m_CurAnchorOffset = AnchorOffset;
+            Trail.enabled = true;
+            m_Idle = false;
 
-        base.Interact();
+            base.Interact();
+        }
     }
 
     public override void Use()

@@ -43,13 +43,16 @@ public class WeaponController : Item_Base
 
     public override void Interact()
     {
-        base.Interact();
+        if (GameManager.Instance.GameState.Player.TryAddWeapon(this))
+        {
+            base.Interact();
 
-        EffectIdle.Deactivate();
-        EffectIdle.ForceAutoDestruct();
+            EffectIdle.Deactivate();
+            EffectIdle.ForceAutoDestruct();
 
-        EffectPick.Activate();
-        EffectPicked.Activate();
+            EffectPick.Activate();
+            EffectPicked.Activate();
+        }
     }
 
     public override void Use()

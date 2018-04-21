@@ -10,7 +10,7 @@ public class Action_RemoveObstacle : Action_Base
     public bool RotateCamera = false;
     public ActionComponent_Obstacle ObstacleObj;
     [Tooltip("Массив ключей, необходимых для активации")]
-    public KeyController.KeyTypes[] ActivationKeys;
+    public GameStateController.KeyTypes[] ActivationKeys;
 
     [Header("Projectile")]
     public Projectile_Behaviour ProjectilePrefab;
@@ -47,6 +47,7 @@ public class Action_RemoveObstacle : Action_Base
         m_Projectile.SetInitTransform(pos, rot);
         m_Projectile.OnImpact += ProjectileImpact_Handler;
 
+        GameManager.Instance.CameraController.FocusAt(m_Projectile.transform);
         m_Projectile.Launch(ObstacleObj.HitPoint.position);
     }
 

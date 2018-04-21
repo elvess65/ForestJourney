@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public bool AddAssistant(Item_Base assistant)
+    public bool TryAddAssistant(Item_Base assistant)
     {
         if (m_Assistant != null)
             return false;
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    public bool AddWeapon(Item_Base weapon)
+    public bool TryAddWeapon(Item_Base weapon)
     {
         if (m_Weapon != null)
             return false;

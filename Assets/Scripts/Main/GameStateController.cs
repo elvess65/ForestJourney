@@ -6,7 +6,13 @@ public class GameStateController : MonoBehaviour
     private PlayerController m_Player;
     private List<EnemyController> m_Enemies;
 
-    private Dictionary<KeyController.KeyTypes, int> m_CollectedKeys;
+    public enum KeyTypes
+    {
+        Key1,
+        Key2,
+        Key3
+    }
+    private Dictionary<KeyTypes, int> m_CollectedKeys;
 
     public PlayerController Player
     {
@@ -32,10 +38,10 @@ public class GameStateController : MonoBehaviour
         m_Enemies.Add(enemy);
     }
 
-    public void AddKey(KeyController.KeyTypes type)
+    public void AddKey(KeyTypes type)
     {
         if (m_CollectedKeys == null)
-            m_CollectedKeys = new Dictionary<KeyController.KeyTypes, int>();
+            m_CollectedKeys = new Dictionary<KeyTypes, int>();
 
         if (!m_CollectedKeys.ContainsKey(type))
             m_CollectedKeys.Add(type, 0);
@@ -43,7 +49,7 @@ public class GameStateController : MonoBehaviour
         m_CollectedKeys[type]++;
     }
 
-    public void RemoveKey(KeyController.KeyTypes type)
+    public void RemoveKey(KeyTypes type)
     {
         if (m_CollectedKeys == null)
             return;
@@ -55,7 +61,7 @@ public class GameStateController : MonoBehaviour
             m_CollectedKeys.Remove(type);
     }
 
-    public bool HasKeysForActivation(KeyController.KeyTypes[] keys)
+    public bool HasKeysForActivation(KeyTypes[] keys)
     {
         bool result = false;
         if (m_CollectedKeys != null)

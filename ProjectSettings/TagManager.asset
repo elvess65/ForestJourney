@@ -4,9 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Assistant
   - Enemy
-  - Weapon
   - Intaractable
   layers:
   - Default
