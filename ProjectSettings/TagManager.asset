@@ -4,14 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Restart
-  - RotateCamera
-  - RemoveObstacle
-  - FinishRound
   - Assistant
   - Enemy
   - Weapon
-  - Pickable
+  - Intaractable
   layers:
   - Default
   - TransparentFX
