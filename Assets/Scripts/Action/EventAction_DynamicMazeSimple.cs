@@ -15,6 +15,6 @@ public class EventAction_DynamicMazeSimple : MonoBehaviour
     public void GenerateMaze()
     {
         DynamicMazeObject.SetActive(true);
-        GameManager.Instance.CamController.RotateRandomly();
+        GameManager.Instance.CameraController.RotateRandomly();
     }
 }

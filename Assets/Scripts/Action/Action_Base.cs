@@ -38,7 +38,7 @@ public abstract class Action_Base : MonoBehaviour, iInteractable
         }
 
 		if (RotateCameraOnInteract)
-			GameManager.Instance.CamController.RotateRandomly();
+			GameManager.Instance.CameraController.RotateRandomly();
 
         if (OnInteract != null)
             OnInteract();
