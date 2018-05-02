@@ -81,8 +81,9 @@ public class AssistantController : Item_Base
         }
         else if (m_Using)
         {
-            if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 0.1f && m_Agent.remainingDistance > 0)
+            if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 1f && m_Agent.remainingDistance > 0)
             {
+                Debug.Log("AGENT ARRIVED");
                 m_Using = false;
                 m_WaitingForThePlayerToDisapear = true;
             }
@@ -90,7 +91,7 @@ public class AssistantController : Item_Base
         else if (m_WaitingForThePlayerToDisapear)
         {
             float sqrDist = (GameManager.Instance.GameState.Player.transform.position - transform.position).sqrMagnitude;
-            Debug.Log(GameManager.Instance.GameState.Player.transform.position + " " + transform.position + " " + sqrDist);
+
             //If player not arrived wait time
             if (sqrDist > SqrDistToDisable)
             {
