@@ -3,9 +3,6 @@
 public class PlayerCollisionController : CollisionController
 {
     private const string m_ACTIONFIELD_INTERACTABLE =   "Intaractable";
-
-    private const string m_OBJECT_ASSISTANT =            "Assistant";
-    private const string m_OBJECT_WEAPON =               "Weapon";
     private const string m_OBJECT_ENEMY =                "Enemy";
 
     public override void HandleCollistion(Collider other)

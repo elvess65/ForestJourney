@@ -21,7 +21,6 @@ public abstract class Action_Base : MonoBehaviour, iInteractable
     public Effect_Base[] Effects_IsActive;
     public Effect_Base[] Effects_Action;
 
-    
     protected bool m_IsActive = true;
 
     public virtual void Interact()
