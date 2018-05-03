@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114124823809094422}
   m_Layer: 0
   m_Name: ActionField_Restart
-  m_TagString: Restart
+  m_TagString: Intaractable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,6 +64,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d65d04bef86b654a812ffa7e1969ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateCameraOnInteract: 0
+  Collider: {fileID: 65273065445765536}
+  AssistantPoint: {fileID: 0}
   Effects_IsActive: []
   Effects_Action: []
-  Collider: {fileID: 65273065445765536}
