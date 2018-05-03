@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 65668899981928798}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: Weapon
+  m_TagString: Intaractable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -757,6 +757,8 @@ MonoBehaviour:
   PlayerOffset: {x: 0.5, y: -0.5, z: 0}
   EffectUse: {fileID: 114341511099695300}
   UseOffset: {x: 0, y: -3, z: 0}
+  AffectRange: 5
+  AffectDelay: 2
 --- !u!114 &114262418072226690
 MonoBehaviour:
   m_ObjectHideFlags: 1

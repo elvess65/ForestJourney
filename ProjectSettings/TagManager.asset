@@ -6,13 +6,6 @@ TagManager:
   tags:
   - Enemy
   - Intaractable
-  - Assistant
-  - FinishRound
-  - Restart
-  - Pickable
-  - Weapon
-  - RotateCamera
-  - RemoveObstacle
   layers:
   - Default
   - TransparentFX
