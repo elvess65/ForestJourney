@@ -20,11 +20,17 @@ public abstract class Item_Base : MonoBehaviour, iInteractable, iUsable
     {
         Collider.enabled = false;
         m_Picked = true;
+
+        if (OnInteract != null)
+            OnInteract();
     }
     public virtual void Use()
     {
         m_Picked = false;
         m_Using = true;
+
+        if (OnUse != null)
+            OnUse();
     }
 
     protected abstract void Start();
