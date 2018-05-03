@@ -2,7 +2,6 @@
 
 public class VirtualJoystickInputManager : BaseInputManager
 {
-    public System.Action<Vector3> OnMove;
     public string MainJoystickName = "MainJoystick";
 
     private Vector2 m_PrevDir = Vector2.zero;

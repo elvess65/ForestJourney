@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Settings")]
     public float MoveSpeed = 3;
+    public float RotateSpeed = 5;
 
     private Vector3 m_MoveDir = Vector3.zero;
     private CollisionController m_CollisionController;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private Item_Base m_Assistant;
     private WeaponController m_Weapon;
+    private Quaternion m_TargetRot;
 
     void Start()
     {
@@ -21,22 +23,29 @@ public class PlayerController : MonoBehaviour
         m_CollisionController = GetComponent<PlayerCollisionController>();
         m_PlayerAnimationController = GetComponent<PlayerAnimationController>();
 
+        m_TargetRot = transform.rotation;
+
         InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
         InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+    }
+
+    private void Update()
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
     }
 
     public void MoveInDir(Vector3 dir)
     {
         m_MoveDir = dir;
-        
-        //Move
-        m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
 
         if (m_MoveDir != Vector3.zero)
         {
             //Rotate in move dir
             float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            m_TargetRot = Quaternion.AngleAxis(angle, Vector3.up);
+
+			//Move
+            m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
         }
 
         //Move animation
