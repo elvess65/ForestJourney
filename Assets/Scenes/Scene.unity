@@ -11940,12 +11940,12 @@ Prefab:
     - target: {fileID: 114355438400171314, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114082475559662228, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114673618495949362, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
@@ -58267,7 +58267,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: 3
     m_CustomResolution: -1
     m_Strength: 1
