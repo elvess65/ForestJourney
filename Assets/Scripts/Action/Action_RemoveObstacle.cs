@@ -40,6 +40,9 @@ public class Action_RemoveObstacle : Action_Base
 
     void CreateObject()
     {
+        if (ProjectileSpawnPoint == null)
+            return;
+
         Vector3 pos = ProjectileSpawnPoint.position;
         Quaternion rot = Quaternion.LookRotation(pos - ObstacleObj.HitPoint.position);
 
