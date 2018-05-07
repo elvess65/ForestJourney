@@ -18,7 +18,9 @@ public abstract class Action_Base : MonoBehaviour, iInteractable
 	public Transform AssistantPoint;
 
     [Header("Effects")]
+    [Tooltip("Эффект активного объекта (Выключаеться при использовании)")]
     public Effect_Base[] Effects_IsActive;
+	[Tooltip("Эффект испоьзования")]
     public Effect_Base[] Effects_Action;
 
     protected bool m_IsActive = true;
