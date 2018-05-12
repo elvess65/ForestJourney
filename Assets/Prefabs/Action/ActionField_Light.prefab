@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4370062997736176}
   - component: {fileID: 198360079309376486}
   - component: {fileID: 199058922644047378}
-  - component: {fileID: 114896574037059298}
   - component: {fileID: 114778047804312094}
   m_Layer: 0
   m_Name: skillAttack
@@ -158,6 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4006337653963774}
   - component: {fileID: 114826058912578628}
+  - component: {fileID: 114900366991550158}
   - component: {fileID: 65034058983277304}
   m_Layer: 0
   m_Name: ActionField_Light
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1897039465750544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.172, y: -12.31, z: -20.708565}
+  m_LocalPosition: {x: 5.67, y: -11.57, z: -9.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4338113543827366}
@@ -350,21 +350,22 @@ MonoBehaviour:
   RotateCameraOnInteract: 0
   Collider: {fileID: 65034058983277304}
   AssistantPoint: {fileID: 0}
-  Effects_IsActive:
-  - {fileID: 114215515271367094}
-  Effects_Action:
-  - {fileID: 114778047804312094}
---- !u!114 &114896574037059298
+  ActivationKeys: 
+--- !u!114 &114900366991550158
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1029085654723696}
-  m_Enabled: 0
+  m_GameObject: {fileID: 1897039465750544}
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 6cc808c221096ee49996c4b539777300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Effects_IsActive:
+  - {fileID: 114215515271367094}
+  Effects_Action:
+  - {fileID: 114778047804312094}
 --- !u!198 &198053864451538150
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -425,7 +426,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 180150974
+  randomSeed: 453602624
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3813,7 +3814,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -66659512
+  randomSeed: -1533118428
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7189,7 +7190,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -419961265
+  randomSeed: 1496124672
   InitialModule:
     serializedVersion: 3
     enabled: 1
