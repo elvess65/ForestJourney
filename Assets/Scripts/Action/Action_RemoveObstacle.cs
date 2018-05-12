@@ -3,14 +3,12 @@
 /// <summary>
 /// Триггер удаления преграды
 /// </summary>
-public class Action_RemoveObstacle : Action_Base
+public class Action_RemoveObstacle : ActionTrigger
 {
     [Header(" - DERRIVED -")]
     [Tooltip("Вращать ли камеру при взаимодействии")]
     public bool RotateCamera = false;
     public ActionComponent_Obstacle ObstacleObj;
-    [Tooltip("Массив ключей, необходимых для активации")]
-    public GameStateController.KeyTypes[] ActivationKeys;
 
     [Header("Projectile")]
     public Projectile_Behaviour ProjectilePrefab;
@@ -22,15 +20,7 @@ public class Action_RemoveObstacle : Action_Base
 
     public override void Interact()
     {
-        //Проверка на достаточное количество ключей
-        if (ActivationKeys.Length > 0)
-        {
-            if (!GameManager.Instance.GameState.HasKeysForActivation(ActivationKeys))
-            {
-                Debug.Log("not enough activation keys");
-                return;
-            }
-        }
+ 
 
         //Создать объект, который разарушит преграду
         CreateObject();

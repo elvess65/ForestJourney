@@ -83,7 +83,6 @@ public class AssistantController : Item_Base
         {
             if (m_Agent.remainingDistance != Mathf.Infinity && m_Agent.remainingDistance <= 1f && m_Agent.remainingDistance > 0)
             {
-                Debug.Log("AGENT ARRIVED");
                 m_Using = false;
                 m_WaitingForThePlayerToDisapear = true;
             }

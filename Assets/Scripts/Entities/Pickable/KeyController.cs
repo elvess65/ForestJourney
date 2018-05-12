@@ -1,4 +1,4 @@
-﻿public class KeyController : Action_Base
+﻿public class KeyController : ActionTrigger
 {
     public GameStateController.KeyTypes Type = GameStateController.KeyTypes.Key1;
 

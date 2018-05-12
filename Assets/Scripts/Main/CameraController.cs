@@ -28,10 +28,10 @@ public class CameraController : MonoBehaviour
         m_Target = target;
     }
 
-    private void OnGUI()
+    public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished)
     {
-        if (GUI.Button(new Rect(10, 10, 150, 50), "Rotate Camera"))
-            RotateRandomly();
+        FocusAt(target);
+        StartCoroutine(FocusingSomeTimeAt(focusingTime, onFocusingFinished));
     }
 
     public void RotateRandomly()
@@ -40,10 +40,18 @@ public class CameraController : MonoBehaviour
         m_CurRotationSpeed = Time.deltaTime * 45f;//Random.Range(0.5f, 2f) * dir;
         m_LookAtPlayer = true;
 
-        StartCoroutine(RotatePeriod(1));//Random.Range(0.5f, 2f)));
+        StartCoroutine(RotateSomeTime(1));//Random.Range(0.5f, 2f)));
     }
 
-    IEnumerator RotatePeriod(float time)
+    IEnumerator FocusingSomeTimeAt(float time, System.Action onFocusingFinished)
+    {
+        yield return new WaitForSeconds(time);
+
+        if (onFocusingFinished != null)
+            onFocusingFinished();
+    }
+
+    IEnumerator RotateSomeTime(float time)
     {
         yield return new WaitForSeconds(time);
         m_CurRotationSpeed = 0;
