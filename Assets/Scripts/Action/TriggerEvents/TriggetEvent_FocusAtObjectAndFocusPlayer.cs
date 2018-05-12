@@ -4,12 +4,13 @@
 /// </summary>
 public class TriggetEvent_FocusAtObjectAndFocusPlayer : TriggerAction_Event
 {
+    public float DelayBeforeFocusing = 1;
     public float FocusingTime = 1;
     public Transform FocusingObject;
 
     public override void StartEvent()
     {
-        GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, FocusingTime, FocusingFinishedHandler);
+        GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, DelayBeforeFocusing, FocusingTime, FocusingFinishedHandler);
     }
 
     void FocusingFinishedHandler()

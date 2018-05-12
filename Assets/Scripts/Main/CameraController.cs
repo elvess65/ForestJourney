@@ -28,10 +28,9 @@ public class CameraController : MonoBehaviour
         m_Target = target;
     }
 
-    public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished)
+    public void FocusSomeTimeAt(Transform target, float delayBedoreFocusing, float focusingTime, System.Action onFocusingFinished)
     {
-        FocusAt(target);
-        StartCoroutine(FocusingSomeTimeAt(focusingTime, onFocusingFinished));
+        StartCoroutine(FocusingSomeTimeAt(target, delayBedoreFocusing, focusingTime, onFocusingFinished));
     }
 
     public void RotateRandomly()
@@ -43,8 +42,10 @@ public class CameraController : MonoBehaviour
         StartCoroutine(RotateSomeTime(1));//Random.Range(0.5f, 2f)));
     }
 
-    IEnumerator FocusingSomeTimeAt(float time, System.Action onFocusingFinished)
+    IEnumerator FocusingSomeTimeAt(Transform target, float delay, float time, System.Action onFocusingFinished)
     {
+        yield return new WaitForSeconds(delay);
+        FocusAt(target);
         yield return new WaitForSeconds(time);
 
         if (onFocusingFinished != null)
