@@ -3,29 +3,46 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+	public Vector3 CameraOffset;
+
+    [Header("Smooth factors")]
+	[Range(0.01f, 1.0f)]
+	public float SmoothFactor_InitFocusing = 0.5f;
     [Range(0.01f, 1.0f)]
-    public float SmoothFactor = 0.5f;
-    public float RotationsSpeed = 5.0f;
-    public Vector3 CameraOffset;
+    public float SmoothFactor_Following = 0.5f;
+	[Range(0.01f, 1.0f)]
+	public float SmoothFactor_Rotating = 0.5f;
+	[Range(0.01f, 1.0f)]
+	public float SmoothFactor_FocusingAtOther = 0.5f;
 
     private Transform m_Target;
+    [Header("DEBUG")]
 	[SerializeField]
-	private Vector3 m_CamOffset;
+    private Vector3 m_CurCameraOffset;
     [SerializeField]
     private float m_CurRotationSpeed = 0;
+    private float m_TargetRotationSpeed = 0;
     [SerializeField]
     private bool m_LookAtPlayer = false;
-    private bool m_InitFocus = false;
+	[SerializeField]
+    private bool m_InitFocusingAtTarget = false;
+    public Transform T;
 
     public void Init(Transform target)
     {
         m_Target = target;
-        m_CamOffset = transform.position - m_Target.transform.position;
+        m_CurSmoothFactor = SmoothFactor_Following;
+        m_CurCameraOffset = transform.position - m_Target.transform.position;
+
+        ResetRotation();
     }
 
     public void FocusAt(Transform target)
     {
+        //m_CurSmoothFactor = SmoothFactor_FocusingAtOther;
+        //Debug.LogError(m_CurSmoothFactor);
         m_Target = target;
+        //onCameraArrived += () => m_CurSmoothFactor = SmoothFactor_Following;
     }
 
     public void FocusSomeTimeAt(Transform target, float delayBedoreFocusing, float focusingTime, System.Action onFocusingFinished)
@@ -39,7 +56,22 @@ public class CameraController : MonoBehaviour
         m_CurRotationSpeed = Time.deltaTime * 45f;//Random.Range(0.5f, 2f) * dir;
         m_LookAtPlayer = true;
 
+        startTime = Time.time;
+        lerpRotSpeed = true;
+
         StartCoroutine(RotateSomeTime(1));//Random.Range(0.5f, 2f)));
+    }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 150, 100), "Rotate"))
+            RotateRandomly();
+
+        if (GUI.Button(new Rect(10, 200, 150, 100), "FocusAtObject"))
+            FocusAt(T);
+
+        if (GUI.Button(new Rect(10, 400, 150, 100), "FocusAtPlayert"))
+            FocusAt(GameManager.Instance.GameState.Player.transform);
     }
 
     IEnumerator FocusingSomeTimeAt(Transform target, float delay, float time, System.Action onFocusingFinished)
@@ -54,42 +86,102 @@ public class CameraController : MonoBehaviour
 
     IEnumerator RotateSomeTime(float time)
     {
-        yield return new WaitForSeconds(time);
+        WaitForSeconds waitDelay = new WaitForSeconds(time);
+
+        yield return waitDelay;
         m_CurRotationSpeed = 0;
-        yield return new WaitForSeconds(time);
+        lerpRotSpeed = false;
+        Debug.LogWarning("Stop rotating");
+
+        yield return waitDelay;
         m_LookAtPlayer = false;
     }
+    bool lerpRotSpeed = false;
+	private float startTime;
+    [SerializeField]
+    private float m_CurSmoothFactor;
 
     void LateUpdate()
     {
         if (!GameManager.Instance.IsActive && m_Target == null)
             return;
 
-        //Lerping camera offset
-        if (!m_InitFocus && (m_CamOffset - CameraOffset).sqrMagnitude >= 0.1f)
-            m_CamOffset = Vector3.Slerp(m_CamOffset, CameraOffset, SmoothFactor);
-        else
+        if (lerpRotSpeed)
         {
-            if (!m_InitFocus)
-                m_LookAtPlayer = false;
-
-            m_InitFocus = true;
+			//float t = (Time.time - startTime) / 2;
+            //m_CurRotationSpeed = Mathf.SmoothStep(0, m_TargetRotationSpeed, t);
         }
+                                      
+        InitFocusing();
 
-		//Angle and offset
-		Quaternion camTurnAngle = Quaternion.AngleAxis(m_CurRotationSpeed, Vector3.up);
-        m_CamOffset = camTurnAngle * m_CamOffset;
+        //Angle and offset
+        if (!m_CurRotationSpeed.Equals(0f))
+        {
+            Quaternion camTurnAngle = Quaternion.AngleAxis(m_CurRotationSpeed, Vector3.up);
+            m_CurCameraOffset = camTurnAngle * m_CurCameraOffset;
 
-        //Slerp to offset
-        Vector3 newPos = m_Target.transform.position + m_CamOffset;
-        transform.position = Vector3.Slerp(transform.position, newPos, SmoothFactor);
-
-        //Slerp to rotation
-        //transform.rotation = Quaternion.Slerp(transform.rotation, 
-        //                                      Quaternion.LookRotation(m_Target.transform.position - transform.position), 
-        //                                      Time.deltaTime);
-
+            m_CurSmoothFactor = SmoothFactor_Rotating;
+        }
+        else
+			m_CurSmoothFactor = SmoothFactor_Following;
+        
+        SetCameraPosition(m_CurSmoothFactor);
+        
         if (m_LookAtPlayer)
             transform.LookAt(m_Target);
+    }
+
+    /// <summary>
+    /// Движение камеры
+    /// </summary>
+    /// <param name="smoothFactor">Smooth factor.</param>
+    void SetCameraPosition(float smoothFactor)
+    {
+		Vector3 newPos = m_Target.transform.position + m_CurCameraOffset;
+		transform.position = Vector3.Slerp(transform.position, newPos, smoothFactor);
+
+        float sqrDistToNewPos = (newPos - transform.position).sqrMagnitude;
+        Debug.Log(sqrDistToNewPos);
+        if (sqrDistToNewPos <= 0.001f)
+        {
+            if (onCameraArrived != null)
+            {
+                onCameraArrived();
+                onCameraArrived = null;
+            }
+            Debug.LogWarning("onCameraArrived");
+        }
+	}
+
+    System.Action onCameraArrived;
+
+    /// <summary>
+    /// Начинает возврат поворота камеры в изначальную позицию
+    /// </summary>
+    void ResetRotation()
+    {
+        m_LookAtPlayer = true;
+        m_InitFocusingAtTarget = true;
+    }
+
+    /// <summary>
+    /// Изначальная фокусировка на цели (из позиции камеры на старте игры на игрока)
+    /// </summary>
+    void InitFocusing()
+    {
+		if (m_InitFocusingAtTarget && (m_CurCameraOffset - CameraOffset).sqrMagnitude >= 0.1f)
+			m_CurCameraOffset = Vector3.Slerp(m_CurCameraOffset, CameraOffset, SmoothFactor_InitFocusing);
+		else
+		{
+            if (m_InitFocusingAtTarget)
+            {
+                m_InitFocusingAtTarget = false;
+                onCameraArrived += () => m_LookAtPlayer = false;
+                //m_LookAtPlayer = false;
+
+                Debug.LogWarning("FINISH FOCUSING");
+                //TODO: Add event
+            }
+		}
     }
 }
