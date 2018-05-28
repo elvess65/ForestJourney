@@ -15,7 +15,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
 
     [Header("Objects")]
     [Tooltip("Обаботчик окончания эффектов")]
-    public AbstractEffectFinishListener EffectListener;
+    public AbstractEffectFinishListener EffectFinishListener;
     [Tooltip("Точка для помошника")]
     public Transform AssistantPoint;
     [Tooltip("Массив ключей, необходимых для активации")]
@@ -30,8 +30,8 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         m_Collider = GetComponent<BoxCollider>();
         m_EffectController = GetComponent<iActionTriggerEffect>();
 
-        if (EffectListener != null)
-            EffectListener.OnEffectFinish += OnEffectFinished;
+        if (EffectFinishListener != null)
+            EffectFinishListener.OnEffectFinish += OnEffectFinished;
     }
 
     public virtual void Interact()
@@ -83,8 +83,6 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     /// </summary>
     protected virtual void OnEffectFinished()
     {
-        Debug.Log("1");
-
         if (OnInteractionFinished != null)
             OnInteractionFinished();
     }
