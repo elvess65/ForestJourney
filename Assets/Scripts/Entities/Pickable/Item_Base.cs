@@ -7,6 +7,7 @@ public abstract class Item_Base : MonoBehaviour, iInteractable, iUsable
 {
     public event System.Action OnUse;
     public event System.Action OnInteract;
+    public event System.Action OnInteractionFinished;
 
     [Header(" - BASE -")]
 	[Header("Objects")]

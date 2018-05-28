@@ -7,25 +7,31 @@
 public class ActionTrigger : MonoBehaviour, iInteractable
 {
     public event System.Action OnInteract;
+    public event System.Action OnInteractionFinished;
 
     [Header(" - BASE -")]
     [Tooltip("Вращать ли камеру при взаимодействии")]
     public bool RotateCameraOnInteract = false;
 
     [Header("Objects")]
-    [Tooltip("Коллайдер")]
-    public BoxCollider Collider;
+    [Tooltip("Обаботчик окончания эффектов")]
+    public AbstractEffectFinishListener EffectListener;
     [Tooltip("Точка для помошника")]
     public Transform AssistantPoint;
     [Tooltip("Массив ключей, необходимых для активации")]
     public GameStateController.KeyTypes[] ActivationKeys;
 
     protected bool m_IsActive = true;
-    protected ActionTrigger_Effects_Base m_EffectController;
-
+    protected BoxCollider m_Collider;
+    protected iActionTriggerEffect m_EffectController;
+    
     void Start()
     {
-        m_EffectController = GetComponent<ActionTrigger_Effects_Base>();
+        m_Collider = GetComponent<BoxCollider>();
+        m_EffectController = GetComponent<iActionTriggerEffect>();
+
+        if (EffectListener != null)
+            EffectListener.OnEffectFinish += OnEffectFinished;
     }
 
     public virtual void Interact()
@@ -54,7 +60,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     protected virtual void Acivate()
     {
         m_IsActive = true;
-        Collider.enabled = true;
+        m_Collider.enabled = true;
 
         if (m_EffectController != null)
             m_EffectController.ActivateEffects_IsActive();
@@ -66,13 +72,21 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     protected virtual void Deactivate()
     {
         m_IsActive = false;
-        Collider.enabled = false;
-
-        if (m_EffectController != null)
-            m_EffectController.DeactivateEffects_IsActive();
+        m_Collider.enabled = false;
 
         if (AssistantPoint != null)
             GameManager.Instance.AssistManager.RemovePoint(AssistantPoint);
+    }
+
+    /// <summary>
+    /// Окончание проигрывания эффекта взаимодейтсвия
+    /// </summary>
+    protected virtual void OnEffectFinished()
+    {
+        Debug.Log("1");
+
+        if (OnInteractionFinished != null)
+            OnInteractionFinished();
     }
 
     /// <summary>
@@ -88,4 +102,5 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         }
         return true;
     }
+
 }

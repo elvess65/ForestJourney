@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1604343769020626}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.72, y: 0, z: -10.48}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4920288926516270}
@@ -258,7 +258,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1737286309979060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4253493406316078}
@@ -357,10 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6710e4a4d15254890704bb10deb8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetQueue:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  AssitantPointQueue: []
 --- !u!114 &114355438400171314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -412,6 +409,8 @@ MonoBehaviour:
   RotationsSpeed: 0.7
   CameraOffset: {x: 0, y: 7.02, z: -5.16}
   m_CamOffset: {x: 0, y: 0, z: 0}
+  m_CurRotationSpeed: 0
+  m_LookAtPlayer: 1
 --- !u!114 &114957831634512554
 MonoBehaviour:
   m_ObjectHideFlags: 1

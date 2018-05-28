@@ -26,7 +26,6 @@ public class CameraController : MonoBehaviour
     private bool m_LookAtPlayer = false;
 	[SerializeField]
     private bool m_InitFocusingAtTarget = false;
-    public Transform T;
 
     public void Init(Transform target)
     {
@@ -40,7 +39,6 @@ public class CameraController : MonoBehaviour
     public void FocusAt(Transform target)
     {
         //m_CurSmoothFactor = SmoothFactor_FocusingAtOther;
-        //Debug.LogError(m_CurSmoothFactor);
         m_Target = target;
         //onCameraArrived += () => m_CurSmoothFactor = SmoothFactor_Following;
     }
@@ -62,18 +60,6 @@ public class CameraController : MonoBehaviour
         StartCoroutine(RotateSomeTime(1));//Random.Range(0.5f, 2f)));
     }
 
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(10, 10, 150, 100), "Rotate"))
-            RotateRandomly();
-
-        if (GUI.Button(new Rect(10, 200, 150, 100), "FocusAtObject"))
-            FocusAt(T);
-
-        if (GUI.Button(new Rect(10, 400, 150, 100), "FocusAtPlayert"))
-            FocusAt(GameManager.Instance.GameState.Player.transform);
-    }
-
     IEnumerator FocusingSomeTimeAt(Transform target, float delay, float time, System.Action onFocusingFinished)
     {
         yield return new WaitForSeconds(delay);
@@ -91,7 +77,6 @@ public class CameraController : MonoBehaviour
         yield return waitDelay;
         m_CurRotationSpeed = 0;
         lerpRotSpeed = false;
-        Debug.LogWarning("Stop rotating");
 
         yield return waitDelay;
         m_LookAtPlayer = false;
@@ -141,7 +126,6 @@ public class CameraController : MonoBehaviour
 		transform.position = Vector3.Slerp(transform.position, newPos, smoothFactor);
 
         float sqrDistToNewPos = (newPos - transform.position).sqrMagnitude;
-        Debug.Log(sqrDistToNewPos);
         if (sqrDistToNewPos <= 0.001f)
         {
             if (onCameraArrived != null)
@@ -149,7 +133,6 @@ public class CameraController : MonoBehaviour
                 onCameraArrived();
                 onCameraArrived = null;
             }
-            Debug.LogWarning("onCameraArrived");
         }
 	}
 
@@ -179,7 +162,6 @@ public class CameraController : MonoBehaviour
                 onCameraArrived += () => m_LookAtPlayer = false;
                 //m_LookAtPlayer = false;
 
-                Debug.LogWarning("FINISH FOCUSING");
                 //TODO: Add event
             }
 		}

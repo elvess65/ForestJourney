@@ -8,8 +8,11 @@ public class UIManager : MonoBehaviour
 
 	void Start ()
     {
-        Button_Assist.onClick.AddListener(Assist_PressHandler);
-        Button_Weapon.onClick.AddListener(Weapon_PressHandler);
+        if (Button_Assist != null)
+            Button_Assist.onClick.AddListener(Assist_PressHandler);
+
+        if (Button_Weapon != null)
+            Button_Weapon.onClick.AddListener(Weapon_PressHandler);
     }
 
     public void Assist_PressHandler()
