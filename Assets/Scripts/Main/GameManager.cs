@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public void FinishRound()
     {
         int nextLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextLevel >= 2)
+        if (nextLevel >= 3)
             nextLevel = 0;
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevel);

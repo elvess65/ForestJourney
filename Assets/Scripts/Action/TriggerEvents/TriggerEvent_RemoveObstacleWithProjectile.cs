@@ -6,7 +6,7 @@ public class TriggerEvent_RemoveObstacleWithProjectile : TriggerAction_Event
     public GameObject ObstacleObject;
     public Transform HitPoint;
     [Header("Projectile")]
-    public Projectile_Behaviour ProjectilePrefab;
+    public Projectile_Behaviour Projectile;
     public Transform ProjectileSpawnPoint;
     public GameObject ExplosionPrefab;
 
@@ -19,15 +19,15 @@ public class TriggerEvent_RemoveObstacleWithProjectile : TriggerAction_Event
 
     void CreateProjectile()
     {
-        Vector3 pos = ProjectileSpawnPoint.position;
-        Quaternion rot = Quaternion.LookRotation(pos - HitPoint.position);
+        //Vector3 pos = ProjectileSpawnPoint.position;
+        //Quaternion rot = Quaternion.LookRotation(pos - HitPoint.position);
 
-        m_Projectile = Instantiate(ProjectilePrefab);
-        m_Projectile.SetInitTransform(pos, rot);
-        m_Projectile.OnImpact += ProjectileImpact_Handler;
+        //m_Projectile = Instantiate(Projectile);
+        //m_Projectile.SetInitTransform(pos, rot);
+        Projectile.OnImpact += ProjectileImpact_Handler;
 
-        GameManager.Instance.CameraController.FocusAt(m_Projectile.transform);
-        m_Projectile.Launch(HitPoint.position);
+        //GameManager.Instance.CameraController.FocusAt(Projectile.transform);
+        Projectile.Launch(HitPoint.position);
     }
 
     void ProjectileImpact_Handler()

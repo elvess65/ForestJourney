@@ -34,12 +34,12 @@ public class Projectile_Behaviour : MonoBehaviour
         effect.Activate();
 
         gameObject.SetActive(false);
-        Destroy(gameObject, 1);
+        Destroy(gameObject, 0.5f);
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.CameraController.FocusAt(GameManager.Instance.GameState.Player.transform);
+        //GameManager.Instance.CameraController.FocusAt(GameManager.Instance.GameState.Player.transform);
     }
 
     private void Update()

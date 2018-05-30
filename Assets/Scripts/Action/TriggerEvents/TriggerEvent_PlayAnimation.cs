@@ -1,14 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TriggerEvent_PlayAnimation : TriggerAction_Event
+﻿public class TriggerEvent_PlayAnimation : TriggerAction_Event
 {
-    public Animator AnimationController;
-    public string Key;
+    public TriggerAction_Event OnAnimationFinishedEvent;
+
+    private iActionTrigger_EffectController m_EffectController;
 
     public override void StartEvent()
     {
-        AnimationController.SetTrigger(Key);
+        m_EffectController.ActivateEffect_Action();
+    }
+
+    void Start()
+    {
+        m_EffectController = GetComponent<iActionTrigger_EffectController>();
+        if (m_EffectController != null)
+            m_EffectController.Init(EffectFinishedHandler);
+    }
+
+    void EffectFinishedHandler()
+    {
+        if (OnAnimationFinishedEvent != null)
+            OnAnimationFinishedEvent.StartEvent();
     }
 }

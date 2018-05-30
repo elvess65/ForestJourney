@@ -2,7 +2,8 @@
 
 /// <summary>
 /// Класс триггера. Осуществляет проверку на наличие ключей и показывает эффекты.
-/// Дополнительные действия осуществляються дополнительными копмпонентами на событие OnIntercat()
+/// Дополнительные действия осуществляються дополнительными копмпонентами на события OnIntercat() 
+/// и OnInteractionFinished()
 /// </summary>
 public class ActionTrigger : MonoBehaviour, iInteractable
 {
@@ -14,8 +15,6 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     public bool RotateCameraOnInteract = false;
 
     [Header("Objects")]
-    [Tooltip("Обаботчик окончания эффектов")]
-    public AbstractEffectFinishListener EffectFinishListener;
     [Tooltip("Точка для помошника")]
     public Transform AssistantPoint;
     [Tooltip("Массив ключей, необходимых для активации")]
@@ -23,15 +22,14 @@ public class ActionTrigger : MonoBehaviour, iInteractable
 
     protected bool m_IsActive = true;
     protected BoxCollider m_Collider;
-    protected iActionTriggerEffect m_EffectController;
+    protected iActionTrigger_EffectController m_EffectController;
     
     void Start()
     {
         m_Collider = GetComponent<BoxCollider>();
-        m_EffectController = GetComponent<iActionTriggerEffect>();
-
-        if (EffectFinishListener != null)
-            EffectFinishListener.OnEffectFinish += OnEffectFinished;
+        m_EffectController = GetComponent<iActionTrigger_EffectController>();
+        if (m_EffectController != null)
+            m_EffectController.Init(EffectFinishedHandler);
     }
 
     public virtual void Interact()
@@ -45,7 +43,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         Deactivate();
 
         if (m_EffectController != null)
-            m_EffectController.ActivateEffects_Action();
+            m_EffectController.ActivateEffect_Action();
 
         if (RotateCameraOnInteract)
             GameManager.Instance.CameraController.RotateRandomly();
@@ -62,8 +60,8 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         m_IsActive = true;
         m_Collider.enabled = true;
 
-        if (m_EffectController != null)
-            m_EffectController.ActivateEffects_IsActive();
+        //if (m_EffectController != null)
+        //    m_EffectController.ActivateEffects_IsActive();
     }
 
     /// <summary>
@@ -81,7 +79,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     /// <summary>
     /// Окончание проигрывания эффекта взаимодейтсвия
     /// </summary>
-    protected virtual void OnEffectFinished()
+    protected virtual void EffectFinishedHandler()
     {
         if (OnInteractionFinished != null)
             OnInteractionFinished();
@@ -100,5 +98,4 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         }
         return true;
     }
-
 }
