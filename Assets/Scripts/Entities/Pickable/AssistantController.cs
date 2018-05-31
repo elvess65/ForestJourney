@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class AssistantController : Item_Base
@@ -35,6 +34,7 @@ public class AssistantController : Item_Base
     {
 		Trail.enabled = false;
         m_Agent = GetComponent<NavMeshAgent>();
+        m_Agent.enabled = false;
         m_Behaviour = new IdleBehaviour(this);
     }
 
@@ -51,7 +51,6 @@ public class AssistantController : Item_Base
     {
         if (GameManager.Instance.GameState.Player.TryAddAssistant(this))
         {
-            Trail.enabled = true;
             m_Behaviour = new FollowingBehaviour(this);
 
             base.Interact();
@@ -62,11 +61,15 @@ public class AssistantController : Item_Base
     {
         base.Use();
 
+        Trail.enabled = true;
+        m_Agent.enabled = true;
+
         MoveTo(GameManager.Instance.AssistManager.FindNext());
         m_Behaviour = new UsingBehaviour(this);
         m_Behaviour.OnBehaviourFinished += UsingFinishedHandler;
     }
 
+  
     void UsingFinishedHandler()
     {
         m_Behaviour = new ArrivedToDestinationBehaviour(this);
@@ -87,10 +90,12 @@ public class AssistantController : Item_Base
 
     void Disable()
     {
+        m_Behaviour = new DisabledBehaviour(this);
         Effect.Deactivate();
        
-        Destroy(gameObject, 5);
+        Destroy(gameObject, 10);
     }
+
 
 	abstract class Behaviour
 	{
@@ -161,11 +166,10 @@ public class AssistantController : Item_Base
 
 		public override void Update(float deltaTime)
 		{
-			if (m_Controller.Agent.remainingDistance != Mathf.Infinity && m_Controller.Agent.remainingDistance <= 1f && m_Controller.Agent.remainingDistance > 0)
+			if (m_Controller.Agent.remainingDistance < Mathf.Infinity && m_Controller.Agent.remainingDistance <= 1f && m_Controller.Agent.remainingDistance > 0)
 			{
 				if (OnBehaviourFinished != null)
 					OnBehaviourFinished();
-				//m_WaitingForThePlayerToDisapear = true;
 			}
 		}
 	}
@@ -202,4 +206,14 @@ public class AssistantController : Item_Base
 		}
 	}
 
+    class DisabledBehaviour : Behaviour
+    {
+		public DisabledBehaviour(AssistantController controller) : base(controller)
+        {
+		}
+
+        public override void Update(float deltaTime)
+        {
+        }
+    }
 }

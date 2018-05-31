@@ -6,8 +6,13 @@ public abstract class Effect_Base : MonoBehaviour
     public bool AutoDestructAfterActivation = false;
     public float AutoDestructSec = 5;
 
-    public abstract void Activate();
     public abstract void Deactivate();
+
+    public virtual void Activate()
+    {
+		if (AutoDestructAfterActivation)
+			LaunchAutoDestruct();
+    }
 
     public void ForceAutoDestruct()
     {
