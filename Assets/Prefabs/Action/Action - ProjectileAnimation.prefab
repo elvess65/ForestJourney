@@ -224,6 +224,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4836217346293154}
   - component: {fileID: 114660134647242482}
+  - component: {fileID: 114531038463706884}
+  - component: {fileID: 114528506957857260}
   m_Layer: 0
   m_Name: Projectile - ElementalBall3
   m_TagString: Untagged
@@ -1087,7 +1089,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1260100109370536}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3.54, z: 0}
   m_LocalScale: {x: 0.08048189, y: 0.08048189, z: 0.08048189}
   m_Children:
@@ -1403,6 +1405,38 @@ MonoBehaviour:
   EffectFinishListener: {fileID: 114196410846624832}
   AnimatorController: {fileID: 95219626133832894}
   Action_Key: Activating
+--- !u!114 &114528506957857260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260100109370536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5403635d6a62f47f5a91330e4a7ae9fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: Path1
+  pathColor: {r: 0, g: 1, b: 1, a: 1}
+  nodes:
+  - {x: 43.01998, y: -0.1500001, z: 60.24997}
+  - {x: 36.52678, y: 0.02527523, z: 70.06878}
+  - {x: 25.786133, y: -2.668046, z: 71.03956}
+  nodeCount: 3
+  initialized: 1
+  initialName: New Path 2
+  pathVisible: 1
+--- !u!114 &114531038463706884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260100109370536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca226856e4af450fb76647973de8a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114660134647242482
 MonoBehaviour:
   m_ObjectHideFlags: 1
