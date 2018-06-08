@@ -7,6 +7,9 @@ public class AssistantController : Item_Base
     [Header("Settings")]
     public Vector3 AnchorOffset;
     [Header(" - Interaction")]
+    [Header("   - Idle")]
+    public Transform IdleTarget;
+    public Transform Graphic;
     [Header("   -  Focusing")]
     public float FocusingSpeed = 0.1f;
     [Header(" - Following")]
@@ -20,14 +23,19 @@ public class AssistantController : Item_Base
     [Header("References")]
     public TrailRenderer Trail;
     public Animator AnimationController;
-    public Effect_Particles_StopLoop Effect;
+    public Effect_Particles_Stop Effect;
 
     private Behaviour m_Behaviour;
     private NavMeshAgent m_Agent;
+    private Vector3 m_GraphicInitPos;
 
     public NavMeshAgent Agent
     {
         get { return m_Agent; }
+    }
+    public Vector3 GraphicInitPos
+    {
+        get { return m_GraphicInitPos; }
     }
 
     protected override void Start() 
@@ -35,6 +43,8 @@ public class AssistantController : Item_Base
 		Trail.enabled = false;
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.enabled = false;
+        m_GraphicInitPos = Graphic.transform.localPosition;
+
         m_Behaviour = new IdleBehaviour(this);
     }
 
@@ -112,12 +122,23 @@ public class AssistantController : Item_Base
 
 	class IdleBehaviour : Behaviour
 	{
+        private Vector3 m_CurAnchorOffset;
+
 		public IdleBehaviour(AssistantController controller) : base(controller)
 		{
+            m_CurAnchorOffset = controller.Graphic.transform.position - controller.IdleTarget.position;
 		}
 
 		public override void Update(float deltaTime)
 		{
+            if (m_Controller.IdleTarget != null)
+            {
+                Quaternion curAngle = Quaternion.AngleAxis(m_Controller.RotationSpeed, Vector3.up);
+                m_CurAnchorOffset = curAngle * m_CurAnchorOffset;
+
+                Vector3 newPos = m_Controller.IdleTarget.position + m_CurAnchorOffset;
+                m_Controller.Graphic.transform.position = Vector3.Slerp(m_Controller.Graphic.transform.position, newPos, m_Controller.FollowingSpeed);
+            }
 		}
 	}
 
@@ -138,9 +159,14 @@ public class AssistantController : Item_Base
 				//Move to offset position
 				Vector3 destPos = GameManager.Instance.GameState.Player.transform.position + m_CurAnchorOffset;
 				m_Controller.transform.position = Vector3.Slerp(m_Controller.transform.position, destPos, m_Controller.FocusingSpeed);
+                m_Controller.Graphic.localPosition = Vector3.Slerp(m_Controller.Graphic.localPosition, m_Controller.GraphicInitPos, m_Controller.FocusingSpeed);
 
-				if ((destPos - m_Controller.transform.position).sqrMagnitude <= 0.1f)
-					m_InitFocus = true;
+                if ((destPos - m_Controller.transform.position).sqrMagnitude <= 0.1f)
+                {
+                    m_Controller.transform.position = destPos;
+                    m_Controller.Graphic.localPosition = m_Controller.GraphicInitPos;
+                    m_InitFocus = true;
+                }
 			}
 			else
 			{

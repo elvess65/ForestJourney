@@ -131,7 +131,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle fire stretch
+    path: Effects/Fire basic soft/particle fire billboard
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -147,7 +147,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle fire billboard
+    path: Effects/Fire basic soft
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -163,7 +163,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle spark
+    path: Effects/Fire basic soft/particle spark
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -179,7 +179,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft
+    path: Effects/Fire basic soft/particle fire stretch
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -201,7 +201,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Fire basic soft/lens flare glow
+    path: Effects/Fire basic soft/lens flare glow
     classID: 123
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -248,35 +248,35 @@ AnimationClip:
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4096270724
+      path: 2756957900
       attribute: 925582877
       script: {fileID: 0}
       typeID: 198
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3821352821
+      path: 2093347491
       attribute: 925582877
       script: {fileID: 0}
       typeID: 198
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1090806089
+      path: 2156985991
       attribute: 925582877
       script: {fileID: 0}
       typeID: 198
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1107883893
+      path: 1850567031
       attribute: 925582877
       script: {fileID: 0}
       typeID: 198
       customType: 27
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2419300860
+      path: 3962495700
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 123
@@ -520,7 +520,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle fire stretch
+    path: Effects/Fire basic soft/particle fire billboard
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -536,7 +536,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle fire billboard
+    path: Effects/Fire basic soft
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -552,7 +552,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft/particle spark
+    path: Effects/Fire basic soft/particle spark
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -568,7 +568,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: looping
-    path: Fire basic soft
+    path: Effects/Fire basic soft/particle fire stretch
     classID: 198
     script: {fileID: 0}
   - curve:
@@ -590,7 +590,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Fire basic soft/lens flare glow
+    path: Effects/Fire basic soft/lens flare glow
     classID: 123
     script: {fileID: 0}
   m_EulerEditorCurves: []
