@@ -51,8 +51,10 @@ public class GameManager : MonoBehaviour
 
     void StartLoop()
     {
-        m_IsActive = true;
+        CameraController.OnCameraArrived += () => InputManager.Instance.InputIsEnabled = true;
         CameraController.Init(GameState.Player.transform);
+
+        m_IsActive = true;
     }
 
     void CreateMainEntities()
