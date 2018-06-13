@@ -3,7 +3,7 @@
 /// <summary>
 /// Создание простой преграды
 /// </summary>
-public class TriggerEvent_CreateObstacle : TriggerAction_Event
+public class TriggerEvent_ActivteObstacle : TriggerAction_Event
 {
     public Collider ObstacleCollider;
 

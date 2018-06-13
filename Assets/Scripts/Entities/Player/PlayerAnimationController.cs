@@ -12,4 +12,9 @@ public class PlayerAnimationController : MonoBehaviour
     {
         PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, speed, DampTime, Time.deltaTime);
     }
+
+    public void StopPlayerMoveAnimation()
+    {
+        PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, 0);
+    }
 }

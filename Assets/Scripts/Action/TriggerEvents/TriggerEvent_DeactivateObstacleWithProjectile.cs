@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TriggerEvent_RemoveObstacleWithProjectile : TriggerAction_Event
+public class TriggerEvent_DeactivateObstacleWithProjectile : TriggerAction_Event
 {
     [Header(" - DERRIVED -")]
     public GameObject ObstacleObject;

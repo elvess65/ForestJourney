@@ -27,9 +27,10 @@ public class PlayerController : MonoBehaviour
 
         InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
         InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+        InputManager.Instance.OnInputStateChange += InputStatusChangeHandler;
     }
 
-    private void Update()
+    void Update()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
     }
@@ -63,8 +64,14 @@ public class PlayerController : MonoBehaviour
         enabled = false;
     }
 
+	private void InputStatusChangeHandler(bool state)
+	{
+        if (!state)
+            m_PlayerAnimationController.StopPlayerMoveAnimation();
+	}
 
-    public bool TryAddAssistant(Item_Base assistant)
+
+	public bool TryAddAssistant(Item_Base assistant)
     {
         if (m_Assistant != null)
             return false;

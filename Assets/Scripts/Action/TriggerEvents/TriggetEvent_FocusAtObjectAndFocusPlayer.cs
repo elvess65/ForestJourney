@@ -4,17 +4,19 @@
 /// </summary>
 public class TriggetEvent_FocusAtObjectAndFocusPlayer : TriggerAction_Event
 {
-    public float DelayBeforeFocusing = 1;
     public float FocusingTime = 1;
     public Transform FocusingObject;
 
     public override void StartEvent()
     {
-        //GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, DelayBeforeFocusing, FocusingTime, FocusingFinishedHandler);
+		InputManager.Instance.InputIsEnabled = false;
+        GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, FocusingTime, FocusingFinishedHandler);
     }
 
     void FocusingFinishedHandler()
     {
+        Debug.Log("Focusing finished");
+        InputManager.Instance.InputIsEnabled = true;
         //GameManager.Instance.CameraController.FocusAt(GameManager.Instance.GameState.Player.transform);
     }
 }

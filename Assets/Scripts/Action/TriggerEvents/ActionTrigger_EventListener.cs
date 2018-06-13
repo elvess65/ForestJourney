@@ -3,8 +3,9 @@
 /// <summary>
 /// Класс для отслеживания события взаимодейтсвия с триггером
 /// </summary>
-public class TriggerAction_Listener : MonoBehaviour
+public class ActionTrigger_EventListener : MonoBehaviour
 {
+    [Header("EVENT LISTENER")]
     public TriggerAction_Event[] OnInteractEvents;
     public TriggerAction_Event[] OnInteractionFinishedEvents;
 
