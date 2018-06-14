@@ -46,7 +46,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
             m_EffectController.ActivateEffect_Action();
 
         if (RotateCameraOnInteract)
-            GameManager.Instance.CameraController.RotateCamera();
+            GameManager.Instance.CameraController.RotateCamera(false);
 
         if (OnInteract != null)
             OnInteract();

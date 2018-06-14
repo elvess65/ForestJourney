@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     private bool m_LookAtPlayer = false;
 	[SerializeField]
     private bool m_InitFocusingAtTarget = false;
+	private bool m_IsRotating = false;
 
     //Focus
     private bool m_IsFocusingAtSomething = false;
@@ -122,22 +123,20 @@ public class CameraController : MonoBehaviour
 
 
     //Rotate
-	public void RotateCamera(bool clockWise = true, float angleSpeed = 45, float rotationTime = 1)
+    public void RotateCamera(bool lockInput = false, bool clockWise = true, float angleSpeed = 45, float rotationTime = 1)
     {
-		/*        if (Input.GetKeyDown(KeyCode.R))
+        if (lockInput)
         {
             InputManager.Instance.InputIsEnabled = false;
-            OnCameraArrived += () => InputManager.Instance.InputIsEnabled = true;
-            RotateCamera(true, 45, 1);
+            OnCameraArrived += InputManager.Instance.UnlockInput;
         }
-        */
-
 
 		m_CurRotationSpeed = Time.deltaTime * angleSpeed;
         if (!clockWise)
             m_CurRotationSpeed *= -1;
         
         m_LookAtPlayer = true;
+        m_IsRotating = true;
 
         //TODO iTween 
 
@@ -156,6 +155,7 @@ public class CameraController : MonoBehaviour
     void RotationFinished()
     {
         StopLookAtPlayer();
+        m_IsRotating = false;
     }
 
 
@@ -179,7 +179,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     void SetSmoothSpeed()
     {
-        if (m_CurRotationSpeed.Equals(0f) && !m_IsFocusingAtSomething)//Если камера не вращаеться - задать скорость
+        if (m_CurRotationSpeed.Equals(0f) && !m_IsFocusingAtSomething && !m_IsRotating)//Если камера не вращаеться - задать скорость
 		{
             m_CurSmoothFactor = SmoothFactor_Following;
         }
@@ -193,13 +193,16 @@ public class CameraController : MonoBehaviour
 		Vector3 newPos = m_Target.transform.position + m_CurCameraOffset;
 		transform.position = Vector3.Slerp(transform.position, newPos, m_CurSmoothFactor);
 
-        float sqrDistToNewPos = (newPos - transform.position).sqrMagnitude;
-        if (sqrDistToNewPos <= 0.001f)
+        if (m_CurRotationSpeed.Equals(0f))
         {
-            if (OnCameraArrived != null)
+            float sqrDistToNewPos = (newPos - transform.position).sqrMagnitude;
+            if (sqrDistToNewPos <= 0.001f)
             {
-                OnCameraArrived();
-                OnCameraArrived = null;
+                if (OnCameraArrived != null)
+                {
+                    OnCameraArrived();
+                    OnCameraArrived = null;
+                }
             }
         }
 	}
