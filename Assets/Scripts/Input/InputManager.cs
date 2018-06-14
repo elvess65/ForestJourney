@@ -41,6 +41,11 @@ public class InputManager : MonoBehaviour
             VirtualJoystickInput.UpdateInput();
         }
     }
+
+    public void UnlockInput()
+    {
+        InputIsEnabled = true;
+    }
 }
 
 public abstract class BaseInputManager : MonoBehaviour

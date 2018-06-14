@@ -318,3 +318,12 @@ MonoBehaviour:
     Background: {fileID: 2800000, guid: 96609417b412509409d131d954703cad, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
+  - Type: 1
+    Key: Assets/ResourcePackages/Simple UI
+    SmallIcon: {fileID: 2800000, guid: 191188601401d7f4ca9105e13b350e00, type: 3}
+    LargeIcon: {fileID: 2800000, guid: b5aa5103c69828e42a9ff77db820f2a6, type: 3}
+    IsIconRecursive: 0
+    IsIconCustom: 0
+    Background: {fileID: 2800000, guid: 025a9829850aaa84a8ce6486ebb51a75, type: 3}
+    IsBackgroundRecursive: 0
+    IsBackgroundCustom: 0

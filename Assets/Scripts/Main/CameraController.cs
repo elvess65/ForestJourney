@@ -59,6 +59,9 @@ public class CameraController : MonoBehaviour
 
 		if (m_LookAtPlayer)
 			transform.LookAt(m_Target);
+
+        if (Input.GetKeyDown(KeyCode.R))
+            RotateCamera();
 	}
 
 
@@ -119,7 +122,7 @@ public class CameraController : MonoBehaviour
 
 
     //Rotate
-	public void RotateCamera(bool clockWise = false, float angleSpeed = 45, float rotationTime = 1)
+	public void RotateCamera(bool clockWise = true, float angleSpeed = 45, float rotationTime = 1)
     {
 		/*        if (Input.GetKeyDown(KeyCode.R))
         {
