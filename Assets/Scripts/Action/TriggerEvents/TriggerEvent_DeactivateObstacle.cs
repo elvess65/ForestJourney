@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Отключение простой преграды
+/// Отключенить коллайдер преграды
 /// </summary>
 public class TriggerEvent_DeactivateObstacle : TriggerAction_Event
 {

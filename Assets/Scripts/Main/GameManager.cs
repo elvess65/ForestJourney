@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         if (nextLevel >= 3)
             nextLevel = 0;
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevel);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void RestartRound()

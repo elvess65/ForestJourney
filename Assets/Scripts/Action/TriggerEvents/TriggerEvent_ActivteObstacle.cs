@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Создание простой преграды
+/// Включить коллайдей преграды
 /// </summary>
 public class TriggerEvent_ActivteObstacle : TriggerAction_Event
 {

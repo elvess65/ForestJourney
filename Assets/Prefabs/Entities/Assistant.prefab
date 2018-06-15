@@ -72,6 +72,7 @@ GameObject:
   - component: {fileID: 114516554416419640}
   - component: {fileID: 195266196291321006}
   - component: {fileID: 65289841947866782}
+  - component: {fileID: 114777540573553282}
   m_Layer: 0
   m_Name: Assistant
   m_TagString: Intaractable
@@ -165,7 +166,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1421821605822286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.51, y: 0.07, z: 6.06}
+  m_LocalPosition: {x: 18.97, y: -5, z: 68.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4378941308547158}
@@ -250,7 +251,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626666563861614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4378941308547158}
@@ -266,8 +267,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 3, y: 2, z: 3}
+  m_Center: {x: 0.85, y: 1, z: -0.95}
 --- !u!95 &95906442760785664
 Animator:
   serializedVersion: 3
@@ -338,7 +339,7 @@ TrailRenderer:
       m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9485294, g: 0.048821356, b: 0.048821356, a: 1}
+      key0: {r: 0.021410054, g: 0.85275924, b: 0.9705882, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -385,6 +386,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 65289841947866782}
   AnchorOffset: {x: 1, y: 0, z: 0}
+  IdleTarget: {fileID: 0}
+  Graphic: {fileID: 4529952911509824}
   FocusingSpeed: 0.1
   RotationSpeed: 2
   FollowingSpeed: 0.05
@@ -412,6 +415,20 @@ MonoBehaviour:
   - {fileID: 198426661616046838}
   - {fileID: 198058033002193600}
   - {fileID: 198027075961167746}
+--- !u!114 &114777540573553282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1421821605822286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76cdb509038a6b47a274e4a57884b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteractEvents:
+  - {fileID: 0}
+  OnInteractionFinishedEvents: []
 --- !u!195 &195266196291321006
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -493,7 +510,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 0
+  randomSeed: -1312831833
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -889,7 +906,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 30
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -3854,7 +3871,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 0
+  randomSeed: -991120757
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4250,7 +4267,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 30
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -7215,7 +7232,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -1216719702
+  randomSeed: -1970620553
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7611,7 +7628,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 30
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -10960,7 +10977,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 30
     size3D: 0
     rotation3D: 0
     gravityModifier:
