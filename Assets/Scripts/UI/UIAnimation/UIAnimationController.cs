@@ -28,8 +28,9 @@ public abstract class UIAnimationController : MonoBehaviour
             StartCoroutine(Hide());
 	}
 
-	IEnumerator Show()
+    IEnumerator Show()
 	{
+        ShowStarted();
 		float speed = 1.0f / TimeToTargetPosition;
 
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime * speed)
@@ -39,10 +40,21 @@ public abstract class UIAnimationController : MonoBehaviour
 		}
 
 		ApplyPosition(m_TargetPosition);
+        ShowFinished();
 	}
+
+    protected virtual void ShowStarted()
+    {     
+    }
+
+    protected virtual void ShowFinished()
+    {      
+    }
+
 
 	IEnumerator Hide()
 	{
+        HideStarted();
 		float speed = 1.0f / TimeToTargetPosition;
 
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime * speed)
@@ -52,6 +64,7 @@ public abstract class UIAnimationController : MonoBehaviour
 		}
 
 		ApplyPosition(StartPosition);
+        HideFinished();
 	}
 
 	protected float GetShowValue(float t)
@@ -63,6 +76,15 @@ public abstract class UIAnimationController : MonoBehaviour
     {
         return m_TargetPosition - CurveHide.Evaluate(t) * m_TotalDistance;
     }
+
+	protected virtual void HideStarted()
+	{
+	}
+
+	protected virtual void HideFinished()
+	{
+	}
+
 
 	[ContextMenu("Show")]
 	public void ContextMenuShow()
