@@ -14,8 +14,12 @@ public class UIManager : MonoBehaviour
     public bool ShowAssistantButton = true;
     public bool ShowWeaponButton = true;
 
+    private UIWindowsManager m_WindowsManager;
+
 	void Start ()
     {
+        m_WindowsManager = GetComponent<UIWindowsManager>();
+
         //Button
         if (Button_Assist != null)
             Button_Assist.onClick.AddListener(Assist_PressHandler);

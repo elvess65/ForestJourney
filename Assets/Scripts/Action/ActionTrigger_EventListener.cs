@@ -35,5 +35,7 @@ public class ActionTrigger_EventListener : MonoBehaviour
 /// </summary>
 public abstract class TriggerAction_Event : MonoBehaviour
 {
+    //public TriggerAction_Event[] OnEventFinished;
+
     public abstract void StartEvent();
 }

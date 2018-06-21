@@ -15,7 +15,6 @@ public class TriggetEvent_FocusAtObjectAndFocusPlayer : TriggerAction_Event
 
     void FocusingFinishedHandler()
     {
-        Debug.Log("Focusing finished");
         InputManager.Instance.InputIsEnabled = true;
         //GameManager.Instance.CameraController.FocusAt(GameManager.Instance.GameState.Player.transform);
     }

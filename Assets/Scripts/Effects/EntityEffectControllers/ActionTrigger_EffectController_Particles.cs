@@ -51,6 +51,7 @@ public class ActionTrigger_EffectController_Particles : Actiontrigger_EffectCont
                 Effects_IsActive[i].Deactivate();
 		}
 
-        EffectFinishListener.OnEffectFinished();
+        if (EffectFinishListener != null)
+            EffectFinishListener.OnEffectFinished();
     }
 }
