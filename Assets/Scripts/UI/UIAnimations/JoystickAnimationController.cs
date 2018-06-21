@@ -2,6 +2,7 @@
 
 public class JoystickAnimationController : UIAnimationController 
 {
+	[Header("Link")]
     public UltimateJoystick Joystick;
     public RectTransform ThumbRectTransform;
 

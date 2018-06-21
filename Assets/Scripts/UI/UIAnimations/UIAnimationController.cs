@@ -3,6 +3,10 @@ using UnityEngine;
 
 public abstract class UIAnimationController : MonoBehaviour 
 {
+    public event System.Action OnShowFinished;
+    public event System.Action OnHideFinished;
+
+    [Header("Animation")]
 	public float TimeToTargetPosition = 1.0f;
 	public float StartPosition = -50;
 	public AnimationCurve CurveShow;
@@ -11,7 +15,7 @@ public abstract class UIAnimationController : MonoBehaviour
     protected float m_TargetPosition = 0;
     private float m_TotalDistance = 0;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         SetTargetPosition();
 
@@ -20,9 +24,9 @@ public abstract class UIAnimationController : MonoBehaviour
 		ApplyPosition(StartPosition);
     }
 
-	public void PlayAnimation(bool state)
+    public void PlayAnimation(bool playShowAnimation)
 	{
-		if (state)
+		if (playShowAnimation)
             StartCoroutine(Show());
 		else
             StartCoroutine(Hide());
@@ -43,12 +47,19 @@ public abstract class UIAnimationController : MonoBehaviour
         ShowFinished();
 	}
 
+	float GetShowValue(float t)
+	{
+		return StartPosition + CurveShow.Evaluate(t) * m_TotalDistance;
+	}
+
     protected virtual void ShowStarted()
-    {     
+    {
     }
 
     protected virtual void ShowFinished()
-    {      
+    {
+        if (OnShowFinished != null)
+            OnShowFinished();
     }
 
 
@@ -67,12 +78,7 @@ public abstract class UIAnimationController : MonoBehaviour
         HideFinished();
 	}
 
-	protected float GetShowValue(float t)
-	{
-		return StartPosition + CurveShow.Evaluate(t) * m_TotalDistance;
-	}
-
-    protected float GetHideValue(float t)
+    float GetHideValue(float t)
     {
         return m_TargetPosition - CurveHide.Evaluate(t) * m_TotalDistance;
     }
@@ -83,6 +89,8 @@ public abstract class UIAnimationController : MonoBehaviour
 
 	protected virtual void HideFinished()
 	{
+        if (OnHideFinished != null)
+            OnHideFinished();
 	}
 
 

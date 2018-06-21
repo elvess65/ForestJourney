@@ -16,6 +16,11 @@ public class UIManager : MonoBehaviour
 
     private UIWindowsManager m_WindowsManager;
 
+    public UIWindowsManager WindowManager
+    {
+        get { return m_WindowsManager; }
+    }
+
 	void Start ()
     {
         m_WindowsManager = GetComponent<UIWindowsManager>();
@@ -37,7 +42,6 @@ public class UIManager : MonoBehaviour
 			InputManager.Instance.OnInputStateChange += WeaponButtonAnimationController.PlayAnimation;
 	}
 
-
     public void Assist_PressHandler()
     {
         GameManager.Instance.GameState.Player.UseAssistant();
@@ -46,5 +50,10 @@ public class UIManager : MonoBehaviour
     public void Weapon_PressHandler()
     {
         GameManager.Instance.GameState.Player.UseWeapon();
+    }
+
+    public UIWindow_Base ShowWindow(UIWindow_Base source)
+    {
+        return m_WindowsManager.ShowWindow(source);
     }
 }

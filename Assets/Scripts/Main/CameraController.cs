@@ -60,9 +60,6 @@ public class CameraController : MonoBehaviour
 
 		if (m_LookAtPlayer)
 			transform.LookAt(m_Target);
-
-        if (Input.GetKeyDown(KeyCode.R))
-            RotateCamera();
 	}
 
 

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ButtonAnimationController : UIAnimationController 
 {
+	[Header("Link")]
     public Button UIButton;
 
     private RectTransform m_RectTransform;
