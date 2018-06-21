@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class UIWindowsManager : MonoBehaviour 
 {
+    [Header("Parents")]
+    public RectTransform FadeParent;
     public RectTransform WindowParent;
+    [Header("Windows")]
     public UIWindow_Base UIWindow_ScreenFade;
+    [Header("Library")]
     public UIWindowsLibrary WindowsLibrary;
 
     private UIWindow_Base m_ScreenFade;
@@ -30,7 +34,7 @@ public class UIWindowsManager : MonoBehaviour
         if (m_WindowQueue.Count == 0)
             CreateScreenFade();
 
-        UIWindow_Base wnd = CreateWindow(source);
+        UIWindow_Base wnd = CreateWindow(source, WindowParent);
         m_WindowQueue.Push(wnd);
 
         wnd.OnWindowClose += WindowCloseHandler;
@@ -39,11 +43,11 @@ public class UIWindowsManager : MonoBehaviour
         return wnd;
     }
 
-    UIWindow_Base CreateWindow(UIWindow_Base source)
+    UIWindow_Base CreateWindow(UIWindow_Base source, RectTransform parent)
     {
-		UIWindow_Base wnd = Instantiate(source);
-		RectTransform rTransform = wnd.GetComponent<RectTransform>();
-		rTransform.SetParent(WindowParent, false);
+        UIWindow_Base wnd = Instantiate(source);
+        RectTransform rTransform = wnd.GetComponent<RectTransform>();
+        rTransform.SetParent(parent, false);
 
         return wnd;
     }
@@ -59,7 +63,7 @@ public class UIWindowsManager : MonoBehaviour
 
     void CreateScreenFade()
     {
-        m_ScreenFade = CreateWindow(UIWindow_ScreenFade);
+        m_ScreenFade = CreateWindow(UIWindow_ScreenFade, FadeParent);
         m_ScreenFade.Show();
     }
 

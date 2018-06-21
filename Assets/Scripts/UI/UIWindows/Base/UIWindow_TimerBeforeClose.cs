@@ -23,8 +23,6 @@ public abstract class UIWindow_TimerBeforeClose : UIWindow_CloseButton
     {
 		//Перегрузить, чтобы возможность ввода не включалась автоматически
 
-		Debug.Log("WindowShowAnimationFinished");
-
 		m_CurTime = m_SECONDS_TO_ENABLE;
 		m_IsTime = true;
     }

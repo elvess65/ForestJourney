@@ -805,6 +805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05177067234264febb02adfd2bb9f3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnEventFinished: []
 --- !u!114 &114547773520808332
 MonoBehaviour:
   m_ObjectHideFlags: 1

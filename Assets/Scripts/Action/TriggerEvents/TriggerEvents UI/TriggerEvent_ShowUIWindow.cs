@@ -12,15 +12,22 @@ public class TriggerEvent_ShowUIWindow : TriggerAction_Event
         if (DisableInputOnStart)
             InputManager.Instance.InputIsEnabled = false;
 
-        StartCoroutine(WaitDelay());
+        if (Delay > 0)
+            StartCoroutine(WaitDelay());
+        else
+            Show();
     }
 
     IEnumerator WaitDelay()
     {
         yield return new WaitForSeconds(Delay);
+        Show();
+    }
 
-		UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(GameManager.Instance.UIManager.WindowManager.WindowsLibrary.UIWindow_Dummy);
-		wnd.OnWindowHided += WindowHidedHandler;
+    void Show()
+    {
+        UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(GameManager.Instance.UIManager.WindowManager.WindowsLibrary.UIWindow_Dummy);
+        wnd.OnWindowHided += WindowHidedHandler;
     }
 
     void WindowHidedHandler()

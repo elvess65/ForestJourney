@@ -35,7 +35,18 @@ public class ActionTrigger_EventListener : MonoBehaviour
 /// </summary>
 public abstract class TriggerAction_Event : MonoBehaviour
 {
-    //public TriggerAction_Event[] OnEventFinished;
+    public TriggerAction_Event[] OnEventFinished;
 
     public abstract void StartEvent();
+
+    protected bool CallEventFinished()
+    {
+        if (OnEventFinished.Length == 0)
+            return false;
+
+        for (int i = 0; i < OnEventFinished.Length; i++)
+            OnEventFinished[i].StartEvent();
+
+        return true;
+    }
 }
