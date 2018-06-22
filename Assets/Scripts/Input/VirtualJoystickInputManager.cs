@@ -6,9 +6,6 @@ public class VirtualJoystickInputManager : BaseInputManager
 
 	public override void UpdateInput() 
     {
-        if (!Enabled)
-            return;
-
 		Vector2 jPosition = UltimateJoystick.GetPosition(MainJoystickName);
 
         if (OnMove != null)

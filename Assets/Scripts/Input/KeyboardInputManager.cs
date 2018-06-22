@@ -4,9 +4,6 @@ public class KeyboardInputManager : BaseInputManager
 {
     public override void UpdateInput ()
     {
-        if (!Enabled)
-            return;
-
         Vector2 dir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         if (OnMove != null)
