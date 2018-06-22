@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01ef616bc0fb4441afff2b39eebb4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToTargetPosition: 0.2
+  TimeToTargetPosition: 0.5
   StartPosition: 0
   CurveShow:
     serializedVersion: 2
@@ -901,7 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c9a6bc3bce641bfb764713f3cabc68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToTargetPosition: 0.2
+  TimeToTargetPosition: 0.5
   StartPosition: 0.8
   CurveShow:
     serializedVersion: 2
