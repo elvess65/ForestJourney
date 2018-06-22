@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class JoystickAnimationController : UIAnimationController 
 {
 	[Header("Link")]
     public UltimateJoystick Joystick;
-    public RectTransform ThumbRectTransform;
+    public Image m_RaycastImage;
 
     protected override void SetTargetPosition()
     {
 		//Получить текущую позицию джойстика
 		m_TargetPosition = Joystick.customSpacing_X;
+
+		m_RaycastImage.raycastTarget = false;
+        Joystick.enabled = false;
     }
 
 	protected override void ApplyPosition(float position)
@@ -22,31 +26,32 @@ public class JoystickAnimationController : UIAnimationController
     {
         base.ShowStarted();
 
-		ThumbRectTransform.anchoredPosition = Vector2.zero;
-		Joystick.enabled = false;
+        Joystick.EnableJoystick();
+        Joystick.enabled = false;
 	}
 
     protected override void ShowFinished()
     {
         base.ShowFinished();
 
-		ThumbRectTransform.anchoredPosition = Vector2.zero;
-		Joystick.enabled = true;
+		m_RaycastImage.raycastTarget = true;
+        Joystick.enabled = true;
     }
 
     protected override void HideStarted()
     {
 		base.HideStarted();
 
-        ThumbRectTransform.anchoredPosition = Vector2.zero;
+        Joystick.ResetJoystick();
+
+        m_RaycastImage.raycastTarget = false;
         Joystick.enabled = false;
-    }
+	}
 
     protected override void HideFinished()
     {
         base.HideFinished();
 
-        ThumbRectTransform.anchoredPosition = Vector2.zero;
-        Joystick.enabled = true;
+        Joystick.DisableJoystick();
     }
 }

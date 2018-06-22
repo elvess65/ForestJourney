@@ -965,12 +965,12 @@ MonoBehaviour:
   tensionAccentRight: {fileID: 114811936285880428}
   scalingAxis: 1
   anchor: 0
-  joystickTouchSize: 0
+  joystickTouchSize: 3
   joystickSize: 2.5
   radiusModifier: 4.5
-  dynamicPositioning: 0
-  customTouchSize_X: 50
-  customTouchSize_Y: 75
+  dynamicPositioning: 1
+  customTouchSize_X: 100
+  customTouchSize_Y: 50
   customTouchSizePos_X: 0
   customTouchSizePos_Y: 0
   customSpacing_X: 5
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeyboardInput: {fileID: 114355438400171314}
   VirtualJoystickInput: {fileID: 114082475559662228}
-  PreferVirtualJoystickInEditor: 0
+  PreferVirtualJoystickInEditor: 1
 --- !u!114 &114595815460846772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1311,7 +1311,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   Joystick: {fileID: 114382956408208104}
-  ThumbRectTransform: {fileID: 224093369318014154}
+  m_RaycastImage: {fileID: 114624324098129316}
 --- !u!114 &114911903616428040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1645,8 +1645,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.0750122, y: 1.0750122}
-  m_SizeDelta: {x: 215, y: 215}
+  m_AnchoredPosition: {x: 55.224976, y: 122.70001}
+  m_SizeDelta: {x: 204.5, y: 204.5}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224365395252747884
 RectTransform:
@@ -1682,8 +1682,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.575012, y: 127.92499}
-  m_SizeDelta: {x: 217.15, y: 217.15}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1309, y: 409}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224441634613592230
 RectTransform:

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(PlayerCollisionController))]
 [RequireComponent(typeof(PlayerAnimationController))]
@@ -17,6 +18,10 @@ public class PlayerController : MonoBehaviour
     private WeaponController m_Weapon;
     private Quaternion m_TargetRot;
 
+	private Vector3 m_MoveDirAtLockInput;
+    private float m_ReduceSpeedAtLockInputTime = 0.5f;
+	private IEnumerator m_ReduceSpeedCoroutine;
+
     void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
@@ -33,7 +38,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
-    }
+		m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
+	}
 
     public void MoveInDir(Vector3 dir)
     {
@@ -44,9 +50,6 @@ public class PlayerController : MonoBehaviour
             //Rotate in move dir
             float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
             m_TargetRot = Quaternion.AngleAxis(angle, Vector3.up);
-
-			//Move
-            m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
         }
 
         //Move animation
@@ -64,10 +67,37 @@ public class PlayerController : MonoBehaviour
         enabled = false;
     }
 
-	private void InputStatusChangeHandler(bool state)
+
+	void InputStatusChangeHandler(bool state)
 	{
         if (!state)
-            m_PlayerAnimationController.StopPlayerMoveAnimation();
+        {
+            m_MoveDirAtLockInput = m_MoveDir;
+
+            if (m_ReduceSpeedCoroutine != null)
+                StopCoroutine(m_ReduceSpeedCoroutine);
+
+            m_ReduceSpeedCoroutine = SmoothReduceMoveSpeed();
+
+            StartCoroutine(m_ReduceSpeedCoroutine);
+        }
+	}
+
+	IEnumerator SmoothReduceMoveSpeed()
+	{
+        float speed = 1.0f / m_ReduceSpeedAtLockInputTime;
+
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime * speed)
+		{
+            m_MoveDir = Vector3.Lerp(m_MoveDirAtLockInput, Vector3.zero, t);
+            m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude);
+			yield return null;
+        }
+
+		m_MoveDir = Vector3.zero;
+        m_PlayerAnimationController.StopPlayerMoveAnimation();
+
+        m_ReduceSpeedCoroutine = null;
 	}
 
 
