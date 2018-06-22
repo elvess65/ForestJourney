@@ -3,15 +3,22 @@ using UnityEngine;
 
 public class TriggerEvent_ShowUIWindow : TriggerAction_Event 
 {
+	public UIWindowsTutorialLibrary.TutorialWindowTypes TutorialWindowType;
     public bool DisableInputOnStart = true;
     public bool EnableInputOnClose = true;
     public float Delay = 1;
 
     public override void StartEvent()
     {
+        //Если нет библиотеки окон - ничего не делать
+        if (UIWindowsTutorialLibrary.Instance == null)
+            return;
+
+        //Отключить ввод при использовании если нужно
         if (DisableInputOnStart)
             InputManager.Instance.InputIsEnabled = false;
 
+        //Если нет задержки мгновенно создать окно 
         if (Delay > 0)
             StartCoroutine(WaitDelay());
         else
@@ -26,7 +33,7 @@ public class TriggerEvent_ShowUIWindow : TriggerAction_Event
 
     void Show()
     {
-        UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(GameManager.Instance.UIManager.WindowManager.WindowsLibrary.UIWindow_Dummy);
+        UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(UIWindowsTutorialLibrary.Instance.GetWindowPrefabByType(TutorialWindowType));
         wnd.OnWindowHided += WindowHidedHandler;
     }
 
@@ -34,5 +41,7 @@ public class TriggerEvent_ShowUIWindow : TriggerAction_Event
     {
 		if (EnableInputOnClose)
             InputManager.Instance.InputIsEnabled = true;
+
+        CallEventFinished();
     }
 }

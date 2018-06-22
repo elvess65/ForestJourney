@@ -8,8 +8,6 @@ public class UIWindowsManager : MonoBehaviour
     public RectTransform WindowParent;
     [Header("Windows")]
     public UIWindow_Base UIWindow_ScreenFade;
-    [Header("Library")]
-    public UIWindowsLibrary WindowsLibrary;
 
     private UIWindow_Base m_ScreenFade;
     private Stack<UIWindow_Base> m_WindowQueue;
@@ -32,7 +30,7 @@ public class UIWindowsManager : MonoBehaviour
     public UIWindow_Base ShowWindow(UIWindow_Base source)
     {
         if (m_WindowQueue.Count == 0)
-            CreateScreenFade();
+            ShowScreenFade();
 
         UIWindow_Base wnd = CreateWindow(source, WindowParent);
         m_WindowQueue.Push(wnd);
@@ -61,21 +59,14 @@ public class UIWindowsManager : MonoBehaviour
     }
 
 
-    void CreateScreenFade()
+    public void ShowScreenFade()
     {
         m_ScreenFade = CreateWindow(UIWindow_ScreenFade, FadeParent);
         m_ScreenFade.Show();
     }
 
-    void HideScreenFade()
+    public void HideScreenFade()
     {
         m_ScreenFade.Hide();
-    }
-
-
-    [System.Serializable]
-    public struct UIWindowsLibrary
-    {
-        public UIWindow_Base UIWindow_Dummy;
     }
 }

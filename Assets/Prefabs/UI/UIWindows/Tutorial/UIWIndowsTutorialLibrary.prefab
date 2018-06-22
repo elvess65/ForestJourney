@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1560815645260540}
+  m_IsPrefabParent: 1
+--- !u!1 &1560815645260540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4735198969951896}
+  - component: {fileID: 114356527056061308}
+  m_Layer: 0
+  m_Name: UIWIndowsTutorialLibrary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4735198969951896
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560815645260540}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.06, z: 1.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114356527056061308
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560815645260540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d32eb06f7e8c4edf8d95d189bcdd916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TutorialWindowsList:
+  - Type: 0
+    WindowPrefab: {fileID: 114748909294195510, guid: 748dc579bf153403ca3ed079580d5f3c,
+      type: 2}
+  - Type: 1
+    WindowPrefab: {fileID: 114829119191708824, guid: a555f59ff41124aaab54935dba9118bb,
+      type: 2}
+  - Type: 2
+    WindowPrefab: {fileID: 114768926226124618, guid: 9f506b8040afd4bd4bc96b41d247f4fc,
+      type: 2}
+  - Type: 3
+    WindowPrefab: {fileID: 114479000212227610, guid: a639c1b6299704361beb31ca4d6e0d53,
+      type: 2}
+  - Type: 4
+    WindowPrefab: {fileID: 114866995455294240, guid: 4c3d3c3ab7dd0478ea5eb743e87e4906,
+      type: 2}
