@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224144847330857840}
   - component: {fileID: 222739369278929588}
   - component: {fileID: 114748032850701466}
+  - component: {fileID: 95545187080280346}
   m_Layer: 0
   m_Name: UIElement - Tutorial ButtonHightLight
   m_TagString: Untagged
@@ -28,6 +29,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95545187080280346
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1293441472376690}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 496a773e67b09490187f7547787d8ec1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114748032850701466
 MonoBehaviour:
   m_ObjectHideFlags: 1

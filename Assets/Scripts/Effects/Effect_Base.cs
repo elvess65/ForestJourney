@@ -2,17 +2,27 @@
 
 public abstract class Effect_Base : MonoBehaviour
 {
+    public bool AutoDetect = false;
+
     [Header("AutoDesctruct")]
     public bool AutoDestructAfterActivation = false;
     public float AutoDestructSec = 5;
 
-    public abstract void Deactivate();
-
-    public virtual void Activate()
+    protected virtual void Start()
     {
+        if (AutoDetect)
+            PerformAutodetectEffects();
+    }
+
+
+	public virtual void Activate()
+	{
 		if (AutoDestructAfterActivation)
 			LaunchAutoDestruct();
-    }
+	}
+
+    public abstract void Deactivate();
+
 
     public void ForceAutoDestruct()
     {
@@ -31,5 +41,10 @@ public abstract class Effect_Base : MonoBehaviour
     protected void LaunchAutoDestruct()
     {
         Destroy(gameObject, AutoDestructSec);
+    }
+
+
+    protected virtual void PerformAutodetectEffects()
+    {
     }
 }

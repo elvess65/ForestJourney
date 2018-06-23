@@ -17,4 +17,9 @@ public class Effect_Simple : Effect_Base
     {
         EffectObj.SetActive(false);
     }
+
+    protected override void PerformAutodetectEffects()
+    {
+        EffectObj = gameObject;
+    }
 }
