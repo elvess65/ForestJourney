@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 114746148948431024}
   - component: {fileID: 65315691793211706}
   m_Layer: 0
-  m_Name: Event_1 (1)
+  m_Name: Event_1
   m_TagString: Intaractable
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
