@@ -6,12 +6,9 @@ public class Object_RepairBehaviour : MonoBehaviour
     public bool RepairedIsDefault = true;
     public List<Object_RepairBehaviour_Item> ObjectItems;
 
-    private float m_CurTime;
-    private float m_TotalTime = 2;
-    private bool m_IsAnimating = false;
 	private Dictionary<int, ItemGroup> m_ItemGroups;
 
-    private void Start()
+    void Start()
     {
         if (!RepairedIsDefault)
             SetDestroyedImmediate();
@@ -27,7 +24,7 @@ public class Object_RepairBehaviour : MonoBehaviour
 		}
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
             AnimateToRepaired();

@@ -8,13 +8,15 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
     public TransformData RepairedTransfromData;
     public TransformData DestroyedTransformData;
 	public int GroupID = 0;
-	[Header("Animation")]
+    [Header("Animation")]
 	[MinMaxRangeSlider.MinMax(0, 1)] 
-    public MinMaxRangeSlider.MinMaxPair ProgressToNextItem = new MinMaxRangeSlider.MinMaxPair(0.3f, 0.7f);
+    public MinMaxRangeSlider.MinMaxPair ProgressToNextItem = new MinMaxRangeSlider.MinMaxPair(0.2f, 0.5f);
+    public AnimationCurve CurvePosition = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1) });
 
     private TransformData m_From;
     private TransformData m_To;
     private float m_ProgressToNextItem;
+    private Vector3 m_AnimationPositionDistance;
     private System.Action OnAnimationFinished;
 
     private float m_CurTime;
@@ -52,6 +54,7 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         m_From = GetTransform();
         m_To = RepairedTransfromData;
         m_ProgressToNextItem = Random.Range(ProgressToNextItem.Min, ProgressToNextItem.Max);
+        m_AnimationPositionDistance = m_To.GetDistance(m_From);
 
         m_CurTime = 0;
         m_IsAnimating = true;
@@ -77,7 +80,7 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
 
     public void UpdateTransform(float progress)
     {
-        transform.localPosition = Vector3.Slerp(m_From.Position, m_To.Position, progress);
+        transform.localPosition = m_From.Position + CurvePosition.Evaluate(progress) * m_AnimationPositionDistance;
         transform.localRotation = Quaternion.Slerp(m_From.Rotation, m_To.Rotation, progress);   
     }
 
@@ -121,6 +124,11 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         {
             Position = pos;
             Rotation = rot;
+        }
+
+        public Vector3 GetDistance(TransformData data)
+        {
+            return Position - data.Position;
         }
     }
 }
