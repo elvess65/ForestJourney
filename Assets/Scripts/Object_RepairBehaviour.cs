@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class Object_RepairBehaviour : MonoBehaviour
 {
+    public System.Action OnAnimationFinished;
+
     public bool RepairedIsDefault = true;
     public List<Object_RepairBehaviour_Item> ObjectItems;
 
+    private int m_FinishedGroups = 0;
 	private Dictionary<int, ItemGroup> m_ItemGroups;
 
     void Start()
     {
-        if (!RepairedIsDefault)
-            SetDestroyedImmediate();
+        SetDestroyedImmediate();
 
 		m_ItemGroups = new Dictionary<int, ItemGroup> ();
 		for (int i = 0; i < ObjectItems.Count; i++) 
@@ -24,31 +26,6 @@ public class Object_RepairBehaviour : MonoBehaviour
 		}
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-            AnimateToRepaired();
-    }
-		
-    public void AnimateToRepaired()
-    {
-		foreach (int groupID in m_ItemGroups.Keys) 
-			AnimateNextToRepaired (groupID);
-    }
-
-	void AnimateNextToRepaired(int groupID)
-	{
-		int index = m_ItemGroups [groupID].GetNextIndex ();
-		if (index >= 0) 
-		{
-			ObjectItems [index].OnAllowAnimateNext += AnimateNextToRepaired;
-			ObjectItems [index].AnimateToRepaired ();
-		} 
-		else
-			Debug.Log ("Animation finished");
-	}
-
-
     public void SetRepairedImmediate()
     {
         for (int i = 0; i < ObjectItems.Count; i++)
@@ -60,6 +37,30 @@ public class Object_RepairBehaviour : MonoBehaviour
         for (int i = 0; i < ObjectItems.Count; i++)
             ObjectItems[i].SetDestroyedImmediate();
     }
+
+    public void Animate()
+    {
+		foreach (int groupID in m_ItemGroups.Keys)
+            AnimateNext(groupID);
+    }
+
+	void AnimateNext(int groupID)
+	{
+		int index = m_ItemGroups [groupID].GetNextIndex ();
+		if (index >= 0) 
+		{
+			ObjectItems [index].OnAllowAnimateNext += AnimateNext;
+			ObjectItems [index].Animate ();
+		} 
+		else
+        {
+            if (++m_FinishedGroups >= m_ItemGroups.Count)
+            {
+                if (OnAnimationFinished != null)
+                    OnAnimationFinished();
+            }
+        }
+	}
 
 
 	[System.Serializable]

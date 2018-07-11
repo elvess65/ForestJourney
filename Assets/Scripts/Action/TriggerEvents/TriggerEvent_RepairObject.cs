@@ -1,10 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TriggerEvent_RepairObject : TriggerAction_Event
+﻿public class TriggerEvent_RepairObject : TriggerAction_Event
 {
-	public override void StartEvent()
-	{
-	}
+    private Object_RepairBehaviour m_Behaviour;
+
+    private void Start()
+    {
+        m_Behaviour = GetComponent<Object_RepairBehaviour>();
+    }
+
+    public override void StartEvent()
+    {
+        m_Behaviour.Animate();
+    }
 }

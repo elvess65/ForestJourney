@@ -47,7 +47,7 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
     }
 
 	//Animation
-	public void AnimateToRepaired()
+	public void Animate()
     {
         OnAnimationFinished = SetRepairedImmediate;
 
@@ -60,54 +60,37 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         m_IsAnimating = true;
     }
 
-	public void AnimateToDestroyed()
-    {
-        OnAnimationFinished = SetDestroyedImmediate;
 
-        m_From = GetTransform();
-        m_To = DestroyedTransformData;
-        m_ProgressToNextItem = Random.Range(ProgressToNextItem.Min, ProgressToNextItem.Max);
-
-        m_CurTime = 0;
-        m_IsAnimating = true;
-    }
-
-    public void AnimationFinished()
-    {
-        if (OnAnimationFinished != null)
-            OnAnimationFinished();
-    }
-
-    public void UpdateTransform(float progress)
-    {
-        transform.localPosition = m_From.Position + CurvePosition.Evaluate(progress) * m_AnimationPositionDistance;
-        transform.localRotation = Quaternion.Slerp(m_From.Rotation, m_To.Rotation, progress);   
-    }
-
-
-    private void Update()
+    void Update()
     {
         if (m_IsAnimating)
         {
             m_CurTime += Time.deltaTime;
             float progress = m_CurTime / m_TotalTime;
 
-			if (progress >= m_ProgressToNextItem && OnAllowAnimateNext != null) 
-			{
-				OnAllowAnimateNext (GroupID);
-				OnAllowAnimateNext = null;
-			}
+            if (progress >= m_ProgressToNextItem && OnAllowAnimateNext != null)
+            {
+                OnAllowAnimateNext(GroupID);
+                OnAllowAnimateNext = null;
+            }
 
             UpdateTransform(progress);
-            
+
             if (progress >= 1)
             {
                 m_IsAnimating = false;
-                AnimationFinished();
+
+                if (OnAnimationFinished != null)
+                    OnAnimationFinished();
             }
         }
     }
 
+    void UpdateTransform(float progress)
+    {
+        transform.localPosition = m_From.Position + CurvePosition.Evaluate(progress) * m_AnimationPositionDistance;
+        transform.localRotation = Quaternion.Slerp(m_From.Rotation, m_To.Rotation, progress);
+    }
 
     TransformData GetTransform()
     {
