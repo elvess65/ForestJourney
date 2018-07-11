@@ -52,6 +52,15 @@ public class EditorObject_RepairBehaviour : Editor
                 m_IsRepaired = false;
                 source.SetDestroyedImmediate();
             }
+
+			if (GUILayout.Button("Clear"))
+			{
+				foreach (Object_RepairBehaviour_Item item in source.ObjectItems)
+					DestroyImmediate (item);
+
+				source.ObjectItems.Clear ();
+				m_IsRepaired = true;
+			}
         }
     }
 }

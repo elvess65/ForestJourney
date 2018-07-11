@@ -2,12 +2,19 @@
 
 public class Object_RepairBehaviour_Item : MonoBehaviour
 {
+	public System.Action<int> OnAllowAnimateNext;
+
+	[Header("Params")]
     public TransformData RepairedTransfromData;
     public TransformData DestroyedTransformData;
-    public float delay = 0;
+	public int GroupID = 0;
+	[Header("Animation")]
+	[MinMaxRangeSlider.MinMax(0, 1)] 
+    public MinMaxRangeSlider.MinMaxPair ProgressToNextItem = new MinMaxRangeSlider.MinMaxPair(0.3f, 0.7f);
 
     private TransformData m_From;
     private TransformData m_To;
+    private float m_ProgressToNextItem;
     private System.Action OnAnimationFinished;
 
     private float m_CurTime;
@@ -26,7 +33,8 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         transform.localRotation = DestroyedTransformData.Rotation;
     }
 
-    public void SaveTransformAsRepaired()
+    //Editor
+	public void SaveTransformAsRepaired()
     {
         RepairedTransfromData = GetTransform();
     }
@@ -36,20 +44,27 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         DestroyedTransformData = GetTransform();
     }
 
-    public void PrepareToRepairedAnimation()
+	//Animation
+	public void AnimateToRepaired()
     {
         OnAnimationFinished = SetRepairedImmediate;
+
         m_From = GetTransform();
         m_To = RepairedTransfromData;
+        m_ProgressToNextItem = Random.Range(ProgressToNextItem.Min, ProgressToNextItem.Max);
+
         m_CurTime = 0;
         m_IsAnimating = true;
     }
 
-    public void PrepareToDestroyedAnimation()
+	public void AnimateToDestroyed()
     {
         OnAnimationFinished = SetDestroyedImmediate;
+
         m_From = GetTransform();
         m_To = DestroyedTransformData;
+        m_ProgressToNextItem = Random.Range(ProgressToNextItem.Min, ProgressToNextItem.Max);
+
         m_CurTime = 0;
         m_IsAnimating = true;
     }
@@ -66,16 +81,23 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(m_From.Rotation, m_To.Rotation, progress);   
     }
 
-    public float progress = 0;
+
     private void Update()
     {
         if (m_IsAnimating)
         {
             m_CurTime += Time.deltaTime;
-            progress = m_CurTime / m_TotalTime;
+            float progress = m_CurTime / m_TotalTime;
+
+			if (progress >= m_ProgressToNextItem && OnAllowAnimateNext != null) 
+			{
+				OnAllowAnimateNext (GroupID);
+				OnAllowAnimateNext = null;
+			}
+
             UpdateTransform(progress);
             
-            if (m_CurTime >= m_TotalTime)
+            if (progress >= 1)
             {
                 m_IsAnimating = false;
                 AnimationFinished();

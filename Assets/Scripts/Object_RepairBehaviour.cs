@@ -9,61 +9,48 @@ public class Object_RepairBehaviour : MonoBehaviour
     private float m_CurTime;
     private float m_TotalTime = 2;
     private bool m_IsAnimating = false;
+	private Dictionary<int, ItemGroup> m_ItemGroups;
 
     private void Start()
     {
         if (!RepairedIsDefault)
             SetDestroyedImmediate();
+
+		m_ItemGroups = new Dictionary<int, ItemGroup> ();
+		for (int i = 0; i < ObjectItems.Count; i++) 
+		{
+			int groupID = ObjectItems [i].GroupID;
+			if (!m_ItemGroups.ContainsKey (groupID)) 
+				m_ItemGroups.Add (groupID, new ItemGroup());
+
+			m_ItemGroups [groupID].AddIndex (i);
+		}
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-            AnimateToDestroyed();
-
         if (Input.GetKeyDown(KeyCode.R))
             AnimateToRepaired();
-
-        /*if (m_IsAnimating)
-        {
-            m_CurTime += Time.deltaTime;
-
-            for (int i = 0; i < ObjectItems.Count; i++)
-                ObjectItems[i].Update(m_CurTime / m_TotalTime);
-
-            if (m_CurTime >= m_TotalTime)
-            {
-                m_IsAnimating = false;
-
-                for (int i = 0; i < ObjectItems.Count; i++)
-                    ObjectItems[i].AnimationFinished();
-            }
-        }*/
-
-        if (m_IsAnimating)
-        {
-            if (ObjectItems[curIndex].progress >= 0.5f)
-                ObjectItems[++curIndex].PrepareToRepairedAnimation();
-        }
     }
-
-    int curIndex = 0;
+		
     public void AnimateToRepaired()
     {
-        ObjectItems[curIndex].PrepareToRepairedAnimation();
-
-        m_CurTime = 0;
-        m_IsAnimating = true;
+		foreach (int groupID in m_ItemGroups.Keys) 
+			AnimateNextToRepaired (groupID);
     }
 
-    public void AnimateToDestroyed()
-    {
-        for (int i = 0; i < ObjectItems.Count; i++)
-            ObjectItems[i].PrepareToDestroyedAnimation();
+	void AnimateNextToRepaired(int groupID)
+	{
+		int index = m_ItemGroups [groupID].GetNextIndex ();
+		if (index >= 0) 
+		{
+			ObjectItems [index].OnAllowAnimateNext += AnimateNextToRepaired;
+			ObjectItems [index].AnimateToRepaired ();
+		} 
+		else
+			Debug.Log ("Animation finished");
+	}
 
-        m_CurTime = 0;
-        m_IsAnimating = true;
-    }
 
     public void SetRepairedImmediate()
     {
@@ -76,4 +63,32 @@ public class Object_RepairBehaviour : MonoBehaviour
         for (int i = 0; i < ObjectItems.Count; i++)
             ObjectItems[i].SetDestroyedImmediate();
     }
+
+
+	[System.Serializable]
+	class ItemGroup
+	{
+		public int m_Index;
+		private List<int> m_ItemIndexes;
+
+		public ItemGroup()
+		{
+			m_ItemIndexes = new List<int>();
+
+			m_Index = -1;
+		}
+
+		public void AddIndex(int index)
+		{
+			m_ItemIndexes.Add (index);
+		}
+
+		public int GetNextIndex()
+		{
+			if (m_Index >= m_ItemIndexes.Count - 1)
+				return -1;
+
+			return m_ItemIndexes [++m_Index];
+		}
+	}
 }
