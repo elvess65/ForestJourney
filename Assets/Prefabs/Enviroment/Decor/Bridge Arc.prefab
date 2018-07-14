@@ -282,6 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4761811438301664}
   - component: {fileID: 114065384306666042}
+  - component: {fileID: 114034782410377438}
   m_Layer: 0
   m_Name: Bridge Arc
   m_TagString: Untagged
@@ -583,7 +584,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4966586356576776}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 76.383, y: -102.41701, z: 13.777}
+  m_LocalEulerAnglesHint: {x: 87.003006, y: 29.2, z: 156.679}
 --- !u!4 &4064238870391460
 Transform:
   m_ObjectHideFlags: 1
@@ -609,7 +610,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.271}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 13.4800005}
 --- !u!4 &4115827999540142
 Transform:
   m_ObjectHideFlags: 1
@@ -648,7 +649,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 9.47}
+  m_LocalEulerAnglesHint: {x: 88.302, y: 0.001, z: 61.783005}
 --- !u!4 &4317574530620384
 Transform:
   m_ObjectHideFlags: 1
@@ -661,7 +662,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 69.906006, y: 49.167004, z: 90.00001}
+  m_LocalEulerAnglesHint: {x: 65.19601, y: 49.167004, z: 86.568}
 --- !u!4 &4320767198291510
 Transform:
   m_ObjectHideFlags: 1
@@ -775,7 +776,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4514477826666050}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -84.075005, y: -28.53, z: -61.569004}
+  m_LocalEulerAnglesHint: {x: -86.296005, y: -130.76001, z: 38.125}
 --- !u!4 &4640404238438626
 Transform:
   m_ObjectHideFlags: 1
@@ -788,7 +789,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 73.393005, y: -56.851, z: -90.00001}
+  m_LocalEulerAnglesHint: {x: 87.573006, y: -56.852, z: -71.32201}
 --- !u!4 &4645742994755004
 Transform:
   m_ObjectHideFlags: 1
@@ -840,7 +841,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 62.686005}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 18.201}
 --- !u!4 &4692679176182174
 Transform:
   m_ObjectHideFlags: 1
@@ -866,7 +867,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.9560003}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 163.56001}
 --- !u!4 &4707047182723550
 Transform:
   m_ObjectHideFlags: 1
@@ -886,7 +887,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1427958872776506}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.91636, y: -0.28, z: 31.47}
   m_LocalScale: {x: 0.76258385, y: 0.76258385, z: 0.76258385}
   m_Children:
@@ -946,7 +947,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4320767198291510}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 79.984, y: -6.6320004, z: 0}
+  m_LocalEulerAnglesHint: {x: 79.984, y: -6.6320004, z: -11.537001}
 --- !u!4 &4944749301767702
 Transform:
   m_ObjectHideFlags: 1
@@ -2277,8 +2278,8 @@ MonoBehaviour:
     Position: {x: 0.06565094, y: 0.92069864, z: 2.071951}
     Rotation: {x: 0.70661753, y: 0.026299873, z: -0.026299873, w: 0.70661753}
   DestroyedTransformData:
-    Position: {x: 6.0800004, y: 0.35, z: -1.4899995}
-    Rotation: {x: 0.60391724, y: -0.36780974, z: 0.3678097, w: 0.6039173}
+    Position: {x: 6.0800004, y: 0.78, z: -2.09}
+    Rotation: {x: 0.6982059, y: -0.111840956, z: 0.11184089, w: 0.6982061}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -2316,7 +2317,7 @@ MonoBehaviour:
     Position: {x: 0.22686958, y: 2.4935608, z: 7.1301365}
     Rotation: {x: 0.7070768, y: -0.006518762, z: 0.006518762, w: 0.7070768}
   DestroyedTransformData:
-    Position: {x: 14.340003, y: -2.4000006, z: 7.3900023}
+    Position: {x: 16.33, y: -1.38, z: 9.08}
     Rotation: {x: 0.63259596, y: -0.31594688, z: 0.31594676, w: 0.63259596}
   GroupID: 0
   ProgressToNextItem:
@@ -2340,6 +2341,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &114034782410377438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427958872776506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1a685636cd7664a849a1049f2788ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEventFinished: []
 --- !u!114 &114061132523367888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2402,7 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580c31763d2b86b4ba0efcef1da4b445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RepairedIsDefault: 0
+  RepairedIsDefault: 1
   ObjectItems:
   - {fileID: 114271736696919796}
   - {fileID: 114415587988043212}
@@ -2445,8 +2458,8 @@ MonoBehaviour:
     Position: {x: -0.21312332, y: 2.4935455, z: 6.118494}
     Rotation: {x: 0.7064457, y: -0.030570678, z: 0.030570678, w: 0.7064457}
   DestroyedTransformData:
-    Position: {x: -0.21312332, y: -2.03, z: 6.118494}
-    Rotation: {x: 0.7064457, y: -0.030570678, z: 0.030570678, w: 0.7064457}
+    Position: {x: -11.7, y: -1.49, z: 9.37}
+    Rotation: {x: 0.10109796, y: -0.6998423, z: 0.6998423, w: 0.10109796}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -2703,8 +2716,8 @@ MonoBehaviour:
     Position: {x: 0.49892616, y: 2.3017533, z: 5.1068516}
     Rotation: {x: 0.7070633, y: -0.007842174, z: 0.007842174, w: 0.7070633}
   DestroyedTransformData:
-    Position: {x: 0.49892616, y: -1.86, z: 5.1068516}
-    Rotation: {x: 0.7070633, y: -0.007842174, z: 0.007842174, w: 0.7070633}
+    Position: {x: -7.8400006, y: -1.63, z: 12.09}
+    Rotation: {x: 0.70221984, y: -0.08299017, z: 0.08299017, w: 0.70221984}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -2742,8 +2755,8 @@ MonoBehaviour:
     Position: {x: 9.67, y: 2.88, z: 41.82}
     Rotation: {x: 0.1730151, y: -0.6908034, z: -0.057681467, w: 0.69966376}
   DestroyedTransformData:
-    Position: {x: 12.55, y: -2.32, z: 40.26}
-    Rotation: {x: -0.46386528, y: -0.48937005, z: -0.5101529, w: 0.5339382}
+    Position: {x: 12.48, y: -1.56, z: 39.63}
+    Rotation: {x: -0.4859015, y: -0.53384477, z: -0.48835203, w: 0.49032822}
   GroupID: 1
   ProgressToNextItem:
     Min: 0.2
@@ -2934,8 +2947,8 @@ MonoBehaviour:
     Position: {x: 0.5828953, y: 2.4935455, z: 9.153391}
     Rotation: {x: 0.7070447, y: 0.009370188, z: -0.009370188, w: 0.7070447}
   DestroyedTransformData:
-    Position: {x: -10.610001, y: 0.20000131, z: 16.61}
-    Rotation: {x: 0.64160675, y: -0.044316825, z: 0.037175883, w: 0.76484954}
+    Position: {x: -8.91, y: 1.56, z: 16.57}
+    Rotation: {x: 0.642812, y: 0.020394003, z: -0.039885625, w: 0.764713}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -3102,8 +3115,8 @@ MonoBehaviour:
     Position: {x: -0.15266705, y: 2.3017368, z: 10.165049}
     Rotation: {x: 0.7062527, y: -0.034744035, z: 0.034744035, w: 0.7062527}
   DestroyedTransformData:
-    Position: {x: 13.2, y: -0.52, z: 15.36}
-    Rotation: {x: 0.64149314, y: 0.101720236, z: -0.29746702, w: 0.6997521}
+    Position: {x: 12.99, y: 0.84, z: 10.16}
+    Rotation: {x: 0.69477457, y: 0.07556226, z: -0.102503404, w: 0.7078643}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -3180,8 +3193,8 @@ MonoBehaviour:
     Position: {x: 8.28, y: 3.11, z: 41.180008}
     Rotation: {x: 0.14435203, y: -0.7449884, z: -0.09691836, w: 0.64401996}
   DestroyedTransformData:
-    Position: {x: 5.279999, y: 0.32000002, z: 48.48}
-    Rotation: {x: 0.31108198, y: -0.65462965, z: 0.53749216, w: 0.43103406}
+    Position: {x: 6.75, y: 0.46, z: 49.19}
+    Rotation: {x: 0.3137035, y: -0.6154453, z: 0.6523754, w: 0.311807}
   GroupID: 2
   ProgressToNextItem:
     Min: 0.2
@@ -3333,8 +3346,8 @@ MonoBehaviour:
     Position: {x: -0.025035858, y: 1.8414135, z: 4.0952206}
     Rotation: {x: 0.70469373, y: -0.058367223, z: 0.058367223, w: 0.70469373}
   DestroyedTransformData:
-    Position: {x: -0.025035858, y: -2.22, z: 4.0952206}
-    Rotation: {x: 0.70469373, y: -0.058367223, z: 0.058367223, w: 0.70469373}
+    Position: {x: -1.5600002, y: -1.54, z: 8.170001}
+    Rotation: {x: 0.5977423, y: -0.35761565, z: 0.36837387, w: 0.6157239}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
@@ -3372,8 +3385,8 @@ MonoBehaviour:
     Position: {x: 0.2, y: 0.92069054, z: 13.2}
     Rotation: {x: 0.70679814, y: 0.020892106, z: -0.020892106, w: 0.70679814}
   DestroyedTransformData:
-    Position: {x: 4.49, y: -1.62, z: 12.38}
-    Rotation: {x: 0.6094906, y: -0.12727694, z: 0.3584986, w: 0.6955578}
+    Position: {x: 4.8100004, y: -0.5500001, z: 13.710003}
+    Rotation: {x: 0.59693265, y: -0.08075058, z: 0.3620958, w: 0.7113631}
   GroupID: 0
   ProgressToNextItem:
     Min: 0.2
