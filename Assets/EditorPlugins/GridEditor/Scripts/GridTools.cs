@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace GridEditor
 {
@@ -54,18 +55,29 @@ namespace GridEditor
     public class CellData
     {
         public Cell RootCell;
-        public Cell LinkedCell;
+        public List<Cell> LinkedCells;
 
-        public CellData(Cell rootCell, Cell linkedCell)
+        public CellData()
+        {
+            RootCell = null;
+            LinkedCells = null;
+        }
+
+        public CellData(Cell rootCell, List<Cell> linkedCells)
         {
             RootCell = rootCell;
-            LinkedCell = linkedCell;
+            LinkedCells = new List<Cell>(linkedCells);
         }
 
         public CellData(Cell rootCell)
         {
             RootCell = rootCell;
-            LinkedCell = null;
+            LinkedCells = new List<Cell>();
+        }
+
+        public void AddLinkedCell(Cell linkedCell)
+        {
+            LinkedCells.Add(linkedCell);
         }
     }
 
@@ -77,6 +89,12 @@ namespace GridEditor
     {
         public int X;
         public int Y;
+
+        public Cell()
+        {
+            X = 0;
+            Y = 0;
+        }
 
         public Cell(int x, int y)
         {

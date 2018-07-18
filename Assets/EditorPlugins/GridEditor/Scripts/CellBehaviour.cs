@@ -9,13 +9,12 @@ namespace GridEditor
 
         private CellData m_CellData;
 
-
         /// <summary>
         /// Задать данные ячейки
         /// </summary>
         public void SetCellData(CellData cellData)
         {
-            m_CellData = new CellData(cellData.RootCell, cellData.LinkedCell);
+            m_CellData = new CellData(cellData.RootCell, cellData.LinkedCells);
         }
 
         /// <summary>
@@ -32,22 +31,23 @@ namespace GridEditor
         /// Создать связь с ячейкой 
         /// </summary>
         /// <param name="linkedCell">Linked cell.</param>
-        public void LinkCell(CellBehaviour linkedCell)
+        public void LinkCell(CellBehaviour linkedCell, bool addCellToConnection = true)
         {
             //Определить тип горизонтального направления к ячейке по вектору направления
             Vector3 dirToLinedCell = (transform.position - linkedCell.transform.position).normalized;
             GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinedCell);
 
-            CreateLink(hDir, linkedCell.GetCellData().RootCell);
+            CreateLink(hDir, linkedCell.GetCellData().RootCell, addCellToConnection);
         }
 
-        void CreateLink(GridTools.HorizontalDirections dir, Cell cell)
+        void CreateLink(GridTools.HorizontalDirections dir, Cell cell, bool addCellToConnection)
         {
             //Включить связь
             ConnectionList[(int)dir].gameObject.SetActive(true);
 
             //Данные о связанной ячейке
-            m_CellData.LinkedCell = new Cell(cell);
+            if (addCellToConnection)
+                m_CellData.AddLinkedCell(new Cell(cell));
         }
     }
 }

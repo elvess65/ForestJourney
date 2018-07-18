@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using System.Xml.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace GridEditor
@@ -33,6 +35,16 @@ namespace GridEditor
             if (source.GridExists && GUILayout.Button("Clear"))
             {
                 source.Clear();
+            }
+
+            if (dataController.DataExists && GUILayout.Button("Serialize"))
+            {
+                dataController.SerializeData();
+            }
+
+            if (GUILayout.Button("Deserialize"))
+            {
+                dataController.DeserializeData();
             }
         }
     }

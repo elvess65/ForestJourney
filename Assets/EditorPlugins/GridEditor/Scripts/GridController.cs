@@ -7,7 +7,9 @@ namespace GridEditor
         public CellBehaviour CellBehaviourPrefab;
         [Header("Settings")]
         public int CellSize = 10;
-        public int GridSize = 3;
+        public int GridWidth = 3;
+        public int GridHeight = 3;
+        public int EnviromentIndex = 0;
 
         private CellBehaviour[,] m_Cells = null;
 
@@ -19,33 +21,38 @@ namespace GridEditor
         public void LoadGridData()
         {
             GridDataController dataController = GetComponent<GridDataController>();
-            CellData[,] cellDataArr = dataController.GetData();
-            m_Cells = new CellBehaviour[GridSize, GridSize];
+
+            GridDataController.SavedData data = dataController.GetData();
+            m_Cells = new CellBehaviour[data.GridWidth, data.GridHeight];
 
             //Создать ячейки
-            for (int i = 0; i < GridSize; i++)
+            for (int i = 0; i < data.CellsData.Count; i++)
             {
-                for (int j = 0; j < GridSize; j++)
-                {
-                    CellBehaviour cell = CreateCell(i, j);
-                    cell.SetCellData(cellDataArr[i, j]);
-                }
+                CellData cellData = data.CellsData[i];
+                Cell rootCellData = cellData.RootCell;
+
+                CellBehaviour cell = CreateCell(rootCellData.X, rootCellData.Y);
+				cell.SetCellData(cellData);
             }
 
             //Создать связи между ячейками
-            for (int i = 0; i < GridSize; i++)
+            for (int i = 0; i < data.GridWidth; i++)
             {
-                for (int j = 0; j < GridSize; j++)
+                for (int j = 0; j < data.GridHeight; j++)
                 {
                     //Если у ячейки есть связи
-                    if (m_Cells[i, j].GetCellData().LinkedCell != null)
+                    CellData cellData = m_Cells[i, j].GetCellData();
+                    if (cellData.LinkedCells.Count > 0)
                     {
-                        //Координаты связанной ячейке
-                        int x = m_Cells[i, j].GetCellData().LinkedCell.X;
-                        int y = m_Cells[i, j].GetCellData().LinkedCell.Y;
+                        for (int index = 0; index < cellData.LinkedCells.Count; index++)
+                        {
+                            //Координаты связанной ячейки
+                            int x = cellData.LinkedCells[index].X;
+                            int y = cellData.LinkedCells[index].Y;
 
-                        //Связать ячейки
-                        m_Cells[i, j].LinkCell(m_Cells[x, y]);
+                            //Связать ячейки
+                            m_Cells[i, j].LinkCell(m_Cells[x, y], false);
+                        }
                     }
                 }
             }
@@ -54,16 +61,16 @@ namespace GridEditor
         public void SaveGridData()
         {
             GridDataController dataController = GetComponent<GridDataController>();
-            dataController.SaveData(m_Cells, GridSize);
+            dataController.SaveData(m_Cells, GridWidth, GridHeight, EnviromentIndex);
         }
 
         public void CreateDefaultGrid()
         {
-            m_Cells = new CellBehaviour[GridSize, GridSize];
+            m_Cells = new CellBehaviour[GridWidth, GridHeight];
 
-            for (int i = 0; i < GridSize; i++)
+            for (int i = 0; i < GridWidth; i++)
             {
-                for (int j = 0; j < GridSize; j++)
+                for (int j = 0; j < GridHeight; j++)
                 {
                     CellBehaviour cell = CreateCell(i, j);
                     cell.SetCellData(new CellData(new Cell(i, j)));
@@ -76,9 +83,9 @@ namespace GridEditor
             if (!GridExists)
                 return;
 
-            for (int i = 0; i < GridSize; i++)
+            for (int i = 0; i < GridWidth; i++)
             {
-                for (int j = 0; j < GridSize; j++)
+                for (int j = 0; j < GridHeight; j++)
                 {
                     if (m_Cells[i, j] != null)
                         DestroyImmediate(m_Cells[i, j].gameObject);
