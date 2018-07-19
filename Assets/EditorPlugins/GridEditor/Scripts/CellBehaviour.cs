@@ -60,8 +60,8 @@ namespace GridEditor
         public void LinkCell(CellBehaviour linkedCell, bool addCellToConnection = true)
         {
             //Определить тип горизонтального направления к ячейке по вектору направления
-            Vector3 dirToLinedCell = (transform.position - linkedCell.transform.position).normalized;
-            GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinedCell);
+            Vector3 dirToLinkedCell = (transform.position - linkedCell.transform.position).normalized;
+            GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinkedCell);
 
             CreateLink(hDir, linkedCell.GetCellData().RootCell, addCellToConnection);
         }
@@ -82,8 +82,8 @@ namespace GridEditor
         public void UnlinkCell(CellBehaviour linkedCell)
         {
 			//Определить тип горизонтального направления к ячейке по вектору направления
-			Vector3 dirToLinedCell = (transform.position - linkedCell.transform.position).normalized;
-			GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinedCell);
+			Vector3 dirToLinkedCell = (transform.position - linkedCell.transform.position).normalized;
+			GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinkedCell);
 
             RemoveLink(hDir, linkedCell.GetCellData().RootCell);
         }
@@ -97,6 +97,51 @@ namespace GridEditor
 			m_CellData.RemoveLinkedCell(cell);
         }
 
+
+        public void MoveCellHigher(float step)
+        {
+            IncrementCellVerticalPosition(step);
+
+            GridController gridController = FindObjectOfType<GridController>();
+
+            foreach (Cell cData in m_CellData.LinkedCells)
+            {
+                CellBehaviour cell = gridController.GetCell(cData.X, cData.Y);
+
+                if (cell != null)
+                {
+                    Vector3 dirToLinkedCell = (transform.position - cell.transform.position).normalized;
+                    GridTools.VerticalDirections vDir = GridTools.GetVerticalDirectionByVector(dirToLinkedCell);
+                    Debug.Log(dirToLinkedCell + " " + vDir);   
+                }
+            }
+        }
+
+        public void MoveCellLower(float step)
+        {
+            IncrementCellVerticalPosition(-step);
+
+            GridController gridController = FindObjectOfType<GridController>();
+
+            foreach (Cell cData in m_CellData.LinkedCells)
+            {
+                CellBehaviour cell = gridController.GetCell(cData.X, cData.Y);
+
+                if (cell != null)
+                {
+                    Vector3 dirToLinkedCell = (transform.position - cell.transform.position).normalized;
+                    GridTools.VerticalDirections vDir = GridTools.GetVerticalDirectionByVector(dirToLinkedCell);
+                    Debug.Log(dirToLinkedCell + " " + vDir);
+                }
+            }
+        }
+
+        void IncrementCellVerticalPosition(float step)
+        {
+            Vector3 pos = transform.position;
+            pos.y += step;
+            transform.position = pos;
+        }
 
         public override bool Equals(object other)
         {

@@ -8,10 +8,15 @@ namespace GridEditor
     {
         private Color m_NormalColor = Color.white;
         private Color m_EditModeColor = Color.green;
+        private float m_MaxHigh;
+        private float m_MinHight;
+        private float m_VerticalStep;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            CellBehaviour curCell = (CellBehaviour)target;
 
             //Цвет кнопки
             GUI.backgroundColor = CellBehaviour.LINK_MODE ? m_EditModeColor : m_NormalColor;
@@ -25,26 +30,39 @@ namespace GridEditor
                 if (CellBehaviour.EDIT_MODE)
                 {
                     //Подписаться на событие выделения ячейки
-					CellBehaviour curCell = (CellBehaviour)target;
                     curCell.OnCellSelected = LinkCell;
                 }
             }
 
-			//Цвет кнопки
-			GUI.backgroundColor = CellBehaviour.UNLINK_MODE ? m_EditModeColor : m_NormalColor;
+            //Цвет кнопки
+            GUI.backgroundColor = CellBehaviour.UNLINK_MODE ? m_EditModeColor : m_NormalColor;
             if (GUILayout.Button(UnlinkButtonName()))
             {
-				//Вход/выход в режим редактирования
-				CellBehaviour.EDIT_MODE = !CellBehaviour.EDIT_MODE;
+                //Вход/выход в режим редактирования
+                CellBehaviour.EDIT_MODE = !CellBehaviour.EDIT_MODE;
                 CellBehaviour.UNLINK_MODE = !CellBehaviour.UNLINK_MODE;
 
-				//Если включен режим редактирования
-				if (CellBehaviour.EDIT_MODE)
+                //Если включен режим редактирования
+                if (CellBehaviour.EDIT_MODE)
                 {
-					//Подписаться на событие выделения ячейки
-					CellBehaviour curCell = (CellBehaviour)target;
+                    //Подписаться на событие выделения ячейки
                     curCell.OnCellSelected = UnlinkCell;
                 }
+            }
+
+            GUI.backgroundColor = m_NormalColor;
+            if (CanMoveHigher(curCell) && GUILayout.Button("Move Higher"))
+            {
+                GridController gridController = FindObjectOfType<GridController>();
+
+                curCell.MoveCellHigher(gridController.VerticalStep);
+            }
+
+            if (CanMoveLower(curCell) && GUILayout.Button("Move Lower"))
+            {
+                GridController gridController = FindObjectOfType<GridController>();
+
+                curCell.MoveCellLower(gridController.VerticalStep);
             }
         }
 
@@ -54,6 +72,11 @@ namespace GridEditor
             CellBehaviour source = (CellBehaviour)target;
             if (source.OnEditModeChanged == null)
                 source.OnEditModeChanged = EditModeChangedHandler;
+
+            GridController gridController = FindObjectOfType<GridController>();
+            m_MaxHigh = gridController.VerticalStep * ((gridController.VericalLevels - 1) / 2);
+            m_MinHight = -m_MaxHigh;
+            m_VerticalStep = gridController.VerticalStep;
         }
 
         void OnSceneGUI()
@@ -169,6 +192,17 @@ namespace GridEditor
             return !CellBehaviour.UNLINK_MODE ? "Start Unlink" : "Stop Unlink";
         }
 
+        bool CanMoveHigher(CellBehaviour curCell)
+        {
+            return curCell.transform.position.y <= m_MaxHigh - m_VerticalStep;
+        }
+
+        bool CanMoveLower(CellBehaviour curCell)
+        {
+            return curCell.transform.position.y >= m_MinHight + m_VerticalStep;
+        }
+
+       
 		CellBehaviour GetCellByClick()
 		{
 			if (CellBehaviour.EDIT_MODE && Event.current.type == EventType.MouseDown)

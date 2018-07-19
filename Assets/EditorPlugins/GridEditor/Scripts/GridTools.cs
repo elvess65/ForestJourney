@@ -10,6 +10,11 @@ namespace GridEditor
             Left, Right, Top, Bottom
         }
 
+        public enum VerticalDirections
+        {
+            Higher, Lower, Same
+        }
+
         public static HorizontalDirections GetOppositeHorizontalDirection(HorizontalDirections dir)
         {
             HorizontalDirections result = HorizontalDirections.Left;
@@ -43,6 +48,36 @@ namespace GridEditor
                 result = HorizontalDirections.Bottom;
             else if (dir.z < 0)
                 result = HorizontalDirections.Top;
+
+            return result;
+        }
+
+        public static VerticalDirections GetOppositeVericalDirection(VerticalDirections dir)
+        {
+            VerticalDirections result = VerticalDirections.Same;
+            switch (dir)
+            {
+                case VerticalDirections.Higher:
+                    result = VerticalDirections.Lower;
+                    break;
+                case VerticalDirections.Lower:
+                    result = VerticalDirections.Higher;
+                    break;
+                case VerticalDirections.Same:
+                    result = VerticalDirections.Same;
+                    break;
+            }
+
+            return result;
+        }
+
+        public static VerticalDirections GetVerticalDirectionByVector(Vector3 dir)
+        {
+            VerticalDirections result = VerticalDirections.Same;
+            if (dir.y > 0)
+                result = VerticalDirections.Lower;
+            else if (dir.y < 0)
+                result = VerticalDirections.Higher;
 
             return result;
         }

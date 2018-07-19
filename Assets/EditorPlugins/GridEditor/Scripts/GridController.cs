@@ -7,6 +7,8 @@ namespace GridEditor
         public CellBehaviour CellBehaviourPrefab;
         [Header("Settings")]
         public int CellSize = 10;
+        public float VerticalStep = 5;
+        public int VericalLevels = 3;
         public int GridWidth = 3;
         public int GridHeight = 3;
         public int EnviromentIndex = 0;
@@ -133,6 +135,18 @@ namespace GridEditor
 			children.ForEach(child => DestroyImmediate(child));
 
             m_Cells = new CellBehaviour[0, 0];
+        }
+
+        public CellBehaviour GetCell(int i, int j)
+        {
+            try
+            {
+                return m_Cells[i, j];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 

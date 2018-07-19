@@ -55,6 +55,8 @@ MonoBehaviour:
   CellBehaviourPrefab: {fileID: 114819049993398708, guid: 3985b350260e24572bf71f5ea9340651,
     type: 2}
   CellSize: 10
+  VerticalStep: 5
+  VericalLevels: 3
   GridWidth: 3
   GridHeight: 3
   EnviromentIndex: 0
