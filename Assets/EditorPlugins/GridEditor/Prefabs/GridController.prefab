@@ -55,7 +55,15 @@ MonoBehaviour:
   CellBehaviourPrefab: {fileID: 114819049993398708, guid: 3985b350260e24572bf71f5ea9340651,
     type: 2}
   CellSize: 10
-  GridSize: 3
+  GridWidth: 3
+  GridHeight: 3
+  EnviromentIndex: 0
+  MaterialNormalCell: {fileID: 2100000, guid: 9ae506fe7ab2b43348ca7b2580e742e4, type: 2}
+  MaterialSelectedCell: {fileID: 2100000, guid: 85e08d93a3572468a827eb57ccaaac82,
+    type: 2}
+  MaterialTargetCell: {fileID: 2100000, guid: 7c3a0aae96d1e49e1bbdf8ebe015b07b, type: 2}
+  MaterialUnavailableCell: {fileID: 2100000, guid: f24dcb82252864acd90c11d82c87a124,
+    type: 2}
 --- !u!114 &114998875356746388
 MonoBehaviour:
   m_ObjectHideFlags: 1

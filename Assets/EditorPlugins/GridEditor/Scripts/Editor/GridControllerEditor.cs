@@ -27,24 +27,22 @@ namespace GridEditor
                 source.LoadGridData();
             }
 
-            if (source.GridExists && GUILayout.Button("Save Data"))
+            if (source.GridExists)
             {
-                source.SaveGridData();
-            }
+				if (GUILayout.Button("Update Enviroment"))
+				{
+                    source.UpdateEnviroment();
+				}
 
-            if (source.GridExists && GUILayout.Button("Clear"))
-            {
-                source.Clear();
-            }
+                if (GUILayout.Button("Save Data"))
+                {
+                    source.SaveGridData();
+                }
 
-            if (dataController.DataExists && GUILayout.Button("Serialize"))
-            {
-                dataController.SerializeData();
-            }
-
-            if (GUILayout.Button("Deserialize"))
-            {
-                dataController.DeserializeData();
+                if (GUILayout.Button("Clear"))
+                {
+                    source.Clear();
+                }
             }
         }
     }

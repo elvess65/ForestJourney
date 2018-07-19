@@ -79,6 +79,11 @@ namespace GridEditor
         {
             LinkedCells.Add(linkedCell);
         }
+
+        public void RemoveLinkedCell(Cell linkedCell)
+        {
+            LinkedCells.Remove(linkedCell);
+        }
     }
 
     /// <summary>
@@ -106,6 +111,21 @@ namespace GridEditor
         {
             X = cell.X;
             Y = cell.Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Cell cell = (Cell)obj;
+
+            if (cell == null)
+                return false;
+
+            return X == cell.X && Y == cell.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

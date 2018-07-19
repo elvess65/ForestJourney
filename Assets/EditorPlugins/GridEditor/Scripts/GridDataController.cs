@@ -38,6 +38,11 @@ namespace GridEditor
             m_Data = Serialization.XMLSerializer.Deserialize<GridDataController.SavedData>("data.xml");
         }
 
+        public void Clear()
+        {
+            m_Data = null;
+        }
+
         public class SavedData
         {
             public int GridWidth;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <SavedData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <GridWidth>3</GridWidth>
-  <GridHeight>4</GridHeight>
+  <GridHeight>3</GridHeight>
   <EnviromentIndex>0</EnviromentIndex>
   <CellsData>
     <CellData>
@@ -21,28 +21,12 @@
           <X>1</X>
           <Y>1</Y>
         </Cell>
-        <Cell>
-          <X>0</X>
-          <Y>2</Y>
-        </Cell>
       </LinkedCells>
     </CellData>
     <CellData>
       <RootCell>
         <X>0</X>
         <Y>2</Y>
-      </RootCell>
-      <LinkedCells>
-        <Cell>
-          <X>0</X>
-          <Y>1</Y>
-        </Cell>
-      </LinkedCells>
-    </CellData>
-    <CellData>
-      <RootCell>
-        <X>0</X>
-        <Y>3</Y>
       </RootCell>
       <LinkedCells />
     </CellData>
@@ -67,6 +51,10 @@
           <X>2</X>
           <Y>1</Y>
         </Cell>
+        <Cell>
+          <X>1</X>
+          <Y>2</Y>
+        </Cell>
       </LinkedCells>
     </CellData>
     <CellData>
@@ -74,17 +62,10 @@
         <X>1</X>
         <Y>2</Y>
       </RootCell>
-      <LinkedCells />
-    </CellData>
-    <CellData>
-      <RootCell>
-        <X>1</X>
-        <Y>3</Y>
-      </RootCell>
       <LinkedCells>
         <Cell>
-          <X>2</X>
-          <Y>3</Y>
+          <X>1</X>
+          <Y>1</Y>
         </Cell>
       </LinkedCells>
     </CellData>
@@ -93,7 +74,12 @@
         <X>2</X>
         <Y>0</Y>
       </RootCell>
-      <LinkedCells />
+      <LinkedCells>
+        <Cell>
+          <X>2</X>
+          <Y>1</Y>
+        </Cell>
+      </LinkedCells>
     </CellData>
     <CellData>
       <RootCell>
@@ -102,12 +88,12 @@
       </RootCell>
       <LinkedCells>
         <Cell>
-          <X>1</X>
-          <Y>1</Y>
+          <X>2</X>
+          <Y>0</Y>
         </Cell>
         <Cell>
-          <X>2</X>
-          <Y>2</Y>
+          <X>1</X>
+          <Y>1</Y>
         </Cell>
       </LinkedCells>
     </CellData>
@@ -116,32 +102,7 @@
         <X>2</X>
         <Y>2</Y>
       </RootCell>
-      <LinkedCells>
-        <Cell>
-          <X>2</X>
-          <Y>1</Y>
-        </Cell>
-        <Cell>
-          <X>2</X>
-          <Y>3</Y>
-        </Cell>
-      </LinkedCells>
-    </CellData>
-    <CellData>
-      <RootCell>
-        <X>2</X>
-        <Y>3</Y>
-      </RootCell>
-      <LinkedCells>
-        <Cell>
-          <X>2</X>
-          <Y>2</Y>
-        </Cell>
-        <Cell>
-          <X>1</X>
-          <Y>3</Y>
-        </Cell>
-      </LinkedCells>
+      <LinkedCells />
     </CellData>
   </CellsData>
 </SavedData>
