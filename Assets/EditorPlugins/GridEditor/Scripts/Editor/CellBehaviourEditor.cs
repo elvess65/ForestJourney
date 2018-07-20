@@ -111,8 +111,11 @@ namespace GridEditor
                         CellBehaviour.PrevTargetCell = targetCell;
 
                         //Покрасить текущю ячейку
-                        targetCell.ColorizeCell(gridController.MaterialTargetCell);
-
+                        if (CellIsAvailable(curCell.GetCellData().RootCell, targetCell.GetCellData().RootCell))
+                            targetCell.ColorizeCell(gridController.MaterialTargetCell);
+                        else 
+                            targetCell.ColorizeCell(gridController.MaterialUnavailableCell);
+                        
                         //Нарисовать линию к выбранной ячейке
                         Handles.DrawLine(curCell.transform.position, targetCell.transform.position);
                     }
@@ -124,11 +127,13 @@ namespace GridEditor
             if (linkedCell != null)
             {
                 CellBehaviour curCell = (CellBehaviour)target;
-                curCell.OnCellSelected(linkedCell);
+
+                if (CellIsAvailable(curCell.GetCellData().RootCell, linkedCell.GetCellData().RootCell))
+                    curCell.OnCellSelected(linkedCell);
             }
 		}
 
-     
+
         void LinkCell(CellBehaviour linkedCell)
         {
 			CellBehaviour curCell = (CellBehaviour)target;
@@ -201,8 +206,32 @@ namespace GridEditor
         {
             return curCell.transform.position.y >= m_MinHight + m_VerticalStep;
         }
+		
+        bool CellIsAvailable(Cell curCell, Cell targetCell)
+		{
+			if (curCell.Equals(targetCell))
+				return false;
 
-       
+			if ((targetCell.X == curCell.X + 1 || targetCell.X == curCell.X - 1 || targetCell.X == curCell.X) &&  //Сравнение по X
+				(targetCell.Y == curCell.Y + 1 || targetCell.Y == curCell.Y - 1 || targetCell.Y == curCell.Y) &&  //Сравнение по Y
+				!CellIsDiagonal(curCell, targetCell)) //Исключение диагоналей
+				return true;
+
+			return false;
+		}
+
+        bool CellIsDiagonal(Cell curCell, Cell targetCell)
+		{
+			if ((targetCell.X == curCell.X + 1 && targetCell.Y == curCell.Y + 1) ||
+			   (targetCell.X == curCell.X - 1 && targetCell.Y == curCell.Y + 1) ||
+			   (targetCell.X == curCell.X + 1 && targetCell.Y == curCell.Y - 1) ||
+			   (targetCell.X == curCell.X - 1 && targetCell.Y == curCell.Y - 1))
+				return true;
+
+			return false;
+		}
+
+
 		CellBehaviour GetCellByClick()
 		{
 			if (CellBehaviour.EDIT_MODE && Event.current.type == EventType.MouseDown)

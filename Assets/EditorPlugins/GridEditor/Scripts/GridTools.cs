@@ -89,23 +89,30 @@ namespace GridEditor
     [System.Serializable]
     public class CellData
     {
+        public int VerticalLevel;
         public Cell RootCell;
         public List<Cell> LinkedCells;
 
+        //Для сериалализации
         public CellData()
         {
             RootCell = null;
             LinkedCells = null;
+            VerticalLevel = 0;
         }
 
-        public CellData(Cell rootCell, List<Cell> linkedCells)
+        //Для создания с сохранения
+        public CellData(Cell rootCell, int vLevel, List<Cell> linkedCells)
         {
+            VerticalLevel = vLevel;
             RootCell = rootCell;
             LinkedCells = new List<Cell>(linkedCells);
         }
 
+        //Для создания сетки по-умолчанию
         public CellData(Cell rootCell)
         {
+            VerticalLevel = 0;
             RootCell = rootCell;
             LinkedCells = new List<Cell>();
         }

@@ -25,7 +25,7 @@ namespace GridEditor
         /// </summary>
         public void SetCellData(CellData cellData)
         {
-            m_CellData = new CellData(cellData.RootCell, cellData.LinkedCells);
+            m_CellData = new CellData(cellData.RootCell, cellData.VerticalLevel, cellData.LinkedCells);
         }
 
         /// <summary>
@@ -54,20 +54,29 @@ namespace GridEditor
         }
 
 
-        /// <summary>
-        /// Создать связь с ячейкой 
-        /// </summary>
-        /// <param name="linkedCell">Linked cell.</param>
-        public void LinkCell(CellBehaviour linkedCell, bool addCellToConnection = true)
+		/// <summary>
+		/// Создать связь с ячейкой 
+		/// </summary>
+		/// <param name="linkedCell">Связаная ячейка</param>
+        /// <param name="addCellToConnection">Добавить ячейку в связи (редактор) <c>true</c>, 
+        /// иначе не добавлять ячейку в связи (загрущка)</param>
+		public void LinkCell(CellBehaviour linkedCell, bool addCellToConnection = true)
         {
             //Определить тип горизонтального направления к ячейке по вектору направления
             Vector3 dirToLinkedCell = (transform.position - linkedCell.transform.position).normalized;
             GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinkedCell);
 
             CreateLink(hDir, linkedCell.GetCellData().RootCell, addCellToConnection);
+
+			//Обновить высоту всем соединениям конкретной ячейки
+			UpdateVerticalDirectionForConnections(true);
         }
 
-        public void UnlinkCell(CellBehaviour linkedCell)
+		/// <summary>
+		/// Удалить связь с ячейкой
+		/// </summary>
+		/// <param name="linkedCell">Связаная ячейка</param>
+		public void UnlinkCell(CellBehaviour linkedCell)
         {
             //Определить тип горизонтального направления к ячейке по вектору направления
             Vector3 dirToLinkedCell = (transform.position - linkedCell.transform.position).normalized;
@@ -84,7 +93,7 @@ namespace GridEditor
 			//Данные о связанной ячейке
 			if (addCellToConnection)
 				m_CellData.AddLinkedCell(new Cell(cell));
-
+            
 			UpdateEnviroment();
 		}
 
@@ -100,49 +109,79 @@ namespace GridEditor
         }
 
 
-        //only editor
+        /// <summary>
+        /// Поднять ячейку вверх (только редактор)
+        /// </summary>
         public void MoveCellHigher(float step)
         {
-            IncrementCellVerticalPosition(step);
-            UpdateVerticalDirectionForConnections(true);
+			//Поднять или опустить ячейку
+			IncrementCellVerticalPosition(step);
+			//Обновить высоту всем соединениям конкретной ячейки
+			UpdateVerticalDirectionForConnections(true);
+
+			//Сохранить новый уровень ячейки
+			GridController gridController = FindObjectOfType<GridController>();
+            m_CellData.VerticalLevel = (int)(transform.position.y / gridController.VerticalStep);
         }
 
-		//only editor
+		/// <summary>
+        /// Опустить ячейку вниз (только редактор)
+        /// </summary>
 		public void MoveCellLower(float step)
         {
-            IncrementCellVerticalPosition(-step);
+			//Поднять или опустить ячейку
+			IncrementCellVerticalPosition(-step);
+			//Обновить высоту всем соединениям конкретной ячейки
 			UpdateVerticalDirectionForConnections(true);
+
+            //Сохранить новый уровень ячейки
+			GridController gridController = FindObjectOfType<GridController>();
+            m_CellData.VerticalLevel = (int)(transform.position.y / gridController.VerticalStep);
         }
 
-        //Обновить высоту всем соединениям
-        public void UpdateVerticalDirectionForConnections(bool updateConnectionForLinkedCell)
+		/// <summary>
+		/// Обновить высоту всем соединениям конкретной ячейки
+		/// </summary>
+        /// <param name="updateConnectionForLinkedCell">Обновить соеинение связанным ячейкам (редактор) если <c>true</c>,
+        /// иначе не обновлять состояние связанным ячейкам (загрузка).</param>
+		public void UpdateVerticalDirectionForConnections(bool updateConnectionForLinkedCell)
         {
 			GridController gridController = FindObjectOfType<GridController>();
+            //Все связанные ячейки
 			foreach (Cell cData in m_CellData.LinkedCells)
 			{
 				CellBehaviour linkedCellBehaviour = gridController.GetCell(cData.X, cData.Y);
 
+                //Обновить состояние соединения
 				if (linkedCellBehaviour != null)
                     SetVerticalDirectionToLinkedCell(linkedCellBehaviour);
 
+                //Обновить высоту соединения соседней ячейки (редактор)
                 if (updateConnectionForLinkedCell)
                     linkedCellBehaviour.UpdateVerticalDirectionForConnections(false);
 			}
         }
 
-        //Задать высоту соединения с конкретной ячейкой
+		/// <summary>
+		/// Задать высоту соединения с конкретной ячейкой
+		/// </summary>
 		void SetVerticalDirectionToLinkedCell(CellBehaviour linkedCellBehaviour)
 		{
+            //Направление к ячейке
 			Vector3 dirToLinkedCell = (transform.position - linkedCellBehaviour.transform.position).normalized;
 
+            //Направление по вертикали и по горизонтали
 			GridTools.HorizontalDirections hDir = GridTools.GetHorizontalDirectionByVector(dirToLinkedCell);
 			GridTools.VerticalDirections vDir = GridTools.GetVerticalDirectionByVector(dirToLinkedCell);
 
+            //Изменить состояние направления соединения
             ConnectionList[(int)hDir].SetVerticaDirection(vDir);
 		}
 
-        //Поднять или опустить ячейку
-        void IncrementCellVerticalPosition(float step)
+		/// <summary>
+		/// Поднять или опустить ячейку
+		/// </summary>
+		void IncrementCellVerticalPosition(float step)
         {
             Vector3 pos = transform.position;
             pos.y += step;

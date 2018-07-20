@@ -29,11 +29,6 @@ namespace GridEditor
 
             if (source.GridExists)
             {
-				if (GUILayout.Button("Update Enviroment"))
-				{
-                    source.UpdateEnviroment();
-				}
-
                 if (GUILayout.Button("Save Data"))
                 {
                     source.SaveGridData();

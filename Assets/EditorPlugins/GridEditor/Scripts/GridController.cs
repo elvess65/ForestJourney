@@ -5,13 +5,15 @@ namespace GridEditor
     public class GridController : MonoBehaviour
     {
         public CellBehaviour CellBehaviourPrefab;
-        [Header("Settings")]
-        public int CellSize = 10;
+		[Header("Enviroment")]
+		public int EnviromentIndex = 0;
+		[Header("Grid")]
+		public int GridWidth = 3;
+		public int GridHeight = 3;
+		public int CellSize = 10;
+        [Header("Vertical")]
+		public int VericalLevels = 3;
         public float VerticalStep = 5;
-        public int VericalLevels = 3;
-        public int GridWidth = 3;
-        public int GridHeight = 3;
-        public int EnviromentIndex = 0;
         [Header("Materials")]
         public Material MaterialNormalCell;
         public Material MaterialSelectedCell;
@@ -40,6 +42,11 @@ namespace GridEditor
 
                 CellBehaviour cell = CreateCell(rootCellData.X, rootCellData.Y);
 				cell.SetCellData(cellData);
+
+                //Установка ячейки на уровень
+				Vector3 pos = cell.transform.position;
+				pos.y = cellData.VerticalLevel * VerticalStep;
+				cell.transform.position = pos;
             }
 
             //Создать связи между ячейками
@@ -61,6 +68,7 @@ namespace GridEditor
                             m_Cells[i, j].LinkCell(m_Cells[x, y], false);
                         }
 
+                        //Обновить вертикальное состояние связей для ячейки
                         m_Cells[i, j].UpdateVerticalDirectionForConnections(false);
                     }
                 }

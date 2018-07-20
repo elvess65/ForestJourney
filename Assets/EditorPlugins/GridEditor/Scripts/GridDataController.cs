@@ -19,7 +19,9 @@ namespace GridEditor
             for (int i = 0; i < gridWidth; i++)
             {
                 for (int j = 0; j < gridHeight; j++)
+                {
                     m_Data.CellsData.Add(cellsArr[i, j].GetCellData());
+                }
             }
         }
 
