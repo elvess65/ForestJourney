@@ -60,6 +60,8 @@ namespace GridEditor
                             //Связать ячейки
                             m_Cells[i, j].LinkCell(m_Cells[x, y], false);
                         }
+
+                        m_Cells[i, j].UpdateVerticalDirectionForConnections(false);
                     }
                 }
             }
@@ -83,6 +85,7 @@ namespace GridEditor
                 {
                     CellBehaviour cell = CreateCell(i, j);
                     cell.SetCellData(new CellData(new Cell(i, j)));
+                    cell.UpdateEnviroment();
                 }
             }
         }
