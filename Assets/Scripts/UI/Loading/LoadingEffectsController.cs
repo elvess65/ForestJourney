@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class LoadingEffectsController : MonoBehaviour
 {
     public RawImage BackgroundImage;
-    public Text TitleText;
+    public RawImage UIBackgroundImage;
+    public Image TitleImage;
+    public Effect_Base[] DisableEffect;
 
 	private Color m_InitColor;
 	private Color m_TargetColor;
@@ -12,9 +14,10 @@ public class LoadingEffectsController : MonoBehaviour
 	private float m_CurTime = 0;
 	private float m_TotalTime = 2;
 
-    public void ShowBackgroundEffect(RenderTexture texture)
+    public void ShowBackgroundEffect(RenderTexture texture, RenderTexture uitexture)
     {
 		BackgroundImage.texture = texture;
+        UIBackgroundImage.texture = uitexture;
 
 		m_InitColor = BackgroundImage.color;
         m_TargetColor = m_InitColor;
@@ -22,6 +25,9 @@ public class LoadingEffectsController : MonoBehaviour
 
 		m_CurTime = 0;
 		m_IsLerpingColor = true;
+
+		for (int i = 0; i < DisableEffect.Length; i++)
+			DisableEffect[i].Deactivate();
     }
 	
 	void Update () 
@@ -29,10 +35,8 @@ public class LoadingEffectsController : MonoBehaviour
 		if (m_IsLerpingColor)
 		{
 			m_CurTime += Time.deltaTime;
-            Color textColor = Color.white;
-            textColor.a = Mathf.Lerp(0, 1, m_CurTime / m_TotalTime);
-            TitleText.color = textColor;
 			BackgroundImage.color = Color.Lerp(m_InitColor, m_TargetColor, m_CurTime / m_TotalTime);
+            UIBackgroundImage.color = Color.Lerp(m_InitColor, m_TargetColor, m_CurTime / m_TotalTime);
 
 			if (m_CurTime >= m_TotalTime)
 				m_IsLerpingColor = false;

@@ -3,6 +3,7 @@
 public class ScreenShotController : MonoBehaviour
 {
     public Camera RenderCamera;
+    public Camera UIRenderCamera;
 
     public RenderTexture GetRenderTexture()
     {
@@ -14,5 +15,17 @@ public class ScreenShotController : MonoBehaviour
 		RenderCamera.targetTexture = null;
 
         return rt;
+	}
+
+	public RenderTexture GetUIRenderTexture()
+	{
+		RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		rt.Create();
+
+		UIRenderCamera.targetTexture = rt;
+		UIRenderCamera.Render();
+		UIRenderCamera.targetTexture = null;
+
+		return rt;
 	}
 }

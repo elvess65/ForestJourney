@@ -15,6 +15,7 @@ public class LoadingController : MonoBehaviour
 	void Update () 
     {
         if (Input.GetKeyDown(KeyCode.W))
-            m_LoadingEffectsController.ShowBackgroundEffect(m_ScreenShotController.GetRenderTexture());
+            m_LoadingEffectsController.ShowBackgroundEffect(m_ScreenShotController.GetRenderTexture(),
+                                                            m_ScreenShotController.GetUIRenderTexture());
 	}
 }
