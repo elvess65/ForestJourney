@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class LoadingEffectsController : MonoBehaviour
 {
+    public System.Action OnAnimationComplete;
+
     public RawImage BackgroundImage;
     public RawImage UIBackgroundImage;
     public Image TitleImage;
@@ -38,8 +40,13 @@ public class LoadingEffectsController : MonoBehaviour
 			BackgroundImage.color = Color.Lerp(m_InitColor, m_TargetColor, m_CurTime / m_TotalTime);
             UIBackgroundImage.color = Color.Lerp(m_InitColor, m_TargetColor, m_CurTime / m_TotalTime);
 
-			if (m_CurTime >= m_TotalTime)
-				m_IsLerpingColor = false;
+            if (m_CurTime >= m_TotalTime)
+            {
+                m_IsLerpingColor = false;
+
+                if (OnAnimationComplete != null)
+                    OnAnimationComplete();
+            }
 		}
 	}
 }
