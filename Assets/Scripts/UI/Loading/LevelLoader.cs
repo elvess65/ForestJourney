@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour 
@@ -31,7 +32,11 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        LoadLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+        int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextLevelIndex > SceneManager.sceneCountInBuildSettings - 1)
+            nextLevelIndex = 0;
+        
+        LoadLevel(nextLevelIndex);
     }
 
     IEnumerator LoadLevelAsync(int index)
@@ -52,7 +57,8 @@ public class LevelLoader : MonoBehaviour
 			yield return null;
 		}
 
-        ProgressBar.value = 1;
+        if (ProgressBar != null)
+            ProgressBar.value = 1;
 
 		FadeImage.OnFadeAnimationComplete += LoadingStageFinished;
 		FadeImage.FadeOut();

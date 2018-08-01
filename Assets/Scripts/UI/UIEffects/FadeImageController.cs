@@ -5,19 +5,18 @@ public class FadeImageController : MonoBehaviour
 {
     public System.Action OnFadeAnimationComplete;
 
-    private Image m_FadeImage;
-    private Utils.InterpolationData<Color> m_LerpData;
+    protected Image m_FadeImage;
+    protected Utils.InterpolationData<Color> m_LerpData;
+    protected float m_FadeTime = 1;
+    protected float m_InitAlpha = 1;
 
-    private const float m_FADE_TIME = 2;
-    private const float m_INIT_ALPHA = 1;
-
-    void Awake()
+    protected virtual void Awake()
     {
         m_FadeImage = GetComponent<Image>();
 
         //Начальное значение цвета
         Color color = m_FadeImage.color;
-        color.a = m_INIT_ALPHA;
+        color.a = m_InitAlpha;
         m_FadeImage.color = color;
     }
 
@@ -42,13 +41,13 @@ public class FadeImageController : MonoBehaviour
 	}
 
 
-	public void FadeIn()
+	public virtual void FadeIn()
 	{
         OnFadeAnimationComplete += () => m_FadeImage.enabled = false;
         Fade(0);
 	}
 
-	public void FadeOut()
+    public virtual void FadeOut()
 	{
         m_FadeImage.enabled = true;
         Fade(1);
@@ -57,7 +56,7 @@ public class FadeImageController : MonoBehaviour
     void Fade(float alpha)
     {
         m_FadeImage.enabled = true;
-		m_LerpData = new Utils.InterpolationData<Color>(m_FADE_TIME);
+		m_LerpData = new Utils.InterpolationData<Color>(m_FadeTime);
 		m_LerpData.From = m_FadeImage.color;
 		m_LerpData.To = m_LerpData.From;
 		m_LerpData.To.a = alpha;
