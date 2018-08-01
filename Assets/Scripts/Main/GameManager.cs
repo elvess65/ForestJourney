@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         CreateMainEntities();
+		CreatePlayer();
+		StartLoop();
     }
 
     public void FinishRound()
@@ -65,14 +67,5 @@ public class GameManager : MonoBehaviour
     void CreatePlayer()
     {
         GameState.Player = Instantiate(m_PrefabsLibrary.PlayerPrefab, PlayerSpawnPoint.position, Quaternion.identity);
-    }
-
-    private void OnGUI()
-    {
-        if (!m_IsActive && GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "Start"))
-        {
-            CreatePlayer();
-            StartLoop();
-        }
     }
 }

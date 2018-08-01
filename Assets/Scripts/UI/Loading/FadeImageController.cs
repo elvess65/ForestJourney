@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class FadeImageController : MonoBehaviour 
 {
-    public static FadeImageController Instance;
+    public System.Action OnFadeAnimationComplete;
 
     private Image m_FadeImage;
     private Utils.InterpolationData<Color> m_LerpData;
@@ -13,8 +13,6 @@ public class FadeImageController : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
-
         m_FadeImage = GetComponent<Image>();
 
         //Начальное значение цвета
@@ -22,17 +20,6 @@ public class FadeImageController : MonoBehaviour
         color.a = m_INIT_ALPHA;
         m_FadeImage.color = color;
     }
-
-	void Start () 
-    {
-		//Данные для анимации
-		m_LerpData = new Utils.InterpolationData<Color>(m_FADE_TIME);
-		m_LerpData.From = m_FadeImage.color;
-		m_LerpData.To = m_LerpData.From;
-		m_LerpData.To.a = 0;
-        m_LerpData.Start();
-	}
-	
 
 	void Update () 
     {
@@ -44,7 +31,36 @@ public class FadeImageController : MonoBehaviour
             {
                 m_LerpData.Stop();
                 m_FadeImage.color = m_LerpData.To;
+
+                if (OnFadeAnimationComplete != null)
+                {
+                    OnFadeAnimationComplete();
+                    OnFadeAnimationComplete = null;
+                }
             }
         }
 	}
+
+
+	public void FadeIn()
+	{
+        OnFadeAnimationComplete += () => m_FadeImage.enabled = false;
+        Fade(0);
+	}
+
+	public void FadeOut()
+	{
+        m_FadeImage.enabled = true;
+        Fade(1);
+	}
+
+    void Fade(float alpha)
+    {
+        m_FadeImage.enabled = true;
+		m_LerpData = new Utils.InterpolationData<Color>(m_FADE_TIME);
+		m_LerpData.From = m_FadeImage.color;
+		m_LerpData.To = m_LerpData.From;
+		m_LerpData.To.a = alpha;
+		m_LerpData.Start();
+    }
 }
