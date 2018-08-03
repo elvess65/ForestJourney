@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(iTweenPath))]
 public class iTweenPathMoveController : MonoBehaviour 
 {
 	public System.Action OnArrived;
+    public iTween.EaseType EaseType = iTween.EaseType.linear;
 
     private iTweenPath m_PathController;
 
@@ -15,7 +17,7 @@ public class iTweenPathMoveController : MonoBehaviour
     {
         iTween.MoveTo(gameObject, iTween.Hash("path", iTweenPath.GetPath(m_PathController.pathName), 
                                               "speed", speed, 
-                                              "easetype", iTween.EaseType.linear, 
+                                              "easetype", EaseType, 
                                               "oncomplete", "ArrivedHandler"));
     }
 

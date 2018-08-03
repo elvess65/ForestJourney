@@ -12,7 +12,9 @@ public class UIWindowsTutorialLibrary : MonoBehaviour
 		FinishRound,
         FinishRoundObstacle,
         Assistant,
-        DisableObstacle
+        DisableObstacle,
+        Light,
+        CameraRotation
 	}
 
     private Dictionary<TutorialWindowTypes, UIWindow_Base> m_Windows;
@@ -40,8 +42,6 @@ public class UIWindowsTutorialLibrary : MonoBehaviour
     [System.Serializable]
     public class TutorialWindowListEntry
     {
- 
-
         public TutorialWindowTypes Type;
         public UIWindow_Base WindowPrefab;
     }

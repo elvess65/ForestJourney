@@ -1,35 +1,19 @@
 ﻿using System;
 using UnityEngine;
 
-public class Projectile_Behaviour : MonoBehaviour
+public class Projectile_Behaviour : FollowPathBehaviour
 {
-    public Action OnImpact;
-
-    public float Speed = 10;
     public Effect_Base EffectImpactPrefab;
 
     private bool m_Launched = false;
     private Vector3 m_TargetPos;
-    private iTweenPathMoveController m_RandomPathGenerator;
 
     private const float m_SQR_DIST_TO_IMPACT = 0.1f;
 
     public void Launch(Vector3 targetPos, bool curvedPath)
     {
         if (curvedPath)
-        {
-            m_RandomPathGenerator = GetComponent<iTweenPathMoveController>();
-
-            if (m_RandomPathGenerator != null)
-            {
-                m_RandomPathGenerator.OnArrived += Impact;
-                m_RandomPathGenerator.StartMove(Speed);
-            }
-            else 
-            {
-                Debug.LogError("ERROR: Component RANDOM PATH GENERATOR not found");
-            }
-        }
+            MoveAlongPath();
         else
         {
             m_TargetPos = targetPos;
@@ -37,10 +21,9 @@ public class Projectile_Behaviour : MonoBehaviour
         }
     }
 
-    void Impact()
+    protected override void Impact()
     {
-        if (OnImpact != null)
-            OnImpact();
+        base.Impact();
 
         //Prefab should handle autodestruct
         Effect_Base effect = Instantiate(EffectImpactPrefab);
@@ -49,11 +32,6 @@ public class Projectile_Behaviour : MonoBehaviour
 
         gameObject.SetActive(false);
         Destroy(gameObject, 0.1f);
-    }
-
-    private void OnDestroy()
-    {
-        //GameManager.Instance.CameraController.FocusAt(GameManager.Instance.GameState.Player.transform);
     }
 
     private void Update()

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Контроллер окончания проигрывания эффектов, который проигрываеться с задержкой
+/// Контроллер окончания проигрывания эффектов, который вызываеться с задержкой
 /// </summary>
 public class ActionTrigger_EffectFinishListener_Delay : ActionTrigger_EffectFinishListener 
 {
