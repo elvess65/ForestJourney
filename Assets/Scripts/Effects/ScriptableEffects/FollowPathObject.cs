@@ -1,22 +1,30 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPathObject : FollowPathBehaviour 
 {
+    [Header("Animation")]
+	public Animator AnimationController;
+	public ActionTrigger_EffectFinishListener AnimationFinishedListener;
     public string StartAnimationName = "StartAnimation";
     public string FinishAnimationName = "FinishAnimation";
+    [Header("Delays")]
     public float StartDelay = 1;
     public float DestroyDelay = 10;
-    public Animator m_AnimationController;
-    public ActionTrigger_EffectFinishListener AnimationFinishedListener;
+    public bool MoveOnStart = true;
 
     IEnumerator Start () 
     {
         yield return new WaitForSeconds(StartDelay);
 
-        m_AnimationController.SetTrigger(StartAnimationName);
-        AnimationFinishedListener.OnEffectFinish += StartAnimation_EffectFinishHandler;
+        if (AnimationController != null)
+        {
+            AnimationController.SetTrigger(StartAnimationName);
+            AnimationFinishedListener.OnEffectFinish += StartAnimation_EffectFinishHandler;
+        }
+
+        if (MoveOnStart)
+            MoveAlongPath();
 	}
 
     protected override void Impact()
@@ -28,6 +36,7 @@ public class FollowPathObject : FollowPathBehaviour
 
     void StartAnimation_EffectFinishHandler()
 	{
-        MoveAlongPath();
+        if (!MoveOnStart)
+            MoveAlongPath();
 	}
 }
