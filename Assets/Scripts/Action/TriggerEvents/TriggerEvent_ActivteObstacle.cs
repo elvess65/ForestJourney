@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Включить коллайдей преграды
+/// Включить коллайдер преграды
 /// </summary>
 public class TriggerEvent_ActivteObstacle : TriggerAction_Event
 {
     public Collider ObstacleCollider;
 
-    public override void StartEvent()
+    protected override void Event()
     {
         ObstacleCollider.enabled = true;
     }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Выключить объект после попадания снаряда
+/// </summary>
 public class TriggerEvent_DeactivateObstacleWithProjectile : TriggerAction_Event
 {
     [Header(" - DERRIVED -")]
@@ -7,7 +10,7 @@ public class TriggerEvent_DeactivateObstacleWithProjectile : TriggerAction_Event
     public Transform HitPoint;
     public Projectile_Launcher_Behaviour ProjectileLauncher;
 
-    public override void StartEvent()
+    protected override void Event()
     {
         CreateProjectile();
     }

@@ -7,7 +7,6 @@ public class UIWindow_CloseButton : UIWindow_Base
 
     private bool m_InputIsLocked = false;
 
-
     public override void Hide()
     {
 		LockInput(true);
@@ -22,6 +21,7 @@ public class UIWindow_CloseButton : UIWindow_Base
 
         base.HideByEscape();
     }
+
 
     protected override void Init()
     {

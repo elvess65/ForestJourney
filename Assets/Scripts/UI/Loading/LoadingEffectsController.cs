@@ -28,8 +28,12 @@ public class LoadingEffectsController : MonoBehaviour
 		m_CurTime = 0;
 		m_IsLerpingColor = true;
 
-		for (int i = 0; i < DisableEffect.Length; i++)
-			DisableEffect[i].Deactivate();
+
+        for (int i = 0; i < DisableEffect.Length; i++)
+        {
+            if (DisableEffect[i] != null)
+                DisableEffect[i].Deactivate();
+        }
     }
 	
 	void Update () 

@@ -21,6 +21,18 @@ public class iTweenPathMoveController : MonoBehaviour
                                               "oncomplete", "ArrivedHandler"));
     }
 
+    public void ChangeNode(int index, Vector3 pos)
+    {
+        try
+        {
+            iTweenPath.GetPath(m_PathController.pathName)[index] = pos;
+        }
+        catch(System.IndexOutOfRangeException)
+        {
+            Debug.LogError("Error gettings path with index " + index);
+        }
+    }
+
 	void ArrivedHandler()
 	{
 		if (OnArrived != null)

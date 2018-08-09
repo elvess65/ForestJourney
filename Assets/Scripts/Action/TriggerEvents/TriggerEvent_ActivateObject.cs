@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Включить какой-то объект
@@ -7,12 +8,12 @@ public class TriggerEvent_ActivateObject : TriggerAction_Event
 {
     public GameObject ActivateObject;
 
-    private void Start()
+    void Start()
     {
         ActivateObject.SetActive(false);
     }
 
-    public override void StartEvent()
+    protected override void Event()
     {
         ActivateObject.SetActive(true);
     }

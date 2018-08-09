@@ -1,4 +1,7 @@
-﻿public class TriggerEvent_RepairObject : TriggerAction_Event
+﻿/// <summary>
+/// Собрать объект
+/// </summary>
+public class TriggerEvent_RepairObject : TriggerAction_Event
 {
     private Object_RepairBehaviour m_Behaviour;
 
@@ -7,7 +10,7 @@
         m_Behaviour = GetComponent<Object_RepairBehaviour>();
     }
 
-    public override void StartEvent()
+    protected override void Event()
     {
         m_Behaviour.Animate();
     }

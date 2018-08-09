@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Класс для отслеживания события взаимодейтсвия с триггером
@@ -35,9 +36,28 @@ public class ActionTrigger_EventListener : MonoBehaviour
 /// </summary>
 public abstract class TriggerAction_Event : MonoBehaviour
 {
+    public float Delay = 0;
     public TriggerAction_Event[] OnEventFinished;
 
-    public abstract void StartEvent();
+    /// <summary>
+    /// Вызов события (с задержкой или без)
+    /// </summary>
+    public virtual void StartEvent()
+    {
+        if (Delay <= 0)
+            Event();
+		else
+			StartCoroutine(WaitDelay());
+    }
+
+    protected abstract void Event();
+
+    IEnumerator WaitDelay()
+    {
+        yield return new WaitForSeconds(Delay);
+
+        Event();
+    }
 
     protected bool CallEventFinished()
     {

@@ -1,6 +1,9 @@
-﻿public class TriggerEvent_DisableInput : TriggerAction_Event
+﻿/// <summary>
+/// Отключить возможность ввода
+/// </summary>
+public class TriggerEvent_DisableInput : TriggerAction_Event
 {
-    public override void StartEvent()
+    protected override void Event()
     {
         InputManager.Instance.InputIsEnabled = false;
     }

@@ -1,8 +1,11 @@
-﻿public class TriggerEvent_PlayAnimation : TriggerAction_Event
+﻿/// <summary>
+/// Начать проигрывать анимацию
+/// </summary>
+public class TriggerEvent_PlayAnimation : TriggerAction_Event
 {
     private iActionTrigger_EffectController m_EffectController;
 
-    public override void StartEvent()
+    protected override void Event()
     {
         m_EffectController.ActivateEffect_Action();
     }

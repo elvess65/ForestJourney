@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Отключенить коллайдер преграды
+/// Отключить коллайдер преграды
 /// </summary>
 public class TriggerEvent_DeactivateObstacle : TriggerAction_Event
 {
     public Collider ObstacleCollider;
 
-    public override void StartEvent()
+    protected override void Event()
     {
         ObstacleCollider.enabled = false;
     }

@@ -8,7 +8,7 @@ public class TriggetEvent_FocusAtObjectAndFocusPlayer : TriggerAction_Event
     public float FocusingTime = 1;
     public Transform FocusingObject;
 
-    public override void StartEvent()
+    protected override void Event()
     {
 		InputManager.Instance.InputIsEnabled = false;
         GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, FocusingTime, FocusingFinishedHandler);

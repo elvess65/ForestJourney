@@ -1,6 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Снаряд, который двигаеться либо по пути, либо в цели и при попадании взрываеться
+/// </summary>
 public class Projectile_Behaviour : FollowPathBehaviour
 {
     public Effect_Base EffectImpactPrefab;
@@ -21,9 +23,9 @@ public class Projectile_Behaviour : FollowPathBehaviour
         }
     }
 
-    protected override void Impact()
+    protected override void ImpactHandler()
     {
-        base.Impact();
+        base.ImpactHandler();
 
         //Prefab should handle autodestruct
         Effect_Base effect = Instantiate(EffectImpactPrefab);
@@ -46,7 +48,7 @@ public class Projectile_Behaviour : FollowPathBehaviour
             if (sqrDistToTarget <= m_SQR_DIST_TO_IMPACT)
             {
                 m_Launched = false;
-                Impact();
+                ImpactHandler();
             }
         }
     }

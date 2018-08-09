@@ -1,6 +1,9 @@
-﻿public class TriggerEvent_FinishRound : TriggerAction_Event 
+﻿/// <summary>
+/// Закончить раунд
+/// </summary>
+public class TriggerEvent_FinishRound : TriggerAction_Event 
 {
-	public override void StartEvent()
+	protected override void Event()
 	{
 		GameManager.Instance.FinishRound();
 	}

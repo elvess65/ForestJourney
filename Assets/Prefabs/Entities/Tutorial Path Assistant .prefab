@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4193955697950556}
-  - component: {fileID: 114202010603764168}
+  - component: {fileID: 114551612637355628}
   - component: {fileID: 114078199207937014}
   - component: {fileID: 114407446380641008}
   m_Layer: 0
@@ -164,8 +164,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670601426504566}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.96, y: -2, z: 1.58}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3.7, y: -1, z: 0.54}
+  m_LocalScale: {x: 1, y: 1, z: 0.17056227}
   m_Children:
   - {fileID: 4994466249519832}
   m_Father: {fileID: 0}
@@ -247,7 +247,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624221940393988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4523816671859876}
@@ -361,44 +361,25 @@ MonoBehaviour:
   pathName: AssistantPath
   pathColor: {r: 0, g: 1, b: 1, a: 1}
   nodes:
-  - {x: 8.96, y: -2, z: 1.58}
-  - {x: 10.043804, y: 1.9628053, z: 2.061929}
-  - {x: 8.911165, y: 0.72540903, z: 3.9641137}
-  - {x: 7.927086, y: 0, z: 3.2884736}
-  - {x: 9.034111, y: 0, z: 1.5605092}
-  - {x: 13.155811, y: 0, z: 6.56995}
-  - {x: 20.461994, y: 0, z: 11.206129}
-  - {x: 18.01958, y: 0, z: 18.810404}
-  - {x: -1.6341782, y: 0, z: 29.421072}
-  - {x: 4.3277483, y: 0, z: 38.18866}
-  - {x: 19.26, y: 0, z: 36.34699}
-  - {x: 27.788555, y: 0, z: 41.0489}
-  - {x: 29.093454, y: 0, z: 57.27311}
-  - {x: 25.221333, y: 0, z: 66.57904}
-  - {x: 19.392632, y: 0, z: 68.00402}
+  - {x: 11.785208, y: 0.3068576, z: 9.170995}
+  - {x: 16.732548, y: 0, z: 6.1538076}
+  - {x: 20.59062, y: 0, z: 12.382445}
+  - {x: 17.400036, y: 0, z: 19.20678}
+  - {x: 7.802966, y: 0, z: 20.669865}
+  - {x: 0.9863, y: 0, z: 25.240705}
+  - {x: -2.5694742, y: 0, z: 29.86085}
+  - {x: -3.0330386, y: 0, z: 33.06958}
+  - {x: 0.72510624, y: 0, z: 37.566914}
+  - {x: 8.995836, y: 0, z: 39.209633}
+  - {x: 14.620299, y: 0, z: 36.144474}
+  - {x: 25.921488, y: 0, z: 41.23322}
+  - {x: 29.533878, y: 0, z: 47.628883}
+  - {x: 28.34779, y: -4.3141546, z: 58.704395}
+  - {x: 18.735807, y: -5.4332285, z: 68.73206}
   nodeCount: 15
   initialized: 1
   initialName: New Path 1
   pathVisible: 1
---- !u!114 &114202010603764168
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1670601426504566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b3f3cdceb39b471b8bd546abf9e7624, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 10
-  AnimationController: {fileID: 0}
-  AnimationFinishedListener: {fileID: 0}
-  StartAnimationName: StartAnimation
-  FinishAnimationName: FinishAnimation
-  StartDelay: 0
-  DestroyDelay: 10
-  MoveOnStart: 1
 --- !u!114 &114338032618115212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -430,6 +411,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EaseType: 21
+--- !u!114 &114551612637355628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670601426504566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3823819af164889b117d1ab12a850d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
+  AnimationController: {fileID: 0}
+  AnimationFinishedListener: {fileID: 0}
+  StartAnimationName: StartAnimation
+  FinishAnimationName: FinishAnimation
+  StartDelay: 1
+  DestroyDelay: 10
+  MoveOnStart: 0
+  RotationSpeed: 2
+  IdleTarget: {fileID: 0}
+  Effect: {fileID: 114338032618115212}
+  IsMoving: 0
+  Trail: {fileID: 1841594926914258}
 --- !u!198 &198007556326272018
 ParticleSystem:
   m_ObjectHideFlags: 1

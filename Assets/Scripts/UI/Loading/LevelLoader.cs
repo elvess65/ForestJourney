@@ -43,8 +43,8 @@ public class LevelLoader : MonoBehaviour
     {
         if (ProgressBar != null)
             ProgressBar.gameObject.SetActive(true);
-
-		m_AsyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(index);
+         
+		m_AsyncOperation = SceneManager.LoadSceneAsync(index);
 		m_AsyncOperation.allowSceneActivation = false;
 		while (m_AsyncOperation.progress < 0.9f)
 		{

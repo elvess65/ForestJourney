@@ -1,23 +1,27 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Объект, который может передвигаться по заданому пути
+/// </summary>
 [RequireComponent(typeof(iTweenPathMoveController))]
-public class FollowPathBehaviour : MonoBehaviour 
+public abstract class FollowPathBehaviour : MonoBehaviour 
 {
     public Action OnImpact;
 	public float Speed = 10;
 
-    private iTweenPathMoveController m_RandomPathGenerator;
+    protected iTweenPathMoveController m_RandomPathGenerator;
 
-    public void MoveAlongPath()
+    protected virtual void Awake()
     {
         m_RandomPathGenerator = GetComponent<iTweenPathMoveController>();
+    }
 
+    public virtual void MoveAlongPath()
+    {
 		if (m_RandomPathGenerator != null)
 		{
-			m_RandomPathGenerator.OnArrived += Impact;
+			m_RandomPathGenerator.OnArrived += ImpactHandler;
 			m_RandomPathGenerator.StartMove(Speed);
 		}
 		else
@@ -26,7 +30,7 @@ public class FollowPathBehaviour : MonoBehaviour
 		}
     }
 
-    protected virtual void Impact()
+    protected virtual void ImpactHandler()
     {
         if (OnImpact != null)
             OnImpact();
