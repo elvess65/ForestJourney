@@ -44748,32 +44748,32 @@ Prefab:
     - target: {fileID: 224380366432153550, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 499
+      value: 1003
       objectReference: {fileID: 0}
     - target: {fileID: 224380366432153550, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 280.5
+      value: 564
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 20.274994
+      value: 40.75
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 56.100006
+      value: 112.79999
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 93.5
+      value: 188
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 93.5
+      value: 188
       objectReference: {fileID: 0}
     - target: {fileID: 4108367358472832, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
       propertyPath: m_LocalPosition.x
@@ -44823,7 +44823,7 @@ Prefab:
     - target: {fileID: 224441634613592230, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -46.000244
+      value: -46.00049
       objectReference: {fileID: 0}
     - target: {fileID: 114584050993635570, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
@@ -56200,6 +56200,10 @@ Prefab:
     - target: {fileID: 172016, guid: 5c85f184dc4ce0d4e887b431a1eb6c3f, type: 2}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 146584, guid: 5c85f184dc4ce0d4e887b431a1eb6c3f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c85f184dc4ce0d4e887b431a1eb6c3f, type: 2}
