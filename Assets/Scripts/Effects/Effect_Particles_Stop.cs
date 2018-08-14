@@ -5,6 +5,7 @@
 /// </summary>
 public class Effect_Particles_Stop : Effect_Base
 {
+    [Space(10)]
     public ParticleSystem[] ParticleSystems;
 
     public override void Deactivate()
