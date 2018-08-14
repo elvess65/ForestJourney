@@ -2,13 +2,13 @@
 
 public class PlayerCollisionController : CollisionController
 {
-    private const string m_ACTIONFIELD_INTERACTABLE =   "Intaractable";
+    private const string m_ACTIONFIELD_INTERACTABLE =    "Intaractable";
     private const string m_OBJECT_ENEMY =                "Enemy";
 
-    public override void HandleCollistion(Collider other)
+    public override void HandleEnterCollision(Collider other)
     {
-        string tag = other.tag;
-        switch (tag)
+        string objTag = other.tag;
+        switch (objTag)
         {
             case m_ACTIONFIELD_INTERACTABLE:
                 other.GetComponent<iInteractable>().Interact();
@@ -16,6 +16,17 @@ public class PlayerCollisionController : CollisionController
             case m_OBJECT_ENEMY:
                 GetComponent<PlayerController>().DestroyPlayer(); 
                 other.GetComponent<EnemyController>().TakeDamage(transform);
+                break;
+        }
+    }
+
+    public override void HandlerExitCollision(Collider other)
+    {
+		string objTag = other.tag;
+        switch (objTag)
+        {
+            case m_ACTIONFIELD_INTERACTABLE:
+                other.GetComponent<iInteractableByTap>().ExitFromInteractableArea();
                 break;
         }
     }

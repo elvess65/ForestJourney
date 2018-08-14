@@ -24,7 +24,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     protected BoxCollider m_Collider;
     protected iActionTrigger_EffectController m_EffectController;
     
-    void Start()
+    protected virtual void Start()
     {
         m_Collider = GetComponent<BoxCollider>();
         m_EffectController = GetComponent<iActionTrigger_EffectController>();
@@ -40,14 +40,18 @@ public class ActionTrigger : MonoBehaviour, iInteractable
         if (!HasEnoughKeys())
             return;
 
+        //Отключить коллайдер, состояние и удалить из списка объектов
         Deactivate();
 
+        //Начать проигрывать эффект
         if (m_EffectController != null)
             m_EffectController.ActivateEffect_Action();
 
+        //Вращать камеру если нужно
         if (RotateCameraOnInteract)
             GameManager.Instance.CameraController.RotateCamera(false);
 
+        //Событие взаимодействия
         if (OnInteract != null)
             OnInteract();
     }
@@ -89,7 +93,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     /// Проверка на достаточное количество ключей
     /// </summary>
     /// <returns></returns>
-    bool HasEnoughKeys()
+    protected bool HasEnoughKeys()
     {
         if (ActivationKeys.Length > 0 && !GameManager.Instance.GameState.HasKeysForActivation(ActivationKeys))
         {

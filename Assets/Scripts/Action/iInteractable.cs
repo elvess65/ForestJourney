@@ -9,3 +9,12 @@ public interface iInteractable
     void Interact();
 }
 
+/// <summary>
+/// Базовый интерфейс для всех объектов, с которыми можно взаимодейтсовать по тапу
+/// </summary>
+public interface iInteractableByTap
+{
+    void InteractByTap();
+    void ExitFromInteractableArea();
+}
+

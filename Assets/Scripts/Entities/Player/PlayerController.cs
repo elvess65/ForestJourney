@@ -142,6 +142,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        m_CollisionController.HandleCollistion(other); 
+        m_CollisionController.HandleEnterCollision(other); 
     }
+
+    void OnTriggerExit(Collider other)
+    {
+        m_CollisionController.HandlerExitCollision(other);
+	}
 }
