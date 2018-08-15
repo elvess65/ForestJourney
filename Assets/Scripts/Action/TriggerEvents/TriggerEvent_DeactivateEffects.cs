@@ -3,6 +3,7 @@
 /// </summary>
 public class TriggerEvent_DeactivateEffects : TriggerAction_Event
 {
+    [UnityEngine.Space(10)]
     public Effect_Base[] Effects;
 
     protected override void Event()

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class TriggerEvent_ShowButtonAndHightlight : TriggerAction_Event 
 {
+    [Space(10)]
     public RectTransform ButtonHightlight;
     public Button Target;
     public UIAnimationController AnimationController;

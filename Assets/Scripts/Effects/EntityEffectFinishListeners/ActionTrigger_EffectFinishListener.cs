@@ -12,8 +12,13 @@ public class ActionTrigger_EffectFinishListener : MonoBehaviour
 
     public virtual void OnEffectFinished()
     {
-        if (OnEffectFinish != null)
-            OnEffectFinish();
+        if (Delay > 0)
+            StartCoroutine(WaitDelay());
+        else
+        {
+            if (OnEffectFinish != null)
+                OnEffectFinish();
+        }
     }
 
 	IEnumerator WaitDelay()

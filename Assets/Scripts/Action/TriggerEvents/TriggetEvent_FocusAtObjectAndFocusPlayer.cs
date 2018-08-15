@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Фокусировка камеры на каком-то объекте, а затем возврат камеры на игрока
+/// Фокусировка камеры на каком-то объекте, а затем возврат на игрока
 /// </summary>
 public class TriggetEvent_FocusAtObjectAndFocusPlayer : TriggerAction_Event
 {
-    public float FocusingTime = 1;
+    [Space(10)]
     public Transform FocusingObject;
+    public float FocusingTime = 1;
 
     protected override void Event()
     {

@@ -1,5 +1,6 @@
 ﻿public class TriggerEvent_ShowUIWindow : TriggerAction_Event 
 {
+    [UnityEngine.Space(10)]
 	public UIWindowsTutorialLibrary.TutorialWindowTypes TutorialWindowType;
     public bool DisableInputOnStart = true;
     public bool EnableInputOnClose = true;

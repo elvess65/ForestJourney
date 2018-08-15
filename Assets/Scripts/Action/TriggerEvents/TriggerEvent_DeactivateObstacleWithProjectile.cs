@@ -5,7 +5,7 @@
 /// </summary>
 public class TriggerEvent_DeactivateObstacleWithProjectile : TriggerAction_Event
 {
-    [Header(" - DERRIVED -")]
+    [Space(10)]
     public GameObject ObstacleObject;
     public Transform HitPoint;
     public Projectile_Launcher_Behaviour ProjectileLauncher;

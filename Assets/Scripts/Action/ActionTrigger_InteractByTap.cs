@@ -6,8 +6,10 @@
 public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
 {
     [Header(" - DERRIVED -")]
-    public AnimatedAppearDisappearObject SelectionAnimatedObject;
     public MeshRenderer GraphicEmissionRenderer;
+    public AnimatedAppearDisappearObject SelectionAnimatedObject;
+    public Effect_Base SelectionEffect;
+    public Effect_Base IdleEffect;
 
     private bool m_CanInteract = false;
     private EmissionBehaviour m_EmissionBehaviour;
@@ -19,6 +21,9 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
 
 		//Анимация свечения
 		m_EmissionBehaviour = new IdleEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
+
+		//Включить пасивный эффект
+		IdleEffect.Activate();
     }
 
 	public void InteractByTap()
@@ -41,6 +46,11 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
         SelectionAnimatedObject.OnAnimationFinished = null;
         SelectionAnimatedObject.Show();
 
+        //Выключить пасивный эффект
+		IdleEffect.Deactivate();
+		//Включить активный эффект 
+		SelectionEffect.Activate();
+
         //Анимция свечения
         m_EmissionBehaviour = new SelectedEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
 	}
@@ -53,12 +63,16 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
 		//Спрятать выделение
 		SelectionAnimatedObject.OnAnimationFinished += SelectionAnimationFinishedHandler;
 		SelectionAnimatedObject.Hide();
+
+        //Выключить активный эффект
+		SelectionEffect.Deactivate();
     }
 
 	void SelectionAnimationFinishedHandler()
 	{
 		SelectionAnimatedObject.gameObject.SetActive(false);
 	}
+
 
     protected override void Start()
     {
@@ -70,6 +84,9 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
 
         //Анимация свечения
         m_EmissionBehaviour = new IdleEmissionBehaviour(emissionMaterial, 0);
+
+		//Включить пасивный эффект
+		IdleEffect.Activate();
     }
 
     void Update()
