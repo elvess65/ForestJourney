@@ -3,7 +3,7 @@
 /// </summary>
 public class TriggerEvent_FinishRound : TriggerAction_Event 
 {
-	protected override void Event()
+	protected override void CallEvent()
 	{
 		GameManager.Instance.FinishRound();
 	}

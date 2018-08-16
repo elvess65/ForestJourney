@@ -7,7 +7,7 @@ public class TriggerEvent_ActivteObstacle : TriggerAction_Event
 {
     public Collider ObstacleCollider;
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         ObstacleCollider.enabled = true;
     }

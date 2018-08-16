@@ -18,7 +18,7 @@
         base.StartEvent();
     }
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         //Создать окно
 		UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(UIWindowsTutorialLibrary.Instance.GetWindowPrefabByType(TutorialWindowType));

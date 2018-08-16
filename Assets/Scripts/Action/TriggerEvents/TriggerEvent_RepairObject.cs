@@ -10,7 +10,7 @@ public class TriggerEvent_RepairObject : TriggerAction_Event
         m_Behaviour = GetComponent<Object_RepairBehaviour>();
     }
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         m_Behaviour.Animate();
     }

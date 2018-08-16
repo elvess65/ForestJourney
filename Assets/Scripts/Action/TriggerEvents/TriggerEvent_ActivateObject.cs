@@ -13,7 +13,7 @@ public class TriggerEvent_ActivateObject : TriggerAction_Event
         ActivateObject.SetActive(false);
     }
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         ActivateObject.SetActive(true);
     }

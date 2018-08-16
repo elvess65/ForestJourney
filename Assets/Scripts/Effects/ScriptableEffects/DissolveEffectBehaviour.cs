@@ -2,6 +2,8 @@
 
 public class DissolveEffectBehaviour : MonoBehaviour 
 {
+    public System.Action OnDissolveFinished;
+
     public float DissolveTime = 3;
     public float DissolveValue = 0.5f;
     public MeshRenderer[] MeshRenderers;
@@ -35,7 +37,12 @@ public class DissolveEffectBehaviour : MonoBehaviour
             m_Material.SetFloat("_SliceAmount", dissolve);
 
             if (m_LerpData.Overtime())
+            {
                 m_LerpData.Stop();
+
+                if (OnDissolveFinished != null)
+                    OnDissolveFinished();
+            }
         }
 	}
 }

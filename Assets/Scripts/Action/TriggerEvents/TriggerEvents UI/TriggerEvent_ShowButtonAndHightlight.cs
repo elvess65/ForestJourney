@@ -10,7 +10,7 @@ public class TriggerEvent_ShowButtonAndHightlight : TriggerAction_Event
 
     private RectTransform m_ButtonHightlght;
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         //Показать кнопку и добавить событие на нажатие
         AnimationController.PlayAnimation(true);

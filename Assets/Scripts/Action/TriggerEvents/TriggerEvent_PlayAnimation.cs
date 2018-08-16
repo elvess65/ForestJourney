@@ -5,7 +5,7 @@ public class TriggerEvent_PlayAnimation : TriggerAction_Event
 {
     private iActionTrigger_EffectController m_EffectController;
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         m_EffectController.ActivateEffect_Action();
     }

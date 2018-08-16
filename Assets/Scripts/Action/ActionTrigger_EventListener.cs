@@ -45,18 +45,18 @@ public abstract class TriggerAction_Event : MonoBehaviour
     public virtual void StartEvent()
     {
         if (Delay <= 0)
-            Event();
+            CallEvent();
 		else
 			StartCoroutine(WaitDelay());
     }
 
-    protected abstract void Event();
+    protected abstract void CallEvent();
 
     IEnumerator WaitDelay()
     {
         yield return new WaitForSeconds(Delay);
 
-        Event();
+        CallEvent();
     }
 
     protected bool CallEventFinished()

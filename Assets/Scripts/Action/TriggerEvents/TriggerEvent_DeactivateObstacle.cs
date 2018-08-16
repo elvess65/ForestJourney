@@ -8,7 +8,7 @@ public class TriggerEvent_DeactivateObstacle : TriggerAction_Event
     [Space(10)]
     public Collider ObstacleCollider;
 
-    protected override void Event()
+    protected override void CallEvent()
     {
         ObstacleCollider.enabled = false;
     }
