@@ -24,7 +24,7 @@ public class FadeImageController : MonoBehaviour
     {
         if (m_LerpData.IsStarted)	
         {
-            m_LerpData.Increment(Time.deltaTime);
+            m_LerpData.Increment();
             m_FadeImage.color = Color.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
             if (m_LerpData.Overtime())
             {

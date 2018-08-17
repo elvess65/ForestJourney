@@ -8553,6 +8553,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 496276, guid: 890bebf54a514d9408e033aa1761ba78,
     type: 2}
   m_PrefabInternal: {fileID: 841380559}
+--- !u!1 &843603756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1057030019819676, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1246991325}
+--- !u!114 &843603757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 843603756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 4eedbd8854d1f496faca853deeae6132, type: 2}
 --- !u!1 &862776567
 GameObject:
   m_ObjectHideFlags: 0
@@ -11687,7 +11704,27 @@ Prefab:
     - target: {fileID: 114522918366229712, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
         type: 2}
       propertyPath: VignetteOuterValueDistance
-      value: 0.6346614
+      value: 0.53466135
+      objectReference: {fileID: 0}
+    - target: {fileID: 114522918366229712, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
+        type: 2}
+      propertyPath: VignetteOuterValue
+      value: 0.92701143
+      objectReference: {fileID: 0}
+    - target: {fileID: 114522918366229712, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
+        type: 2}
+      propertyPath: VignetteInnerValue
+      value: 0.13932677
+      objectReference: {fileID: 0}
+    - target: {fileID: 114522918366229712, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
+        type: 2}
+      propertyPath: VignetteFalloff
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114522918366229712, guid: 4183e008010e6468e8f4ad69c1c5c7c2,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4183e008010e6468e8f4ad69c1c5c7c2, type: 2}

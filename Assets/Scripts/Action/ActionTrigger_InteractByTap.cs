@@ -140,7 +140,7 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
             //Плавная анимация к начальной позиции 
             if (m_LerpData.IsStarted)
             {
-                m_LerpData.Increment(Time.deltaTime);
+                m_LerpData.Increment();
                 m_Intensity = Mathf.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
                 if (m_LerpData.Overtime())
                     m_LerpData.Stop();

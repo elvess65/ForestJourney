@@ -17,10 +17,13 @@ public class InputManager : MonoBehaviour
         get { return m_InputState; }
         set
         {
-            m_InputState = value;
+            if (m_InputState != value)
+            {
+                m_InputState = value;
 
-            if (OnInputStateChange != null)
-                OnInputStateChange(m_InputState);
+                if (OnInputStateChange != null)
+                    OnInputStateChange(m_InputState);
+            }
         }
     }
 

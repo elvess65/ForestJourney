@@ -27,9 +27,9 @@
 			To = default(T);
 		}
 
-		public void Increment(float deltaTime)
+		public void Increment()
 		{
-			m_CurTime += deltaTime;
+            m_CurTime += UnityEngine.Time.deltaTime;
 		}
 
         public void Start()

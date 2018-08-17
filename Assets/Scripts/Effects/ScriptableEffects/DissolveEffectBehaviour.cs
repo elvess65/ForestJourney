@@ -10,6 +10,7 @@ public class DissolveEffectBehaviour : MonoBehaviour
 
     private Material m_Material;
     private Utils.InterpolationData<float> m_LerpData;
+    private const string m_MATERIAL_DISSOLVE_NAME = "_SliceAmount";
 
 	void Start () 
     {
@@ -32,9 +33,9 @@ public class DissolveEffectBehaviour : MonoBehaviour
     {
         if (m_LerpData.IsStarted)
         {
-            m_LerpData.Increment(Time.deltaTime);
+            m_LerpData.Increment();
             float dissolve = Mathf.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
-            m_Material.SetFloat("_SliceAmount", dissolve);
+            m_Material.SetFloat(m_MATERIAL_DISSOLVE_NAME, dissolve);
 
             if (m_LerpData.Overtime())
             {
