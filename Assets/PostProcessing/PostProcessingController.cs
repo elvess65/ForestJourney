@@ -6,13 +6,17 @@ using Wilberforce.FinalVignette;
 
 public class PostProcessingController : MonoBehaviour
 {
+    public static PostProcessingController Instance;
+
     public PostProcessingBehaviour Behaviour;
+    public Camera ColorGradingCamera;
     public FinalVignetteCommandBuffer Vignette;
 
     private enum PostEffectsTypes
     {
         Saturation,
-        PostExposure
+        PostExposure,
+        Vignette
     }
 
     private Dictionary<PostEffectsTypes, AnimationBehaviour> m_AnimationBehaviours;
@@ -21,17 +25,22 @@ public class PostProcessingController : MonoBehaviour
     private Utils.InterpolationData<float> m_SaturationLerpData;
 
     //Saturation
-	private const float m_SATURATION_DECREASED = 0f;
+	private const float m_SATURATION_DECREASED = 0.5f;
     private const float m_SATURATION_NORMALIZED = 1f;
 	private const float m_SATURATION_FADE_TIME = 1f;
 	//PostExposure
-	private const float m_POSTEXPOSURE_DECREASED = -5f;
+	private const float m_POSTEXPOSURE_DECREASED = -3f;
     private const float m_POSTEXPOSURE_NORMALIZED = 0f;
 	private const float m_POSTEXPOSURE_FADE_TIME = 1f;
     //Vignette 
     private float m_VignetteInnerValue;
     private float m_VignetteOuterValue;
-    private const float m_VIGNETTE_DECREASED = 1;
+    private const float m_VIGNETTE_FADE_TIME = 1;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -44,22 +53,28 @@ public class PostProcessingController : MonoBehaviour
 
         ///Color grading
         m_Profile.colorGrading = new ColorGradingModel();
-        m_AnimationBehaviours.Add(PostEffectsTypes.Saturation, new SaturationAnimationBehaviour(m_Profile, m_SATURATION_FADE_TIME));
-        m_AnimationBehaviours.Add(PostEffectsTypes.PostExposure, new ExposeAnimationBehaviour(m_Profile, m_POSTEXPOSURE_FADE_TIME));
+
+		//Изменить тип Tonemapper на Tonemapper.None
+		ColorGradingModel.Settings colorGradingModelSettings = m_Profile.colorGrading.settings;
+        colorGradingModelSettings.tonemapping.tonemapper = ColorGradingModel.Tonemapper.None;
+        m_Profile.colorGrading.settings = colorGradingModelSettings;
+
+        //Saturation
+        AnimationBehaviour behaviour = new SaturationAnimationBehaviour(m_Profile, m_SATURATION_FADE_TIME);
+        behaviour.OnAnimationFinished += AnimationFinishedHandler;
+        m_AnimationBehaviours.Add(PostEffectsTypes.Saturation, behaviour);
+
+        //Expose
+        behaviour = new ExposeAnimationBehaviour(m_Profile, m_POSTEXPOSURE_FADE_TIME);
+        behaviour.OnAnimationFinished += AnimationFinishedHandler;
+        m_AnimationBehaviours.Add(PostEffectsTypes.PostExposure, behaviour);
 
         ///Vignette
-        m_VignetteInnerValue = Vignette.VignetteInnerValue;
-        m_VignetteOuterValue = Vignette.VignetteOuterValue;
+        behaviour = new VignetteAnimationBehaviour(null, m_VIGNETTE_FADE_TIME, Vignette, Vignette.VignetteInnerValue, Vignette.VignetteOuterValue);
+        behaviour.OnAnimationFinished += AnimationFinishedHandler;
+        m_AnimationBehaviours.Add(PostEffectsTypes.Vignette, behaviour);
 
-		/*m_Profile.vignette = new VignetteModel();
-        m_Profile.vignette.enabled = true;
-        VignetteModel.Settings vignetteSettings = m_Profile.vignette.settings;
-        vignetteSettings.intensity = 0.4f;
-        m_Profile.vignette.settings = vignetteSettings;*/
-
-		/*VignetteModel.Settings vignetteSettings = m_Profile.vignette.settings;
-       vignetteSettings.intensity = Mathf.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
-       m_Profile.vignette.settings = vignetteSettings;*/
+        InputManager.Instance.OnInputStateChange += VignetteOnInputState;
 	}
 
 	void Update()
@@ -76,165 +91,154 @@ public class PostProcessingController : MonoBehaviour
 			//NormalizeSaturation();
 		}
 
-		if (Input.GetKeyDown(KeyCode.V))
-		{
-            Vignette.VignetteInnerValue = m_VIGNETTE_DECREASED;
-            Vignette.VignetteOuterValue = m_VIGNETTE_DECREASED;
-		}
-
-		if (Input.GetKeyDown(KeyCode.M))
-		{
-			Vignette.VignetteInnerValue = m_VignetteInnerValue;
-			Vignette.VignetteOuterValue = m_VignetteOuterValue;
-		}
-
 		if (m_ActiveAnimationBehaviours.Count > 0)
 		{
 			for (int i = 0; i < m_ActiveAnimationBehaviours.Count; i++)
 				m_ActiveAnimationBehaviours[i].Update();
 		}
-
-		Debug.Log(Vignette.VignetteInnerValue + " " + Vignette.VignetteOuterValue);
 	}
 
 
     public void DecreaseSaturation()
     {
-        //Включить эффекты
-        EnablePostEffects();
+        Enable();
+
+		//Включить обработку эффектов
+		if (!Behaviour.enabled)
+			Behaviour.enabled = true;
 
         //Включить Color grading
         if (!m_Profile.colorGrading.enabled)
             m_Profile.colorGrading.enabled = true;
 
-        AnimationBehaviour behaviour = m_AnimationBehaviours[PostEffectsTypes.Saturation];
+        //Включить камеру
+        if (!ColorGradingCamera.enabled)
+            ColorGradingCamera.enabled = true;
 
-        //Событие окончания анимации
-        behaviour.OnAnimationFinished += () =>
-        {
-            Debug.Log("Decreasing finished");
-
-			//Удалить эффект из списка активных
-			m_ActiveAnimationBehaviours.Remove(behaviour);
-        };
-
-        //Добавить эффект в список активных
-        m_ActiveAnimationBehaviours.Add(behaviour);
-
-		//Начать анимацию
-		behaviour.StartAnimation(m_SATURATION_DECREASED);
+        StratAnimation(m_SATURATION_DECREASED, PostEffectsTypes.Saturation);
     }
 
     public void NormalizeSaturation()
     {
-        AnimationBehaviour behaviour = m_AnimationBehaviours[PostEffectsTypes.Saturation];
+        Enable();
 
-        //Событие окончания анимации
-        behaviour.OnAnimationFinished += () =>
-        {
-            Debug.Log("Finished");
-
-			//Выключить Color grading
-			m_Profile.colorGrading.enabled = false;
-
-            //Удалить эффект из списка активных
-            m_ActiveAnimationBehaviours.Remove(behaviour);
-
-			//Выключить эффекты
-			DisablePostEffects();
-        };
-
-		//Добавить эффект в список активных
-		m_ActiveAnimationBehaviours.Add(behaviour);
-
-		//Начать анимацию
-		behaviour.StartAnimation(m_SATURATION_NORMALIZED);
+        StratAnimation(m_SATURATION_NORMALIZED, PostEffectsTypes.Saturation, ColorGradingNormalizeAnimationFinished);
     }
 
-
+  
     public void DecreasePostExposure()
     {
-		//Включить эффекты
-		EnablePostEffects();
+        Enable();
+
+		//Включить обработку эффектов
+		if (!Behaviour.enabled)
+			Behaviour.enabled = true;
 
 		//Включить Color grading
 		if (!m_Profile.colorGrading.enabled)
 			m_Profile.colorGrading.enabled = true;
 
-        AnimationBehaviour behaviour = m_AnimationBehaviours[PostEffectsTypes.PostExposure];
+		//Включить камеру
+		if (!ColorGradingCamera.enabled)
+			ColorGradingCamera.enabled = true;
 
-		//Событие окончания анимации
-		behaviour.OnAnimationFinished += () =>
-		{
-			Debug.Log("Decreasing finished");
-
-			//Удалить эффект из списка активных
-			m_ActiveAnimationBehaviours.Remove(behaviour);
-		};
-
-		//Добавить эффект в список активных
-		m_ActiveAnimationBehaviours.Add(behaviour);
-
-		//Начать анимацию
-		behaviour.StartAnimation(m_POSTEXPOSURE_DECREASED);
+        StratAnimation(m_POSTEXPOSURE_DECREASED, PostEffectsTypes.PostExposure);
     }
 
     public void NormalizePostExposure()
     {
-        AnimationBehaviour behaviour = m_AnimationBehaviours[PostEffectsTypes.PostExposure];
+        Enable();
 
-		//Событие окончания анимации
-		behaviour.OnAnimationFinished += () =>
-		{
-			Debug.Log("Finished");
+        StratAnimation(m_POSTEXPOSURE_NORMALIZED, PostEffectsTypes.PostExposure, ColorGradingNormalizeAnimationFinished);
+    }
 
-			//Выключить Color grading
-			m_Profile.colorGrading.enabled = false;
+    void ColorGradingNormalizeAnimationFinished(AnimationBehaviour behaviour)
+	{
+		behaviour.OnAnimationFinished -= ColorGradingNormalizeAnimationFinished;
 
-			//Удалить эффект из списка активных
-			m_ActiveAnimationBehaviours.Remove(behaviour);
+		//Выключить Color grading
+		m_Profile.colorGrading.enabled = false;
 
-			//Выключить эффекты
-			DisablePostEffects();
-		};
+		//Выключить камеру
+		if (ColorGradingCamera.enabled)
+            ColorGradingCamera.enabled = false;
+
+		//Выключить обработку эффектов
+		if (Behaviour.enabled)
+			Behaviour.enabled = false;
+	}
+
+
+    public void ShowVignette()
+    {
+        Enable();
+
+        if (!Vignette.enabled)
+            Vignette.enabled = true;
+
+        StratAnimation(1, PostEffectsTypes.Vignette);
+    }
+
+    public void HideVignette()
+    {
+        Enable();
+
+        StratAnimation(-1, PostEffectsTypes.Vignette, VignetteHideAnimationFinished);
+    }
+
+    void VignetteHideAnimationFinished(AnimationBehaviour behaviour)
+    {
+        behaviour.OnAnimationFinished -= VignetteHideAnimationFinished;
+        Vignette.enabled = false;
+    }
+
+    void VignetteOnInputState(bool inputEnableState)
+    {
+        if (inputEnableState)
+            HideVignette();
+        else
+            ShowVignette();
+    }
+
+
+    void StratAnimation(float targetValue, PostEffectsTypes type, Action<AnimationBehaviour> animationFinishedHandler = null)
+    {
+		AnimationBehaviour behaviour = m_AnimationBehaviours[type];
+
+        //Событие окончания анимации
+        if (animationFinishedHandler != null)
+		    behaviour.OnAnimationFinished += animationFinishedHandler;
 
 		//Добавить эффект в список активных
 		m_ActiveAnimationBehaviours.Add(behaviour);
 
 		//Начать анимацию
-        behaviour.StartAnimation(m_POSTEXPOSURE_NORMALIZED);
+		behaviour.StartAnimation(targetValue);
     }
 
+	void AnimationFinishedHandler(AnimationBehaviour behaviour)
+	{
+		m_ActiveAnimationBehaviours.Remove(behaviour);
+        Disable();
+	}
 
-    void EnablePostEffects()
+
+    void Enable()
     {
-		//Включить обработку эффектов
-		if (!Behaviour.enabled)
-			Behaviour.enabled = true;
+		if (!enabled)
+		    enabled = true;
+	}
 
-        //TODO: 
-        //if (!enabled)
-        //    enabled = true;
-    }
-
-    void DisablePostEffects()
+    void Disable()
     {
-        //TODO:
-        //Проверить наличие эффектов в стеке обработки
-
-        //Выключить обработку эффектов
-        if (Behaviour.enabled)
-            Behaviour.enabled = false;
-
-		//TODO: 
-		//if (enabled)
+        //if (m_ActiveAnimationBehaviours.Count == 0)
         //    enabled = false;
     }
 
 
     abstract class AnimationBehaviour
     {
-        public Action OnAnimationFinished;
+        public Action<AnimationBehaviour> OnAnimationFinished;
 
         protected PostProcessingProfile m_Profile;
         protected Utils.InterpolationData<float> m_LerpData;
@@ -266,10 +270,7 @@ public class PostProcessingController : MonoBehaviour
                     m_LerpData.Stop();
 
                     if (OnAnimationFinished != null)
-                    {
-                        OnAnimationFinished();
-                        OnAnimationFinished = null;
-                    }
+                        OnAnimationFinished(this);
                 }
             }
         }
@@ -329,24 +330,40 @@ public class PostProcessingController : MonoBehaviour
 
     class VignetteAnimationBehaviour : AnimationBehaviour
     {
+        private FinalVignetteCommandBuffer m_Vignette;
+		private float m_VignetteInnerValue;
+		private float m_VignetteOuterValue;
+        protected Utils.InterpolationData<float> m_OuterValueLerpData;
 
-
-        public VignetteAnimationBehaviour(PostProcessingProfile profile, float totalTime, 
+        public VignetteAnimationBehaviour(PostProcessingProfile profile, float totalTime,
                                           FinalVignetteCommandBuffer vignette, float innerValue, float outerValue) : base(profile, totalTime)
         {
+            m_Vignette = vignette;
+            m_VignetteInnerValue = innerValue;
+            m_VignetteOuterValue = outerValue;
+
+            m_OuterValueLerpData = new Utils.InterpolationData<float>();
+            m_OuterValueLerpData.TotalTime = totalTime;
         }
 
 		public override void StartAnimation(float targetValue)
 		{
-			m_LerpData.From = m_Profile.colorGrading.settings.basic.postExposure;
-			m_LerpData.To = targetValue;
+            //targetValue < 0 - decrease, > 0 - normalize
+            m_LerpData.From = m_Vignette.VignetteInnerValue;
+			m_LerpData.To = targetValue < 0 ? 1 : m_VignetteInnerValue;
+
+            m_OuterValueLerpData.From = m_Vignette.VignetteOuterValue;
+			m_OuterValueLerpData.To = targetValue < 0 ? 1 : m_VignetteOuterValue;
 
 			base.StartAnimation(targetValue);
 		}
 
         protected override void Animate()
         {
-            throw new NotImplementedException();
+            m_Vignette.VignetteInnerValue = LerpResult();
+
+
+            m_Vignette.VignetteOuterValue = Mathf.Lerp(m_OuterValueLerpData.From, m_OuterValueLerpData.To, m_LerpData.Progress);
         }
     }
 }
