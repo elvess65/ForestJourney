@@ -3,7 +3,7 @@
 /// <summary>
 /// Объект, который можно активировать по тапу
 /// </summary>
-public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap
+public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap, iExitableFromInteractionArea
 {
     [Header(" - DERRIVED -")]
     public MeshRenderer GraphicEmissionRenderer;

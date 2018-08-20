@@ -15,6 +15,13 @@ public interface iInteractable
 public interface iInteractableByTap
 {
     void InteractByTap();
+}
+
+/// <summary>
+/// Базовый интерфейс для всех объектов, из области действия которых можно выйти
+/// </summary>
+public interface iExitableFromInteractionArea
+{
     void ExitFromInteractableArea();
 }
 

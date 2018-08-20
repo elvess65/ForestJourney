@@ -26,7 +26,7 @@ public class PlayerCollisionController : CollisionController
         switch (objTag)
         {
             case m_ACTIONFIELD_INTERACTABLE:
-                other.GetComponent<iInteractableByTap>().ExitFromInteractableArea();
+                other.GetComponent<iExitableFromInteractionArea>().ExitFromInteractableArea();
                 break;
         }
     }
