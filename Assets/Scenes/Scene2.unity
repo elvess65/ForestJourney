@@ -63538,32 +63538,32 @@ Prefab:
     - target: {fileID: 224380366432153550, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 1091
+      value: 1010
       objectReference: {fileID: 0}
     - target: {fileID: 224380366432153550, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 613.5
+      value: 568.5
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 44.325012
+      value: 41.024994
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 122.70001
+      value: 113.70001
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 204.5
+      value: 189.5
       objectReference: {fileID: 0}
     - target: {fileID: 224235486636106102, guid: 5996a0342e6cf484d981f3eb008ee101,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 204.5
+      value: 189.5
       objectReference: {fileID: 0}
     - target: {fileID: 4108367358472832, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
       propertyPath: m_LocalPosition.x
@@ -63652,11 +63652,62 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4944361751557344, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4915068624877326, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.42261827
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.9063079
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205412341400384, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 6.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114923084432237234, guid: 5996a0342e6cf484d981f3eb008ee101,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114923084432237234, guid: 5996a0342e6cf484d981f3eb008ee101,
+        type: 2}
+      propertyPath: VignetteOuterValue
+      value: 0.7941176
+      objectReference: {fileID: 0}
+    - target: {fileID: 114923084432237234, guid: 5996a0342e6cf484d981f3eb008ee101,
+        type: 2}
+      propertyPath: VignetteInnerValue
+      value: 0.10784314
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 92378130916662136, guid: 5996a0342e6cf484d981f3eb008ee101, type: 2}
@@ -84833,6 +84884,7 @@ MonoBehaviour:
   OnEventFinished: []
   FocusingObject: {fileID: 1529017105}
   FocusingTime: 2.5
+  OnFocusingDelayFinishedEvents: []
 --- !u!1001 &1530492241
 Prefab:
   m_ObjectHideFlags: 0

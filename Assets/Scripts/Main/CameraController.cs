@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public System.Action OnCameraArrived;
+    private System.Action m_OnFocusDelay;
 
 	public Vector3 CameraOffset;
 
@@ -70,13 +71,14 @@ public class CameraController : MonoBehaviour
     /// <param name="target">Объект, который нужно показать</param>
     /// <param name="focusingTime">Время, на которое объект будет сфокусен</param>
     /// <param name="onFocusingFinished">События окончания всего фокуса (Возврат фокуса на игрока)</param>
-    public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished)
+    public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished, System.Action onFocusDelayFinished)
     {
         m_FocusingTarget = target;
         m_FocusingTime = focusingTime;
         m_OnFocusingFinished = onFocusingFinished;
 
         OnCameraArrived += WaitDelay;
+        m_OnFocusDelay += onFocusDelayFinished;
         FocusAt(target);
     }
 
@@ -88,6 +90,12 @@ public class CameraController : MonoBehaviour
 	IEnumerator FocusingSomeTimeAt()
 	{
 		yield return new WaitForSeconds(m_FocusingTime);
+
+        if (m_OnFocusDelay != null)
+        {
+            m_OnFocusDelay();
+            m_OnFocusDelay = null;
+        }
 
         OnCameraArrived += m_OnFocusingFinished;
         FocusAt(GameManager.Instance.GameState.Player.transform);

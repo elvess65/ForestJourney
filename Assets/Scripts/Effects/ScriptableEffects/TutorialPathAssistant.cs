@@ -12,6 +12,7 @@ public class TutorialPathAssistant : FollowPathDelayedBehaviour
     public float RotationSpeed;
 	[Header("Graphics")]
 	public Effect_Base Effect;
+    public Effect_Base StartMoveEffect;
 
     private bool m_IsIdle = false;
     private Vector3 m_CurAnchorOffset;
@@ -19,6 +20,7 @@ public class TutorialPathAssistant : FollowPathDelayedBehaviour
     protected override void Start()
     {
         Trail.SetActive(false);
+        StartMoveEffect.Deactivate();
 
         base.Start();
 
@@ -38,6 +40,9 @@ public class TutorialPathAssistant : FollowPathDelayedBehaviour
         Trail.SetActive(true);
         //Задать начальную позицию пути как текущее положение объекта
         m_RandomPathGenerator.ChangeNode(0, transform.position);
+
+        StartMoveEffect.Activate();
+        StartMoveEffect.transform.parent = null;
 
         base.MoveAlongPath();
     }
