@@ -23,6 +23,11 @@ public class Projectile_Behaviour : FollowPathBehaviour
         }
     }
 
+	public override void EnableEffects(bool state)
+	{
+	}
+
+
     protected override void ImpactHandler()
     {
         base.ImpactHandler();
@@ -36,7 +41,7 @@ public class Projectile_Behaviour : FollowPathBehaviour
         Destroy(gameObject, 0.1f);
     }
 
-    private void Update()
+    void Update()
     {
         if (GameManager.Instance.IsActive && m_Launched)
         {

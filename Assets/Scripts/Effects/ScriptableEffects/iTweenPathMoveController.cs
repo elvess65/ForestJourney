@@ -13,12 +13,13 @@ public class iTweenPathMoveController : MonoBehaviour
         m_PathController = GetComponent<iTweenPath>();
     }
 
-    public void StartMove(float speed)
+    public void StartMove(float speed, GameObject target)
     {
-        iTween.MoveTo(gameObject, iTween.Hash("path", iTweenPath.GetPath(m_PathController.pathName), 
-                                              "speed", speed, 
-                                              "easetype", EaseType, 
-                                              "oncomplete", "ArrivedHandler"));
+        iTween.MoveTo(target, iTween.Hash("path", iTweenPath.GetPath(m_PathController.pathName), 
+                                          "speed", speed, 
+                                          "easetype", EaseType, 
+                                          "oncompletetarget", gameObject,
+                                          "oncomplete", "ArrivedHandler"));
     }
 
     public void ChangeNode(int index, Vector3 pos)
@@ -32,6 +33,7 @@ public class iTweenPathMoveController : MonoBehaviour
             Debug.LogError("Error gettings path with index " + index);
         }
     }
+
 
 	void ArrivedHandler()
 	{

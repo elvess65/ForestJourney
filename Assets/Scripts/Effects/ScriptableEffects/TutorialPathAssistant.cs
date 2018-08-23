@@ -3,7 +3,7 @@
 /// <summary>
 /// Объект светлячка, который может крутиться вокруг объекта и следовать по пути
 /// </summary>
-public class TutorialPathAssistant : FollowPathDelayedBehaviour 
+public class TutorialPathAssistant : FollowPathBehaviour 
 {
     [Header("Objects")]
     public Transform IdleTarget;
@@ -37,23 +37,31 @@ public class TutorialPathAssistant : FollowPathDelayedBehaviour
         //Перестать вращаться вокруг цели
         m_IsIdle = false;
         //Включить след
-        Trail.SetActive(true);
+        EnableEffects(true);
         //Задать начальную позицию пути как текущее положение объекта
-        m_RandomPathGenerator.ChangeNode(0, transform.position);
+        PathMoveController.ChangeNode(0, transform.position);
 
+        //Эффект начала движения
         StartMoveEffect.Activate();
         StartMoveEffect.transform.parent = null;
 
         base.MoveAlongPath();
     }
 
+    public override void EnableEffects(bool state)
+    {
+        Trail.SetActive(state);    
+    }
+
+
     protected override void ImpactHandler()
     {
-        //Сразу после столкновения отключить эффекты
-        Effect.Deactivate();
-
         //Вызов события и отключение объекта с задержкой
         base.ImpactHandler();
+
+        //После столкновения отключить эффекты (Не отключаеться в случае повторного использования)
+		if (DeactivateOnArrival)
+			Effect.Deactivate();
     }
 
     private void Update()
