@@ -79,18 +79,6 @@ public class PostProcessingController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			DecreasePostExposure();
-			//DecreaseSaturation();
-		}
-
-		if (Input.GetKeyDown(KeyCode.N))
-		{
-			NormalizePostExposure();
-			//NormalizeSaturation();
-		}
-
 		if (m_ActiveAnimationBehaviours.Count > 0)
 		{
 			for (int i = 0; i < m_ActiveAnimationBehaviours.Count; i++)

@@ -1,273 +1,161 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(CameraAligningBehaviour))]
+[RequireComponent(typeof(CameraRotationBehaviour))]
+[RequireComponent(typeof(CameraFollowingBehaviour))]
+[RequireComponent(typeof(CameraFocusingBehaviour))]
 public class CameraController : MonoBehaviour
 {
     public System.Action OnCameraArrived;
+    public System.Action OnRotationFinished;
 
-    private System.Action m_OnFocusDelay;
+    public Vector3 InitCameraOffset = new Vector3(0, 12, -10);
 
-	public Vector3 CameraOffset;
+	private CameraAligningBehaviour m_AligningBehaviour;
+	private CameraRotationBehaviour m_RotationBehaviour;
+	private CameraFollowingBehaviour m_FollowingBehaviour;
+	private CameraFocusingBehaviour m_FocusingBehaviour;
 
-    [Header("Smooth factors")]
-	[Range(0.01f, 1.0f)]
-	public float SmoothFactor_InitFocusing = 0.5f;
-    [Range(0.01f, 1.0f)]
-    public float SmoothFactor_Following = 0.5f;
-	[Range(0.01f, 1.0f)]
-	public float SmoothFactor_Rotating = 0.5f;
-	[Range(0.01f, 1.0f)]
-	public float SmoothFactor_FocusingAtOther = 0.5f;
+	private Transform m_Target;
+	private Vector3 m_CachedOffset;
 
-    private Transform m_Target;
-    [Header("DEBUG")]
-	[SerializeField]
-    private Vector3 m_CurCameraOffset;
-    [SerializeField]
-    private float m_CurRotationSpeed = 0;
-	[SerializeField]
-	private float m_CurSmoothFactor;
-    [SerializeField]
-    private bool m_LookAtPlayer = false;
-	[SerializeField]
-    private bool m_InitFocusingAtTarget = false;
-	private bool m_IsRotating = false;
-
-    //Focus
-    private bool m_IsFocusingAtSomething = false;
-    //Focus some time at
-    private float m_FocusingTime;
-    private Transform m_FocusingTarget;
+	//Focusing some time 
+	private float m_FocusingTime;
 	private System.Action m_OnFocusingFinished;
+	private System.Action m_OnFocusDelayFinished;
+	//Rotation
+	private bool m_ClockWise;
+	private float m_Angle;
+	private float m_Speed;
 
-    public void Init(Transform target)
+	void Awake()
+	{
+		m_AligningBehaviour = GetComponent<CameraAligningBehaviour>();
+		m_RotationBehaviour = GetComponent<CameraRotationBehaviour>();
+		m_FollowingBehaviour = GetComponent<CameraFollowingBehaviour>();
+		m_FocusingBehaviour = GetComponent<CameraFocusingBehaviour>();
+	}
+
+	public void Init(Transform target)
+	{
+		m_Target = target;
+
+		AlignToInitOffset();
+	}
+
+	/// <summary>
+	/// Выровнять камеру согласно начальному отступу
+	/// </summary>
+	void AlignToInitOffset()
+	{
+		m_AligningBehaviour.OnFinished += FollowTarget;
+        m_AligningBehaviour.OnFinished += OnCameraArrived;
+		m_AligningBehaviour.AlignToOffset(m_Target, InitCameraOffset);
+	}
+
+	/// <summary>
+	/// Начать следовать за целью, закешировав отступ
+	/// </summary>
+	void FollowTarget()
+	{
+		m_FollowingBehaviour.Follow(m_Target, CacheOffset());
+	}
+
+
+	/// <summary>
+	/// Переместить камеру на некоторое время на объект, а затем вернуть на предыдущую цель
+	/// </summary>
+	/// <param name="target">Объект для фокусировки</param>
+	/// <param name="focusingTime">Время фокусировки на объекте</param>
+	/// <param name="onFocusingFinished">Окончания фокусировки (камера вернулась на предыдущую цель)</param>
+	/// <param name="onFocusDelayFinished">Окончание задержки фокусировки (камера начинает возвращаться на предыдущую цель)</param>
+	public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished, System.Action onFocusDelayFinished)
+	{
+		m_FollowingBehaviour.PauseFollowing();
+
+		m_FocusingTime = focusingTime;
+		m_OnFocusingFinished = onFocusingFinished;
+		m_OnFocusDelayFinished = onFocusDelayFinished;
+
+		m_FocusingBehaviour.OnFinished += FocusedOnTargetHandler;
+		m_FocusingBehaviour.MoveToWithOffset(target, CacheOffset());   //Кеш оффсета на момент начала движения (если было вращение камеры)
+	}
+
+	void FocusedOnTargetHandler()
+	{
+		StartCoroutine(WaitFocusDelay());
+	}
+
+	IEnumerator WaitFocusDelay()
+	{
+		yield return new WaitForSeconds(m_FocusingTime);
+
+		if (m_OnFocusDelayFinished != null)
+			m_OnFocusDelayFinished();
+
+		m_FocusingBehaviour.OnFinished += FocusingFinishedHandler;
+		m_FocusingBehaviour.MoveToWithOffset(m_Target, m_CachedOffset);
+	}
+
+	void FocusingFinishedHandler()
+	{
+		if (m_OnFocusingFinished != null)
+			m_OnFocusingFinished();
+
+		m_FollowingBehaviour.ContinueFollowing();
+	}
+
+
+	public void RotateAroundTarget(float angle, float speed, bool clockwise)
+	{
+        m_Angle = angle;
+        m_Speed = speed;
+        m_ClockWise = clockwise;
+
+        GameManager.Instance.GameState.Player.PauseAnimations(true);
+        InputManager.Instance.InputIsEnabled = false;
+        PostProcessingController.Instance.DecreaseSaturation();
+
+		//Если нужно вращать камеру, а она все еще следует за персонажем подписаться на событие окончания движения
+		if (m_FollowingBehaviour.IsMoving)
+			m_FollowingBehaviour.OnFinished += RotateCamera;
+		else
+            RotateCamera();
+	}
+
+    void RotateCamera()
     {
-        m_Target = target;
-        m_CurSmoothFactor = SmoothFactor_Following;
-        m_CurCameraOffset = transform.position - m_Target.transform.position;
-
-        StartInitFocusing();
+		m_FollowingBehaviour.PauseFollowing();
+		m_RotationBehaviour.OnFinished += RotationFinishedHandler;
+		m_RotationBehaviour.OnFinished += OnRotationFinished;
+		m_RotationBehaviour.RotateAroundBy(m_Target, m_Angle, m_Speed, m_ClockWise);
     }
 
-	public AnimationCurve Curve;
-	float degrees = 0;
-	float percent;
+	void RotationFinishedHandler()
+	{
+        GameManager.Instance.GameState.Player.PauseAnimations(false);
+        InputManager.Instance.InputIsEnabled = true;
+        PostProcessingController.Instance.NormalizeSaturation();
+
+		m_FollowingBehaviour.Follow(m_Target, CacheOffset());
+	}
+
+
 	void LateUpdate()
 	{
 		if (!GameManager.Instance.IsActive && m_Target == null)
 			return;
 
-        if (!m_IsRotating)
-        {
-            InitFocusing();
-
-            SetCameraRotation();
-            SetSmoothSpeed();
-            SetCameraPosition();
-
-            if (m_LookAtPlayer)
-                transform.LookAt(m_Target);
-        }
-        else 
-        {
-			degrees += 10 * Curve.Evaluate(percent) * Time.deltaTime;
-			percent = degrees / 90;
-			transform.LookAt(m_Target);
-			Debug.Log(Time.time + " " + degrees + " " + percent + " " + Curve.Evaluate(percent));
-			//transform.LookAt(targetObject.transform);
-
-			transform.RotateAround(m_Target.transform.position, Vector3.up, 10 * Curve.Evaluate(percent) * Time.deltaTime);
-
-            if (percent > 1)
-            {
-                m_CurCameraOffset = transform.position - m_Target.transform.position;
-                m_IsRotating = false;
-            }
-        }
+		m_AligningBehaviour.UpdateBehaviour();
+		m_RotationBehaviour.UpdateBehaviour();
+		m_FollowingBehaviour.UpdateBehaviour();
+        m_FocusingBehaviour.UpdateBehaviour();
 	}
 
-
-    //Focus
-    /// <summary>
-    /// Фокусируеться некоторое время на каком-то объекте, а затем возвращает фокус на игрока
-    /// </summary>
-    /// <param name="target">Объект, который нужно показать</param>
-    /// <param name="focusingTime">Время, на которое объект будет сфокусен</param>
-    /// <param name="onFocusingFinished">События окончания всего фокуса (Возврат фокуса на игрока)</param>
-    public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished, System.Action onFocusDelayFinished)
-    {
-        m_FocusingTarget = target;
-        m_FocusingTime = focusingTime;
-        m_OnFocusingFinished = onFocusingFinished;
-
-        OnCameraArrived += WaitDelay;
-        m_OnFocusDelay += onFocusDelayFinished;
-        FocusAt(target);
-    }
-
-    void WaitDelay()
-    {
-        StartCoroutine(FocusingSomeTimeAt());
-    }
-
-	IEnumerator FocusingSomeTimeAt()
+	Vector3 CacheOffset()
 	{
-		yield return new WaitForSeconds(m_FocusingTime);
-
-        if (m_OnFocusDelay != null)
-        {
-            m_OnFocusDelay();
-            m_OnFocusDelay = null;
-        }
-
-        OnCameraArrived += m_OnFocusingFinished;
-        FocusAt(GameManager.Instance.GameState.Player.transform);
+		m_CachedOffset = transform.position - m_Target.transform.position;
+		return m_CachedOffset;
 	}
-
-    void FocusAt(Transform target)
-	{
-        OnCameraArrived += FocusingFinished;
-		m_Target = target;
-
-		StartFocusing();
-	}
-
-    /// <summary>
-    /// Начало фокуса (Изменение скорости камеры)
-    /// </summary>
-    void StartFocusing()
-    {
-        m_IsFocusingAtSomething = true;
-        m_CurSmoothFactor = SmoothFactor_FocusingAtOther;
-    }
-
-    /// <summary>
-    /// Окончания фокуса (Изменение скорости камеры)
-    /// </summary>
-    void FocusingFinished()
-    {
-        m_IsFocusingAtSomething = false;
-    }
-
-
-    //Rotate
-    public void RotateCamera(bool lockInput = false, bool clockWise = true, float angleSpeed = 405, float rotationTime = 1)
-    {
-        if (lockInput)
-        {
-            InputManager.Instance.InputIsEnabled = false;
-            OnCameraArrived += InputManager.Instance.UnlockInput;
-        }
-
-		PostProcessingController.Instance.DecreaseSaturation();
-
-		m_CurRotationSpeed = Time.deltaTime * angleSpeed;
-        if (!clockWise)
-            m_CurRotationSpeed *= -1;
-        
-        m_LookAtPlayer = true;
-        m_IsRotating = true;
-
-        //TODO iTween 
-
-        OnCameraArrived += RotationFinished;
-        StartCoroutine(RotateSomeTime(rotationTime));
-    }
-
-	IEnumerator RotateSomeTime(float time)
-	{
-		WaitForSeconds waitDelay = new WaitForSeconds(time);
-		yield return waitDelay;
-
-		m_CurRotationSpeed = 0;
-	}
-
-    void RotationFinished()
-    {
-        StopLookAtPlayer();
-        m_IsRotating = false;
-    }
-
-
-	/// <summary>
-    /// Вращение камеры (Изменяет m_CurSmoothFactor)
-	/// </summary>
-	void SetCameraRotation()
-	{
-		//Angle and offset
-		if (!m_CurRotationSpeed.Equals(0f)) //Если вращаеться - начать учитывать вращение и задать скорость
-		{
-			Quaternion camTurnAngle = Quaternion.AngleAxis(m_CurRotationSpeed, Vector3.up);
-			m_CurCameraOffset = camTurnAngle * m_CurCameraOffset;
-
-			m_CurSmoothFactor = SmoothFactor_Rotating;
-		}
-	}
-
-    /// <summary>
-    /// Изменение скорости камеры, если ничего не происходит
-    /// </summary>
-    void SetSmoothSpeed()
-    {
-        if (m_CurRotationSpeed.Equals(0f) && !m_IsFocusingAtSomething && !m_IsRotating)//Если камера не вращаеться - задать скорость
-		{
-            m_CurSmoothFactor = SmoothFactor_Following;
-        }
-    }
-
-	/// <summary>
-    /// Движение камеры (Использует m_CurSmoothFactor)
-	/// </summary>
-	void SetCameraPosition()
-    {
-		Vector3 newPos = m_Target.transform.position + m_CurCameraOffset;
-		transform.position = Vector3.Slerp(transform.position, newPos, m_CurSmoothFactor);
-
-        if (m_CurRotationSpeed.Equals(0f))
-        {
-            float sqrDistToNewPos = (newPos - transform.position).sqrMagnitude;
-            if (sqrDistToNewPos <= 0.001f)
-            {
-                if (OnCameraArrived != null)
-                {
-                    OnCameraArrived();
-                    OnCameraArrived = null;
-                }
-            }
-        }
-	}
-
-
-    /// <summary>
-    /// Начинает возврат поворота камеры в позицию фокуса на персонаже
-    /// </summary>
-    void StartInitFocusing()
-    {
-        m_LookAtPlayer = true;
-        m_InitFocusingAtTarget = true;
-
-        OnCameraArrived += StopInitFocusing;
-    }
-
-    void StopInitFocusing()
-    {
-        StopLookAtPlayer();
-        m_InitFocusingAtTarget = false;
-    }
-
-    void StopLookAtPlayer()
-    {
-        m_LookAtPlayer = false;
-    }
-
-
-    /// <summary>
-    /// Изначальная фокусировка на цели (из позиции камеры на старте игры на игрока)
-    /// </summary>
-    void InitFocusing()
-    {
-        //Интерполяция от текущего оффсета к нужному (выключаеться автоматически)
-		if (m_InitFocusingAtTarget && (m_CurCameraOffset - CameraOffset).sqrMagnitude >= 0.01f)
-			m_CurCameraOffset = Vector3.Slerp(m_CurCameraOffset, CameraOffset, SmoothFactor_InitFocusing);
-    }
 }

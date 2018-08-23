@@ -8,7 +8,7 @@ public class CameraFocusingBehaviour : MonoBehaviour
 
     private Utils.InterpolationData<Vector3> m_LerpData;
 
-    void Start()
+    void Awake()
     {
         m_LerpData = new Utils.InterpolationData<Vector3>(AnimationTime);
     }
@@ -20,7 +20,7 @@ public class CameraFocusingBehaviour : MonoBehaviour
         m_LerpData.Start();
     }
 
-	void Update () 
+	public void UpdateBehaviour () 
     {
         if (m_LerpData.IsStarted)
         {

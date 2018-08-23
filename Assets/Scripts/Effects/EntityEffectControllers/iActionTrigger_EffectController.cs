@@ -11,4 +11,9 @@ public interface iActionTrigger_EffectController
     /// Активировать эффект использования
     /// </summary>
     void ActivateEffect_Action();
+
+	/// <summary>
+    /// Деактивировать эффект использования 
+	/// </summary>
+	void DeactivateEffect_Action();
 }

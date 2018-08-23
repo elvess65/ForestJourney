@@ -15,4 +15,6 @@ public abstract class Actiontrigger_EffectController_Base : MonoBehaviour, iActi
     }
 
     public abstract void ActivateEffect_Action();
+
+    public abstract void DeactivateEffect_Action();
 }

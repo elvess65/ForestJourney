@@ -39,6 +39,9 @@ public abstract class FollowPathBehaviour : MonoBehaviour
 
     public virtual void MoveAlongPath()
     {
+        if (PathMoveController == null)
+            PathMoveController = GetComponent<iTweenPathMoveController>();
+
 		if (PathMoveController != null)
 		{
 			PathMoveController.OnArrived += ImpactHandler;

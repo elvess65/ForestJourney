@@ -10,7 +10,7 @@ public class CameraAligningBehaviour : MonoBehaviour
     private Utils.InterpolationData<Vector3> m_PositionLerpData;
     private Utils.InterpolationData<Quaternion> m_RotationLerpData;
 
-    private void Start()
+    private void Awake()
     {
         m_PositionLerpData = new Utils.InterpolationData<Vector3>(AnimationTime);
         m_RotationLerpData = new Utils.InterpolationData<Quaternion>();

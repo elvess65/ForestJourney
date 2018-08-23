@@ -19,8 +19,14 @@ public class PlayerController : MonoBehaviour
     private Quaternion m_TargetRot;
 
 	private Vector3 m_MoveDirAtLockInput;
-    private float m_ReduceSpeedAtLockInputTime = 0.5f;
 	private IEnumerator m_ReduceSpeedCoroutine;
+
+    public const float ReduceSpeedAtLockInputTime = 0.5f;
+
+    public Vector3 MoveDir
+    {
+        get { return m_MoveDir; }
+    }
 
     void Start()
     {
@@ -56,6 +62,11 @@ public class PlayerController : MonoBehaviour
         m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude);
     }
 
+    public void PauseAnimations(bool isPaused)
+    {
+        m_PlayerAnimationController.PauseAnimations(isPaused);
+    }
+
     public void DestroyPlayer()
     {
         InputManager.Instance.VirtualJoystickInput.OnMove -= MoveInDir;
@@ -85,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator SmoothReduceMoveSpeed()
 	{
-        float speed = 1.0f / m_ReduceSpeedAtLockInputTime;
+        float speed = 1.0f / ReduceSpeedAtLockInputTime;
 
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime * speed)
 		{

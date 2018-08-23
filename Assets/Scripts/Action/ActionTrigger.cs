@@ -10,9 +10,14 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     public event System.Action OnInteract;
     public event System.Action OnInteractionFinished;
 
-    [Header(" - BASE -")]
+    [Header("Rotation")]
     [Tooltip("Вращать ли камеру при взаимодействии")]
     public bool RotateCameraOnInteract = false;
+	public float Angle = 45;
+	public float Speed = -1;
+	public bool Clockwise = true;
+    public GameObject RotateCameraEffectGrahics;
+	public TriggerAction_Event[] OnRotationFinished;
 
     [Header("Objects")]
     [Tooltip("Точка для помошника")]
@@ -49,11 +54,31 @@ public class ActionTrigger : MonoBehaviour, iInteractable
 
         //Вращать камеру если нужно
         if (RotateCameraOnInteract)
-            GameManager.Instance.CameraController.RotateCamera(false);
+        {
+            Vector3 offset = GameManager.Instance.GameState.Player.MoveDir * GameManager.Instance.GameState.Player.MoveSpeed * (PlayerController.ReduceSpeedAtLockInputTime / 1.5f);
+            Vector3 targetPos = GameManager.Instance.GameState.Player.transform.position + offset;
+            targetPos.y = RotateCameraEffectGrahics.transform.position.y;
+            RotateCameraEffectGrahics.transform.position = targetPos;
+            
+            GameManager.Instance.CameraController.OnRotationFinished += RotationFinishedHandler;
+            GameManager.Instance.CameraController.RotateAroundTarget(Angle, Speed, Clockwise);
+        }
 
         //Событие взаимодействия
         if (OnInteract != null)
             OnInteract();
+    }
+
+    void RotationFinishedHandler()
+    {
+        GameManager.Instance.CameraController.OnRotationFinished -= RotationFinishedHandler;
+
+		//Начать проигрывать эффект
+		if (m_EffectController != null)
+            m_EffectController.DeactivateEffect_Action();
+
+        for (int i = 0; i < OnRotationFinished.Length; i++)
+            OnRotationFinished[i].StartEvent();
     }
 
     /// <summary>

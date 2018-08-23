@@ -3,6 +3,7 @@
 public class CameraFollowingBehaviour : MonoBehaviour 
 {
     public System.Action OnFinished;
+    public float Speed = 10;
 
     private Vector3 m_Offset;
     private Vector3 m_TargetPos;
@@ -15,7 +16,7 @@ public class CameraFollowingBehaviour : MonoBehaviour
 		get { return Vector3.Distance(transform.position, m_TargetPos) > m_STOP_DISATNCE; }
 	}
 
-	void Start () 
+	void Awake () 
     {
         m_Offset = Vector3.zero;
 	}
@@ -59,7 +60,7 @@ public class CameraFollowingBehaviour : MonoBehaviour
             m_TargetPos = m_Target.transform.position + m_Offset;
 
             if (IsMoving)
-                transform.position = Vector3.Slerp(transform.position, m_TargetPos, Time.deltaTime);
+                transform.position = Vector3.Slerp(transform.position, m_TargetPos, Speed * Time.deltaTime);
             else 
             {
                 if (OnFinished != null)

@@ -23,7 +23,7 @@ public class AssistantController : Item_Base
     [Header("References")]
     public TrailRenderer Trail;
     public Animator AnimationController;
-    public Effect_Particles_Stop Effect;
+    public Effect_Particles Effect;
 
     private Behaviour m_Behaviour;
     private NavMeshAgent m_Agent;

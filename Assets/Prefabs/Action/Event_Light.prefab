@@ -189,7 +189,6 @@ GameObject:
   - component: {fileID: 114826058912578628}
   - component: {fileID: 114211299686921588}
   - component: {fileID: 114900366991550158}
-  - component: {fileID: 114599768442032102}
   - component: {fileID: 65034058983277304}
   m_Layer: 0
   m_Name: Event_Light
@@ -205,7 +204,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1897039465750544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.59, y: 0.91, z: 10.63}
+  m_LocalPosition: {x: -10.69, y: -0.115947284, z: 15.869999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4014786136374106}
@@ -361,7 +360,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &114211299686921588
 MonoBehaviour:
@@ -384,18 +383,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865713283912540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db7912794ff59ec4691125b4fcc4f4a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cfb6824b5fd5441ebcc58a32e056e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AutoDetect: 0
   AutoDestructAfterActivation: 0
   AutoDestructSec: 5
   ParticleSystems:
+  - {fileID: 198917138304356066}
   - {fileID: 198649846873404334}
   - {fileID: 198863243300812078}
   - {fileID: 198934392285808698}
   - {fileID: 198723885207484680}
-  - {fileID: 198917138304356066}
 --- !u!114 &114365943798022432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,20 +409,9 @@ MonoBehaviour:
   AutoDetect: 0
   AutoDestructAfterActivation: 0
   AutoDestructSec: 5
+  ActivateEffects: []
+  DeactivateEffects: []
   EffectObj: {fileID: 1029085654723696}
---- !u!114 &114599768442032102
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897039465750544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16c00383330914ddbb9030bd5ec6e077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Delay: 1
-  Delay: 1
 --- !u!114 &114826058912578628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -436,6 +424,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateCameraOnInteract: 0
+  Angle: 45
+  Speed: -1
+  Clockwise: 1
+  RotateCameraEffectGrahics: {fileID: 0}
+  OnRotationFinished: []
   AssistantPoint: {fileID: 0}
   ActivationKeys: 
 --- !u!114 &114900366991550158
@@ -449,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc808c221096ee49996c4b539777300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectFinishListener: {fileID: 114599768442032102}
+  EffectFinishListener: {fileID: 0}
   Effects_IsActive:
   - {fileID: 114215515271367094}
   Effects_Action:

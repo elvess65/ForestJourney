@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Контроллер эффектов - Particle System. Событие окончания - любое время.
@@ -53,5 +54,14 @@ public class ActionTrigger_EffectController_Particles : Actiontrigger_EffectCont
 
         if (EffectFinishListener != null)
             EffectFinishListener.OnEffectFinished();
+    }
+
+    public override void DeactivateEffect_Action()
+    {
+		if (Effects_Action != null)
+		{
+			for (int i = 0; i < Effects_Action.Length; i++)
+                Effects_Action[i].Deactivate();
+		}
     }
 }

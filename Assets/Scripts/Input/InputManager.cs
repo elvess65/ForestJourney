@@ -46,12 +46,6 @@ public class InputManager : MonoBehaviour
 
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.U))
-            InputIsEnabled = true;
-
-        if (Input.GetKeyDown(KeyCode.L))
-            InputIsEnabled = false;
-
         if (GameManager.Instance.IsActive && m_InputState)
             m_Input.UpdateInput();
     }

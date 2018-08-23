@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Контроллер эффекта анимации. Событие окончания - завершение анимации.
@@ -14,5 +15,9 @@ public class ActionTrigger_EffectController_Animator : Actiontrigger_EffectContr
     public override void ActivateEffect_Action()
     {
         AnimatorController.SetTrigger(Action_Key);
+    }
+
+    public override void DeactivateEffect_Action()
+    {
     }
 }

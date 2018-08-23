@@ -576,6 +576,8 @@ MonoBehaviour:
   AutoDetect: 0
   AutoDestructAfterActivation: 0
   AutoDestructSec: 5
+  ActivateEffects: []
+  DeactivateEffects: []
   EffectObj: {fileID: 1065521510945114}
 --- !u!114 &114078199207937014
 MonoBehaviour:
@@ -611,6 +613,8 @@ MonoBehaviour:
   AutoDetect: 0
   AutoDestructAfterActivation: 0
   AutoDestructSec: 5
+  ActivateEffects: []
+  DeactivateEffects: []
   EffectObj: {fileID: 1841594926914258}
 --- !u!114 &114338032618115212
 MonoBehaviour:
@@ -620,7 +624,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1562197973043918}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db7912794ff59ec4691125b4fcc4f4a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cfb6824b5fd5441ebcc58a32e056e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AutoDetect: 0

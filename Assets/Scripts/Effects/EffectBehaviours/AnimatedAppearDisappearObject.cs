@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Объект, который появляеться по анимации и пропадает с анимацией
+/// Объект, который появляеться по анимации и пропадает с анимацией (Круг при выделении объекта)
 /// </summary>
 public class AnimatedAppearDisappearObject : MonoBehaviour
 {

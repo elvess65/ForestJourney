@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Базовый класс для всех эффектов
+/// </summary>
 public abstract class Effect_Base : MonoBehaviour
 {
     [Tooltip("Автоопределение ссылок на эффекты")]
