@@ -8,11 +8,11 @@ public class ScrollBehaviour : MonoBehaviour
     public string textureName = "_MainTex";
 
     Vector2 uvOffset = Vector2.zero;
-    MeshRenderer rend;
+    Renderer rend;
 
     private void Start()
     {
-        rend = GetComponent<MeshRenderer>();
+        rend = GetComponent<Renderer>();
     }
 
     void LateUpdate()
