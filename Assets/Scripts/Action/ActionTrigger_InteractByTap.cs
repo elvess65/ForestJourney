@@ -8,8 +8,8 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap, iE
     [Header(" - DERRIVED -")]
     public MeshRenderer GraphicEmissionRenderer;
     public AnimatedAppearDisappearObject SelectionAnimatedObject;
-    public Effect_Base SelectionEffect;
     public Effect_Base IdleEffect;
+    public Effect_Base[] SelectionEffects;
 
     private bool m_CanInteract = false;
     private EmissionBehaviour m_EmissionBehaviour;
@@ -48,8 +48,9 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap, iE
 
         //Выключить пасивный эффект
 		IdleEffect.Deactivate();
-		//Включить активный эффект 
-		SelectionEffect.Activate();
+        //Включить активный эффект 
+        for (int i = 0; i < SelectionEffects.Length; i++)
+		    SelectionEffects[i].Activate();
 
         //Анимция свечения
         m_EmissionBehaviour = new SelectedEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
@@ -64,8 +65,9 @@ public class ActionTrigger_InteractByTap : ActionTrigger, iInteractableByTap, iE
 		SelectionAnimatedObject.OnAnimationFinished += SelectionAnimationFinishedHandler;
 		SelectionAnimatedObject.Hide();
 
-        //Выключить активный эффект
-		SelectionEffect.Deactivate();
+		//Выключить активный эффект
+		for (int i = 0; i < SelectionEffects.Length; i++)
+		    SelectionEffects[i].Deactivate();
     }
 
 	void SelectionAnimationFinishedHandler()
