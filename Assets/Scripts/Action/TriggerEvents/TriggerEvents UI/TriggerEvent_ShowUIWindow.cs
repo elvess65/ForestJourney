@@ -21,7 +21,8 @@
     protected override void CallEvent()
     {
         //Создать окно
-		UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(UIWindowsTutorialLibrary.Instance.GetWindowPrefabByType(TutorialWindowType));
+        UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(UIWindowsTutorialLibrary.Instance.TutorialWindowPrefab);
+        (wnd as UIWindow_Tutorial).InitWithType(TutorialWindowType);
 		wnd.OnWindowHided += WindowHidedHandler;
     }
 

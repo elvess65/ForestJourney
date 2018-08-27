@@ -8,7 +8,10 @@ public class TriggerEvent_DeactivateEffects : TriggerAction_Event
 
     protected override void CallEvent()
     {
-		for (int i = 0; i < Effects.Length; i++)
-			Effects[i].Deactivate();
+        for (int i = 0; i < Effects.Length; i++)
+        {
+            if (Effects[i] != null)
+                Effects[i].Deactivate();
+        }
     }
 }

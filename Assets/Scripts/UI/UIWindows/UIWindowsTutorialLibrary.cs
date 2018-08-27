@@ -4,6 +4,7 @@ using UnityEngine;
 public class UIWindowsTutorialLibrary : MonoBehaviour
 {
     public static UIWindowsTutorialLibrary Instance;
+    public UIWindow_Tutorial TutorialWindowPrefab;
     public TutorialWindowListEntry[] TutorialWindowsList;
 
 	public enum TutorialWindowTypes
@@ -14,27 +15,28 @@ public class UIWindowsTutorialLibrary : MonoBehaviour
         Assistant,
         DisableObstacle,
         Light,
-        CameraRotation
+        CameraRotation,
+        RepairObstacle
 	}
 
-    private Dictionary<TutorialWindowTypes, UIWindow_Base> m_Windows;
+    private Dictionary<TutorialWindowTypes, Sprite> m_Sprites;
 
     private void Awake()
     {
         Instance = this;
-        m_Windows = new Dictionary<TutorialWindowTypes, UIWindow_Base>();
+        m_Sprites = new Dictionary<TutorialWindowTypes, Sprite>();
 
         for (int i = 0; i < TutorialWindowsList.Length; i++)
         {
-            if (!m_Windows.ContainsKey(TutorialWindowsList[i].Type))
-                m_Windows.Add(TutorialWindowsList[i].Type, TutorialWindowsList[i].WindowPrefab);
+            if (!m_Sprites.ContainsKey(TutorialWindowsList[i].Type))
+                m_Sprites.Add(TutorialWindowsList[i].Type, TutorialWindowsList[i].WindowSprite);
         }
     }
 
-    public UIWindow_Base GetWindowPrefabByType(TutorialWindowTypes type)
+    public Sprite GetWindowSpriteByType(TutorialWindowTypes type)
     {
-        if (m_Windows.ContainsKey(type))
-            return m_Windows[type];
+        if (m_Sprites.ContainsKey(type))
+            return m_Sprites[type];
 
         return null;
     }
@@ -43,6 +45,6 @@ public class UIWindowsTutorialLibrary : MonoBehaviour
     public class TutorialWindowListEntry
     {
         public TutorialWindowTypes Type;
-        public UIWindow_Base WindowPrefab;
+        public Sprite WindowSprite;
     }
 }

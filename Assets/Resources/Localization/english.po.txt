@@ -1,0 +1,29 @@
+msgid "Invitation"
+msgstr "Invitation"
+
+msgid "FinishRound"
+msgstr "FinishRound"
+
+msgid "FinishRoundObstacle"
+msgstr "FinishRoundObstacle"
+
+msgid "Assistant"
+msgstr "Assistant"
+
+msgid "DisableObstacle"
+msgstr "DisableObstacle"
+
+msgid "Light"
+msgstr "Light"
+
+msgid "CameraRotation"
+msgstr "CameraRotation"
+
+msgid "RepairObstacle"
+msgstr "RepairObstacle"
+
+msgid "TapToClose"
+msgstr "Tap To Close"
+
+
+

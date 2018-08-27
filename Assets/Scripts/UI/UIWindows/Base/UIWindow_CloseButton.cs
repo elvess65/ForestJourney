@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UIWindow_CloseButton : UIWindow_Base 
+/// <summary>
+/// Окно с кнопкой Закрыть
+/// </summary>
+public abstract class UIWindow_CloseButton : UIWindow_Base 
 {
 	public Button Button_Close;
 

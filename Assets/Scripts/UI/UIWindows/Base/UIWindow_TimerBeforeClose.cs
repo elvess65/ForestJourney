@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Окно с таймером до закрытия
+/// </summary>
 public abstract class UIWindow_TimerBeforeClose : UIWindow_CloseButton
 {
     [Space(10)]
@@ -41,7 +44,7 @@ public abstract class UIWindow_TimerBeforeClose : UIWindow_CloseButton
             if (m_CurTime <= 0)
             {
                 m_IsTime = false;
-                Text_SecondsToEnable.text = "Tap to close";
+                Text_SecondsToEnable.text = LocalizationManager.GetText("TapToClose");
                 LockInput(false);
             }
         }

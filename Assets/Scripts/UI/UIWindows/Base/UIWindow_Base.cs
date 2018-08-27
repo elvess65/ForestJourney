@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// Базовое окно, которое умеет показываться и прятаться
+/// </summary>
 public abstract class UIWindow_Base : MonoBehaviour
 {
     public event System.Action OnWindowHided;
     public event System.Action OnWindowClose;
 
+    public Text Text_Main;
     public UIAnimationController[] AnimationControllers;
-
 
 	public virtual void Show()
 	{
