@@ -6,6 +6,8 @@
 public class Projectile_Behaviour : FollowPathBehaviour
 {
     public Effect_Base EffectImpactPrefab;
+    [Tooltip("Графика снаряда без учета следов (Для отключения при попадании и плавных следов)")]
+    public GameObject ProjectileGraphics;
 
     private bool m_Launched = false;
     private Vector3 m_TargetPos;
@@ -37,13 +39,20 @@ public class Projectile_Behaviour : FollowPathBehaviour
         effect.transform.position = transform.position;
         effect.Activate();
 
-        gameObject.SetActive(false);
-        Destroy(gameObject, 0.1f);
+        Destroy(effect.gameObject, 2);
+
+        if (DeactivateOnArrival)
+        {
+            if (ProjectileGraphics == null)
+                gameObject.SetActive(false);
+            else
+                ProjectileGraphics.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (GameManager.Instance.IsActive && m_Launched)
+        if (m_Launched)//(GameManager.Instance.IsActive && m_Launched)
         {
             float sqrDistToTarget = (transform.position - m_TargetPos).sqrMagnitude;
             transform.position = Vector3.MoveTowards(transform.position,

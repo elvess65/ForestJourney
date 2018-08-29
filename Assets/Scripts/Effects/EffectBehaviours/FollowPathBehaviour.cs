@@ -58,7 +58,8 @@ public abstract class FollowPathBehaviour : MonoBehaviour
 
     protected virtual void ImpactHandler()
     {
-        PathMoveController.OnArrived -= ImpactHandler;
+        if (PathMoveController != null)
+            PathMoveController.OnArrived -= ImpactHandler;
 
         //Вызов события
         if (OnImpact != null)
