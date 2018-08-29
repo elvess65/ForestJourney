@@ -41,9 +41,6 @@ public class MazeSpawner : MonoBehaviour {
 
 	void Start () 
     {
-        Debug.Log((int)1.35f + " " + (int)1.49f + " " + (int)1.51f);
-        Debug.Log(Mathf.RoundToInt(1.35f) + " " + Mathf.RoundToInt(1.5f) + " " + Mathf.RoundToInt(1.51f));
-
 		if (!FullRandom)
         {
 			Random.seed = RandomSeed;
