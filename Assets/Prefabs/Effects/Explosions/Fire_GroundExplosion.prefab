@@ -251,8 +251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoDetect: 0
-  AutoDestructAfterActivation: 0
-  AutoDestructSec: 5
+  AutoDestructAfterActivation: 1
+  AutoDestructSec: 3
   ActivateEffects: []
   DeactivateEffects: []
   EffectObj: {fileID: 1633631935031802}

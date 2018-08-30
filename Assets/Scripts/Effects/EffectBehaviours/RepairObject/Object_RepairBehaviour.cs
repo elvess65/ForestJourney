@@ -6,6 +6,7 @@ public class Object_RepairBehaviour : MonoBehaviour
     public System.Action OnAnimationFinished;
 
     public bool RepairedIsDefault = true;
+    public float ItemAnimationTime = 0.5f;
     public List<Object_RepairBehaviour_Item> ObjectItems;
 
     private int m_FinishedGroups = 0;
@@ -13,9 +14,12 @@ public class Object_RepairBehaviour : MonoBehaviour
 
     void Start()
     {
-        SetDestroyedImmediate();
+        if (!RepairedIsDefault)
+            SetDestroyedImmediate();
 
-		m_ItemGroups = new Dictionary<int, ItemGroup> ();
+        OnAnimationFinished += AnimationFinishedHandler;
+
+        m_ItemGroups = new Dictionary<int, ItemGroup> ();
 		for (int i = 0; i < ObjectItems.Count; i++) 
 		{
 			int groupID = ObjectItems [i].GroupID;
@@ -23,7 +27,15 @@ public class Object_RepairBehaviour : MonoBehaviour
 				m_ItemGroups.Add (groupID, new ItemGroup());
 
 			m_ItemGroups [groupID].AddIndex (i);
-		}
+
+            ObjectItems[i].AnimationTime = ItemAnimationTime;
+        }
+    }
+
+    void AnimationFinishedHandler()
+    {
+        foreach (ItemGroup group in m_ItemGroups.Values)
+            group.ResetIndex();
     }
 
     public void SetRepairedImmediate()
@@ -40,7 +52,7 @@ public class Object_RepairBehaviour : MonoBehaviour
 
     public void Animate()
     {
-		foreach (int groupID in m_ItemGroups.Keys)
+        foreach (int groupID in m_ItemGroups.Keys)
             AnimateNext(groupID);
     }
 
@@ -73,7 +85,7 @@ public class Object_RepairBehaviour : MonoBehaviour
 		{
 			m_ItemIndexes = new List<int>();
 
-			m_Index = -1;
+            ResetIndex();
 		}
 
 		public void AddIndex(int index)
@@ -88,5 +100,10 @@ public class Object_RepairBehaviour : MonoBehaviour
 
 			return m_ItemIndexes [++m_Index];
 		}
+
+        public void ResetIndex()
+        {
+            m_Index = -1;
+        }
 	}
 }

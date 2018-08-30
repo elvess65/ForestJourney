@@ -5,9 +5,10 @@
 /// </summary>
 public class Projectile_Behaviour : FollowPathBehaviour
 {
-    public Effect_Base EffectImpactPrefab;
+    [Space(10)]
     [Tooltip("Графика снаряда без учета следов (Для отключения при попадании и плавных следов)")]
     public GameObject ProjectileGraphics;
+    public Effect_Base EffectImpactPrefab;
 
     private bool m_Launched = false;
     private Vector3 m_TargetPos;
@@ -20,6 +21,24 @@ public class Projectile_Behaviour : FollowPathBehaviour
             MoveAlongPath();
         else
         {
+            //Если было запущено ожидание выключения объекта - остановить
+            if (m_DeactivationDelayCoroutine != null)
+            {
+                StopCoroutine(m_DeactivationDelayCoroutine);
+                m_DeactivationDelayCoroutine = null;
+            }
+
+            //Включить снаряд и графику если они были выключены
+            if (!gameObject.activeSelf)
+                gameObject.SetActive(true);
+
+            if (ProjectileGraphics != null && !ProjectileGraphics.activeSelf)
+                ProjectileGraphics.SetActive(true);
+
+            //Если уже определена начальная позиция
+            if (m_InitPosition.sqrMagnitude > 0)
+                transform.position = m_InitPosition;
+
             m_TargetPos = targetPos;
             m_Launched = true;
         }
@@ -37,16 +56,18 @@ public class Projectile_Behaviour : FollowPathBehaviour
         //Prefab should handle autodestruct
         Effect_Base effect = Instantiate(EffectImpactPrefab);
         effect.transform.position = transform.position;
-        effect.Activate();
+        effect.Activate();       
+    }
 
-        Destroy(effect.gameObject, 2);
-
+    protected override void DeactivateGraphicsOnImpact()
+    {
         if (DeactivateOnArrival)
         {
-            if (ProjectileGraphics == null)
-                gameObject.SetActive(false);
-            else
+            //Сначала отключаем графику (для плавного исчезания следа, а затем объкет)
+            if (ProjectileGraphics != null)
                 ProjectileGraphics.SetActive(false);
+
+            base.DeactivateGraphicsOnImpact();
         }
     }
 

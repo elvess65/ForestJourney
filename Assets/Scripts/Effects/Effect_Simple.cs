@@ -12,6 +12,8 @@ public class Effect_Simple : Effect_Base
 
     public override void Activate()
     {
+        base.Activate();
+
         EffectObj.SetActive(true);
 
         //Включить эффекты при активации (Выключаться должны сами)

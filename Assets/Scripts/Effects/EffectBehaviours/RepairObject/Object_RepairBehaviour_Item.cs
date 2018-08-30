@@ -22,15 +22,23 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
     private float m_CurTime;
     private float m_TotalTime = 0.5f;
     private bool m_IsAnimating = false;
+    private bool m_IsRepaired = true;
+
+    public float AnimationTime
+    {
+        set { m_TotalTime = value; }
+    }
 
     public void SetRepairedImmediate()
     {
+        m_IsRepaired = true;
         transform.localPosition = RepairedTransfromData.Position;
         transform.localRotation = RepairedTransfromData.Rotation;
     }
 
     public void SetDestroyedImmediate()
     {
+        m_IsRepaired = false;
         transform.localPosition = DestroyedTransformData.Position;
         transform.localRotation = DestroyedTransformData.Rotation;
     }
@@ -49,10 +57,16 @@ public class Object_RepairBehaviour_Item : MonoBehaviour
 	//Animation
 	public void Animate()
     {
-        OnAnimationFinished = SetRepairedImmediate;
+        if (m_IsRepaired)
+            OnAnimationFinished = SetDestroyedImmediate;
+        else
+            OnAnimationFinished = SetRepairedImmediate;
+
+        m_To = m_IsRepaired ? DestroyedTransformData : RepairedTransfromData;
+
+        m_IsRepaired = !m_IsRepaired;
 
         m_From = GetTransform();
-        m_To = RepairedTransfromData;
         m_ProgressToNextItem = Random.Range(ProgressToNextItem.Min, ProgressToNextItem.Max);
         m_AnimationPositionDistance = m_To.GetDistance(m_From);
 

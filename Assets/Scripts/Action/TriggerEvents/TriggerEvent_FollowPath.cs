@@ -17,6 +17,9 @@ public class TriggerEvent_FollowPath : TriggerAction_Event
 
 	protected override void CallEvent()
 	{
+        if (!TargetObject.gameObject.activeSelf)
+            TargetObject.gameObject.SetActive(true);
+
         //Перегрузка деактивации по прибытию
         if (DeactivateOnArrival && !TargetObject.DeactivateOnArrival)
             TargetObject.DeactivateOnArrival = DeactivateOnArrival;
