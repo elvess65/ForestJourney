@@ -49,6 +49,14 @@ public class TargetDelayedProjectile : MonoBehaviour
         //Вернуть таймер в начальную позицию
         ToImpactTimer.transform.localScale = new Vector3(m_ImpactTimerInitScale, m_ImpactTimerInitScale, ToImpactTimer.transform.localScale.z);
 
+        //Данные для анимации цели (отсчет до выстрела)
+        m_LerpData.TotalTime = m_TimeToTarget + SpawnDelay;
+        m_LerpData.From = ToImpactTimer.transform.localScale.x;
+        m_LerpData.To = 0;
+
+        //Начало анимации
+        m_LerpData.Start();
+
         //Ожидание перед выстрелом
         StartCoroutine(WaitSpawnDelayTime());
     }
@@ -73,14 +81,6 @@ public class TargetDelayedProjectile : MonoBehaviour
         //Включить и запустить снаряд
         ProjectileLauncher.gameObject.SetActive(true);
         ProjectileLauncher.LaunchProjectile(TargetCollider.transform.position, ImpactHandler);
-
-        //Данные для анимации цели (отсчет до выстрела)
-        m_LerpData.TotalTime = m_TimeToTarget;
-        m_LerpData.From = ToImpactTimer.transform.localScale.x; 
-        m_LerpData.To = 0;
-
-        //Начало анимации
-        m_LerpData.Start();
     } 
 
     IEnumerator WaitAreaExistanceDelayTime()

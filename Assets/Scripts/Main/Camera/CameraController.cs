@@ -142,6 +142,7 @@ public class CameraController : MonoBehaviour
 	}
 
 
+
 	void LateUpdate()
 	{
 		if (!GameManager.Instance.IsActive && m_Target == null)
@@ -151,6 +152,8 @@ public class CameraController : MonoBehaviour
 		m_RotationBehaviour.UpdateBehaviour();
 		m_FollowingBehaviour.UpdateBehaviour();
         m_FocusingBehaviour.UpdateBehaviour();
+
+        
 	}
 
 	Vector3 CacheOffset()

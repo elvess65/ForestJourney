@@ -14,12 +14,11 @@ public class ActionTrigger_LaunchTargetProjectile : ActionTrigger, iExitableFrom
     [Tooltip("После первого приминения взаимодейтсовать с объектом будет нельзя")]
     public bool OneTimeLaunch = true;
     public float DelayBeforeFirstLaunch = 0f;
-    public float DelayBetweenProjectiles = 0.5f;
     public float DelayBetweenCycles = 2;
     public TargetDelayedProjectile[] ProjectileLaunchers;
+    public float[] DelaysBetweenProjectiles;
 
     private bool m_IsInArea = false;
-    private WaitForSeconds m_WaitDelay = null;
     private WaitForSeconds m_CycleWaitDelay = null;
     private WaitForSeconds m_FirstWaitDelay = null;
     private Coroutine m_LaunchSequence = null;
@@ -28,9 +27,6 @@ public class ActionTrigger_LaunchTargetProjectile : ActionTrigger, iExitableFrom
     public override void Interact()
     {
         m_IsInArea = true;
-
-        if (m_WaitDelay == null)
-            m_WaitDelay = new WaitForSeconds(DelayBetweenProjectiles);
 
         if (m_FirstWaitDelay == null && DelayBeforeFirstLaunch > 0)
             m_FirstWaitDelay = new WaitForSeconds(DelayBeforeFirstLaunch);
@@ -70,7 +66,7 @@ public class ActionTrigger_LaunchTargetProjectile : ActionTrigger, iExitableFrom
         {
             ProjectileLaunchers[i].LaunchProjectile();
 
-            yield return m_WaitDelay;
+            yield return new WaitForSeconds(DelaysBetweenProjectiles[i]);
         }
 
         m_LaunchSequence = null;

@@ -18,6 +18,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
 	public bool Clockwise = true;
     public GameObject RotateCameraEffectGrahics;
 	public TriggerAction_Event[] OnRotationFinished;
+    public GameObject C;
 
     [Header("Objects")]
     [Tooltip("Точка для помошника")]
@@ -62,6 +63,9 @@ public class ActionTrigger : MonoBehaviour, iInteractable
             
             GameManager.Instance.CameraController.OnRotationFinished += RotationFinishedHandler;
             GameManager.Instance.CameraController.RotateAroundTarget(Angle, Speed, Clockwise);
+
+            C.SetActive(true);
+            //Destroy(C, 10);
         }
 
         //Событие взаимодействия
