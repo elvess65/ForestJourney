@@ -18,7 +18,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
 	public bool Clockwise = true;
     public GameObject RotateCameraEffectGrahics;
 	public TriggerAction_Event[] OnRotationFinished;
-    public GameObject C;
+    public CompassWorldBehaviour C;
 
     [Header("Objects")]
     [Tooltip("Точка для помошника")]
@@ -64,8 +64,7 @@ public class ActionTrigger : MonoBehaviour, iInteractable
             GameManager.Instance.CameraController.OnRotationFinished += RotationFinishedHandler;
             GameManager.Instance.CameraController.RotateAroundTarget(Angle, Speed, Clockwise);
 
-            C.SetActive(true);
-            //Destroy(C, 10);
+            GameManager.Instance.GameState.CompassWorld.Show();
         }
 
         //Событие взаимодействия
@@ -77,8 +76,10 @@ public class ActionTrigger : MonoBehaviour, iInteractable
     {
         GameManager.Instance.CameraController.OnRotationFinished -= RotationFinishedHandler;
 
-		//Начать проигрывать эффект
-		if (m_EffectController != null)
+        GameManager.Instance.GameState.CompassWorld.Animate();
+
+        //Начать проигрывать эффект
+        if (m_EffectController != null)
             m_EffectController.DeactivateEffect_Action();
 
         for (int i = 0; i < OnRotationFinished.Length; i++)

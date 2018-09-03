@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
+    public CompassWorldBehaviour CompassWorld;
+
     private PlayerController m_Player;
     private List<EnemyController> m_Enemies;
 
