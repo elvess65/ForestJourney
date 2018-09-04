@@ -1,9 +1,12 @@
-﻿public class Action_Light : ActionTrigger
+﻿namespace mytest.ActionTrigger
 {
-    public override void Interact()
+    public class Action_Light : ActionTrigger
     {
-        base.Interact();
+        public override void Interact()
+        {
+            base.Interact();
 
-        //TODO: Add light
+            //TODO: Add light
+        }
     }
 }

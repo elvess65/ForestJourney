@@ -1,22 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonAnimationController : UIAnimationController 
+namespace mytest.UI.Animations
 {
-	[Header("Link")]
-    public Button UIButton;
-
-    private RectTransform m_RectTransform;
-
-	protected override void SetTargetPosition()
-	{
-        //Получить текущую позицию кнопки
-        m_RectTransform = UIButton.transform as RectTransform;
-        m_TargetPosition = m_RectTransform.anchoredPosition.x;
-	}
-
-    protected override void ApplyPosition(float position)
+    /// <summary>
+    /// Контролирует анимацию расположения кнопок
+    /// </summary>
+    public class ButtonAnimationController : OneValueAnimationController
     {
-        m_RectTransform.anchoredPosition = new Vector2(position, m_RectTransform.anchoredPosition.y);
+        [Header("Link")]
+        public Button UIButton;
+
+        private RectTransform m_RectTransform;
+
+        protected override void SetTargetPosition()
+        {
+            //Получить текущую позицию кнопки
+            m_RectTransform = UIButton.transform as RectTransform;
+
+            m_TargetPosition = m_RectTransform.anchoredPosition.x;
+        }
+
+        protected override void ApplyPosition(float position)
+        {
+            //Задать позицию кнопки
+            m_RectTransform.anchoredPosition = new Vector2(position, m_RectTransform.anchoredPosition.y);
+        }
     }
 }

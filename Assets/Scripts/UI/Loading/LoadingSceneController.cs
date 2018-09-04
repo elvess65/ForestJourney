@@ -1,30 +1,36 @@
 ﻿using UnityEngine;
 
-public class LoadingSceneController : MonoBehaviour 
+namespace mytest.UI.Loading
 {
-    private ScreenShotController m_ScreenShotController;
-    private LoadingEffectsController m_LoadingEffectsController;
-    private bool m_IsLoading = false;
-
-	void Start () 
+    /// <summary>
+    /// Обработка ввода для загрузки сцены (переход из начальной сцены)
+    /// </summary>
+    public class LoadingSceneController : MonoBehaviour
     {
-        m_ScreenShotController = GetComponent<ScreenShotController>();	
-        m_LoadingEffectsController = GetComponent<LoadingEffectsController>();
-        m_LoadingEffectsController.OnAnimationComplete += AnimationCompleteHandler;
-	}
+        private ScreenShotController m_ScreenShotController;
+        private LoadingEffectsController m_LoadingEffectsController;
+        private bool m_IsLoading = false;
 
-    void AnimationCompleteHandler()
-    {
-        LevelLoader.Instance.LoadNextLevel();
-    }
-
-	void Update () 
-    {
-        if (Input.GetMouseButtonUp(0) && !m_IsLoading)
+        void Start()
         {
-            m_IsLoading = true;
-			m_LoadingEffectsController.ShowBackgroundEffect(m_ScreenShotController.GetRenderTexture(),
-															m_ScreenShotController.GetUIRenderTexture());
+            m_ScreenShotController = GetComponent<ScreenShotController>();
+            m_LoadingEffectsController = GetComponent<LoadingEffectsController>();
+            m_LoadingEffectsController.OnAnimationComplete += AnimationCompleteHandler;
         }
-	}
+
+        void AnimationCompleteHandler()
+        {
+            LevelLoader.Instance.LoadNextLevel();
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButtonUp(0) && !m_IsLoading)
+            {
+                m_IsLoading = true;
+                m_LoadingEffectsController.ShowBackgroundEffect(m_ScreenShotController.GetRenderTexture(),
+                                                                m_ScreenShotController.GetUIRenderTexture());
+            }
+        }
+    }
 }

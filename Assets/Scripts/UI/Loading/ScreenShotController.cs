@@ -1,31 +1,37 @@
 ﻿using UnityEngine;
 
-public class ScreenShotController : MonoBehaviour
+namespace mytest.UI.Loading
 {
-    public Camera RenderCamera;
-    public Camera UIRenderCamera;
-
-    public RenderTexture GetRenderTexture()
+    /// <summary>
+    /// Скриншот того, что видит камера
+    /// </summary>
+    public class ScreenShotController : MonoBehaviour
     {
-		RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-		rt.Create();
+        public UnityEngine.Camera RenderCamera;
+        public UnityEngine.Camera UIRenderCamera;
 
-		RenderCamera.targetTexture = rt;
-		RenderCamera.Render();
-		RenderCamera.targetTexture = null;
+        public RenderTexture GetRenderTexture()
+        {
+            RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+            rt.Create();
 
-        return rt;
-	}
+            RenderCamera.targetTexture = rt;
+            RenderCamera.Render();
+            RenderCamera.targetTexture = null;
 
-	public RenderTexture GetUIRenderTexture()
-	{
-		RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-		rt.Create();
+            return rt;
+        }
 
-		UIRenderCamera.targetTexture = rt;
-		UIRenderCamera.Render();
-		UIRenderCamera.targetTexture = null;
+        public RenderTexture GetUIRenderTexture()
+        {
+            RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+            rt.Create();
 
-		return rt;
-	}
+            UIRenderCamera.targetTexture = rt;
+            UIRenderCamera.Render();
+            UIRenderCamera.targetTexture = null;
+
+            return rt;
+        }
+    }
 }

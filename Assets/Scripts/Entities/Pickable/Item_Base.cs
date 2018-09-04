@@ -1,39 +1,43 @@
-﻿using UnityEngine;
+﻿using mytest.Interaction;
+using UnityEngine;
 
-/// <summary>
-/// Базовый класс для объектов которые можно поднять и использовать (Помошник, оружие, ключи)
-/// </summary>
-public abstract class Item_Base : MonoBehaviour, iInteractable, iUsable
+namespace mytest.Use
 {
-    public event System.Action OnUse;
-    public event System.Action OnInteract;
-    public event System.Action OnInteractionFinished;
-
-    [Header(" - BASE -")]
-	[Header("Objects")]
-	[Tooltip("Коллайдер")]
-    public BoxCollider Collider;
-
-    protected bool m_Picked = false;
-    protected bool m_Using = false;
-
-    public virtual void Interact()
+    /// <summary>
+    /// Базовый класс для объектов которые можно поднять и использовать (Помошник, оружие, ключи)
+    /// </summary>
+    public abstract class Item_Base : MonoBehaviour, iInteractable, iUsable
     {
-        Collider.enabled = false;
-        m_Picked = true;
+        public event System.Action OnUse;
+        public event System.Action OnInteract;
+        public event System.Action OnInteractionFinished;
 
-        if (OnInteract != null)
-            OnInteract();
+        [Header(" - BASE -")]
+        [Header("Objects")]
+        [Tooltip("Коллайдер")]
+        public BoxCollider Collider;
+
+        protected bool m_Picked = false;
+        protected bool m_Using = false;
+
+        public virtual void Interact()
+        {
+            Collider.enabled = false;
+            m_Picked = true;
+
+            if (OnInteract != null)
+                OnInteract();
+        }
+        public virtual void Use()
+        {
+            m_Picked = false;
+            m_Using = true;
+
+            if (OnUse != null)
+                OnUse();
+        }
+
+        protected abstract void Start();
+        protected abstract void Update();
     }
-    public virtual void Use()
-    {
-        m_Picked = false;
-        m_Using = true;
-
-        if (OnUse != null)
-            OnUse();
-    }
-
-    protected abstract void Start();
-    protected abstract void Update();
 }

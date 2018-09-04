@@ -1,17 +1,21 @@
-﻿using UnityEngine;
+﻿using mytest.Utils;
+using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Реализация окна обучения
-/// </summary>
-public class UIWindow_Tutorial : UIWindow_TimerBeforeClose 
+namespace mytest.UI.Windows
 {
-    [Space(10)]
-    public Image Icon;
-
-    public void InitWithType(UIWindowsTutorialLibrary.TutorialWindowTypes type)
+    /// <summary>
+    /// Реализация окна обучения
+    /// </summary>
+    public class UIWindow_Tutorial : UIWindow_TimerBeforeClose
     {
-        Text_Main.text = LocalizationManager.GetText(type.ToString());
-        Icon.sprite = UIWindowsTutorialLibrary.Instance.GetWindowSpriteByType(type);
+        [Space(10)]
+        public Image Icon;
+
+        public void InitWithType(UIWindowsTutorialLibrary.TutorialWindowTypes type)
+        {
+            Text_Main.text = LocalizationManager.GetText(type.ToString());
+            Icon.sprite = UIWindowsTutorialLibrary.Instance.GetWindowSpriteByType(type);
+        }
     }
 }

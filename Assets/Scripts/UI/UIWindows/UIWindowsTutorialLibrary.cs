@@ -1,50 +1,53 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UIWindowsTutorialLibrary : MonoBehaviour
+namespace mytest.UI
 {
-    public static UIWindowsTutorialLibrary Instance;
-    public UIWindow_Tutorial TutorialWindowPrefab;
-    public TutorialWindowListEntry[] TutorialWindowsList;
-
-	public enum TutorialWindowTypes
-	{
-		Invitation,
-		FinishRound,
-        FinishRoundObstacle,
-        Assistant,
-        DisableObstacle,
-        Light,
-        CameraRotation,
-        RepairObstacle
-	}
-
-    private Dictionary<TutorialWindowTypes, Sprite> m_Sprites;
-
-    private void Awake()
+    public class UIWindowsTutorialLibrary : MonoBehaviour
     {
-        Instance = this;
-        m_Sprites = new Dictionary<TutorialWindowTypes, Sprite>();
+        public static UIWindowsTutorialLibrary Instance;
+        public Windows.UIWindow_Tutorial TutorialWindowPrefab;
+        public TutorialWindowListEntry[] TutorialWindowsList;
 
-        for (int i = 0; i < TutorialWindowsList.Length; i++)
+        public enum TutorialWindowTypes
         {
-            if (!m_Sprites.ContainsKey(TutorialWindowsList[i].Type))
-                m_Sprites.Add(TutorialWindowsList[i].Type, TutorialWindowsList[i].WindowSprite);
+            Invitation,
+            FinishRound,
+            FinishRoundObstacle,
+            Assistant,
+            DisableObstacle,
+            Light,
+            CameraRotation,
+            RepairObstacle
         }
-    }
 
-    public Sprite GetWindowSpriteByType(TutorialWindowTypes type)
-    {
-        if (m_Sprites.ContainsKey(type))
-            return m_Sprites[type];
+        private Dictionary<TutorialWindowTypes, Sprite> m_Sprites;
 
-        return null;
-    }
+        private void Awake()
+        {
+            Instance = this;
+            m_Sprites = new Dictionary<TutorialWindowTypes, Sprite>();
 
-    [System.Serializable]
-    public class TutorialWindowListEntry
-    {
-        public TutorialWindowTypes Type;
-        public Sprite WindowSprite;
+            for (int i = 0; i < TutorialWindowsList.Length; i++)
+            {
+                if (!m_Sprites.ContainsKey(TutorialWindowsList[i].Type))
+                    m_Sprites.Add(TutorialWindowsList[i].Type, TutorialWindowsList[i].WindowSprite);
+            }
+        }
+
+        public Sprite GetWindowSpriteByType(TutorialWindowTypes type)
+        {
+            if (m_Sprites.ContainsKey(type))
+                return m_Sprites[type];
+
+            return null;
+        }
+
+        [System.Serializable]
+        public class TutorialWindowListEntry
+        {
+            public TutorialWindowTypes Type;
+            public Sprite WindowSprite;
+        }
     }
 }

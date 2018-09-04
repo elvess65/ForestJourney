@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class PrefabsLibrary : MonoBehaviour
+namespace mytest.Main
 {
-    public PlayerController PlayerPrefab;
-    public EnemyController EnemyPrefab;
+    public class PrefabsLibrary : MonoBehaviour
+    {
+        public PlayerController PlayerPrefab;
+        public EnemyController EnemyPrefab;
+    }
 }

@@ -1,37 +1,40 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Включает или выключает объект
-/// </summary>
-public class Effect_Simple : Effect_Base
+namespace mytest.Effects
 {
-    [Header("References")]
-	public Effect_Base[] ActivateEffects;
-	public Effect_Base[] DeactivateEffects;
-    public GameObject EffectObj;
-
-    public override void Activate()
+    /// <summary>
+    /// Включает или выключает объект
+    /// </summary>
+    public class Effect_Simple : Effect_Base
     {
-        base.Activate();
+        [Header("References")]
+        public Effect_Base[] ActivateEffects;
+        public Effect_Base[] DeactivateEffects;
+        public GameObject EffectObj;
 
-        EffectObj.SetActive(true);
+        public override void Activate()
+        {
+            base.Activate();
 
-        //Включить эффекты при активации (Выключаться должны сами)
-        for (int i = 0; i < ActivateEffects.Length; i++)
-            ActivateEffects[i].Activate();
-    }
+            EffectObj.SetActive(true);
 
-    public override void Deactivate()
-    {
-        EffectObj.SetActive(false);
+            //Включить эффекты при активации (Выключаться должны сами)
+            for (int i = 0; i < ActivateEffects.Length; i++)
+                ActivateEffects[i].Activate();
+        }
 
-		//Включить эффекты при деактивации (Выключаться должны сами)
-		for (int i = 0; i < DeactivateEffects.Length; i++)
-			DeactivateEffects[i].Activate();
-    }
+        public override void Deactivate()
+        {
+            EffectObj.SetActive(false);
 
-    protected override void PerformAutodetectEffects()
-    {
-        EffectObj = gameObject;
+            //Включить эффекты при деактивации (Выключаться должны сами)
+            for (int i = 0; i < DeactivateEffects.Length; i++)
+                DeactivateEffects[i].Activate();
+        }
+
+        protected override void PerformAutodetectEffects()
+        {
+            EffectObj = gameObject;
+        }
     }
 }

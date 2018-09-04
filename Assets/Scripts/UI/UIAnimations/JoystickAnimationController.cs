@@ -1,57 +1,63 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class JoystickAnimationController : UIAnimationController 
+namespace mytest.UI.Animations
 {
-	[Header("Link")]
-    public UltimateJoystick Joystick;
-    public Image m_RaycastImage;
-
-    protected override void SetTargetPosition()
+    /// <summary>
+    /// Контролирует анимацию расположения джойстика
+    /// </summary>
+    public class JoystickAnimationController : OneValueAnimationController
     {
-		//Получить текущую позицию джойстика
-		m_TargetPosition = Joystick.customSpacing_X;
+        [Header("Link")]
+        public UltimateJoystick Joystick;
+        public Image m_RaycastImage;
 
-		m_RaycastImage.raycastTarget = false;
-        Joystick.enabled = false;
-    }
+        protected override void SetTargetPosition()
+        {
+            //Получить текущую позицию джойстика
+            m_TargetPosition = Joystick.customSpacing_X;
 
-	protected override void ApplyPosition(float position)
-	{
-		Joystick.customSpacing_X = position;
-		Joystick.UpdatePositioning();
-	}
+            m_RaycastImage.raycastTarget = false;
+            Joystick.enabled = false;
+        }
 
-	protected override void ShowStarted()
-    {
-        base.ShowStarted();
+        protected override void ApplyPosition(float position)
+        {
+            Joystick.customSpacing_X = position;
+            Joystick.UpdatePositioning();
+        }
 
-        Joystick.EnableJoystick();
-        Joystick.enabled = false;
-	}
+        protected override void ShowStarted()
+        {
+            base.ShowStarted();
 
-    protected override void ShowFinished()
-    {
-        base.ShowFinished();
+            Joystick.EnableJoystick();
+            Joystick.enabled = false;
+        }
 
-		m_RaycastImage.raycastTarget = true;
-        Joystick.enabled = true;
-    }
+        protected override void ShowFinished()
+        {
+            base.ShowFinished();
 
-    protected override void HideStarted()
-    {
-		base.HideStarted();
+            m_RaycastImage.raycastTarget = true;
+            Joystick.enabled = true;
+        }
 
-        Joystick.ResetJoystick();
+        protected override void HideStarted()
+        {
+            base.HideStarted();
 
-        m_RaycastImage.raycastTarget = false;
-        Joystick.enabled = false;
-	}
+            Joystick.ResetJoystick();
 
-    protected override void HideFinished()
-    {
-        base.HideFinished();
+            m_RaycastImage.raycastTarget = false;
+            Joystick.enabled = false;
+        }
 
-        Joystick.DisableJoystick();
+        protected override void HideFinished()
+        {
+            base.HideFinished();
+
+            Joystick.DisableJoystick();
+        }
     }
 }

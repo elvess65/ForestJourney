@@ -1,9 +1,12 @@
-﻿/// <summary>
-/// Реализация простого окна без кнопок (Затемнение)
-/// </summary>
-public class UIWindow_Simple : UIWindow_Base
+﻿namespace mytest.UI.Windows
 {
-    protected override void Init()
+    /// <summary>
+    /// Реализация простого окна без кнопок (Затемнение)
+    /// </summary>
+    public class UIWindow_Simple : UIWindow_Base
     {
+        protected override void Init()
+        {
+        }
     }
 }

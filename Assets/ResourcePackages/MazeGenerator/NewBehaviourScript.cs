@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using mytest.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
@@ -7,8 +8,8 @@ public class NewBehaviourScript : MonoBehaviour
     public Light MainLight;
 
 
-    Utils.InterpolationData<float> m_LerpData;
-    Utils.InterpolationData<float> m_EnergyLerpData;
+    InterpolationData<float> m_LerpData;
+    InterpolationData<float> m_EnergyLerpData;
     float initIntensity;
     float decreaseTime = 5;
     float increaseTime = 1;
@@ -21,8 +22,8 @@ public class NewBehaviourScript : MonoBehaviour
 
         initIntensity = MainLight.intensity;
 
-        m_EnergyLerpData = new Utils.InterpolationData<float>();
-        m_LerpData = new Utils.InterpolationData<float>(decreaseTime);
+        m_EnergyLerpData = new InterpolationData<float>();
+        m_LerpData = new InterpolationData<float>(decreaseTime);
         m_LerpData.From = initIntensity;
         m_LerpData.To = 0;
 

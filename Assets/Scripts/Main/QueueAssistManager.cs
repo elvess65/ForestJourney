@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class QueueAssistManager : MonoBehaviour
+namespace mytest.Main
 {
-    public List<Transform> AssitantPointQueue;
-
-    public Vector3 FindNext()
+    public class QueueAssistManager : MonoBehaviour
     {
-        return AssitantPointQueue[0].position;
-    }
+        public List<Transform> AssitantPointQueue;
 
-    public void RemovePoint(Transform point)
-    {
-        if (AssitantPointQueue.Contains(point))
-            AssitantPointQueue.Remove(point);
+        public Vector3 FindNext()
+        {
+            return AssitantPointQueue[0].position;
+        }
+
+        public void RemovePoint(Transform point)
+        {
+            if (AssitantPointQueue.Contains(point))
+                AssitantPointQueue.Remove(point);
+        }
     }
 }

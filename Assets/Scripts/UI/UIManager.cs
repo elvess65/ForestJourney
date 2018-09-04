@@ -1,59 +1,70 @@
-﻿using UnityEngine;
+﻿using mytest.UI.Animations;
+using mytest.UI.InputSystem;
+using mytest.UI.Windows;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+namespace mytest.UI
 {
-    [Header("Buttons")]
-    public Button Button_Assist;
-    public Button Button_Weapon;
-    [Header("Animation Controllers")]
-    public UIAnimationController JoystickAnimationController;
-    public UIAnimationController AssistantButtonAnimationController;
-    public UIAnimationController WeaponButtonAnimationController;
-    [Header("Animation Controllers Init settings")]
-    public bool ShowAssistantButton = true;
-    public bool ShowWeaponButton = true;
-
-    private UIWindowsManager m_WindowsManager;
-
-    public UIWindowsManager WindowManager
+    public class UIManager : MonoBehaviour
     {
-        get { return m_WindowsManager; }
-    }
+        [Header("Buttons")]
+        public Button Button_Assist;
+        public Button Button_Weapon;
+        [Header("Animation Controllers")]
+        public BaseUIAnimationController JoystickAnimationController;
+        public BaseUIAnimationController AssistantButtonAnimationController;
+        public BaseUIAnimationController WeaponButtonAnimationController;
+        public BaseUIAnimationController CompassAnimationController;
+        [Header("Animation Controllers Init settings")]
+        public bool ShowAssistantButton = true;
+        public bool ShowWeaponButton = true;
+        public bool ShowCompass = true;
 
-	void Start ()
-    {
-        m_WindowsManager = GetComponent<UIWindowsManager>();
+        private UIWindowsManager m_WindowsManager;
 
-        //Button
-        if (Button_Assist != null)
-            Button_Assist.onClick.AddListener(Assist_PressHandler);
+        public UIWindowsManager WindowManager
+        {
+            get { return m_WindowsManager; }
+        }
 
-        if (Button_Weapon != null)
-            Button_Weapon.onClick.AddListener(Weapon_PressHandler);
+        void Start()
+        {
+            m_WindowsManager = GetComponent<UIWindowsManager>();
 
-        //Animation Controller
-		InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+            //Button
+            if (Button_Assist != null)
+                Button_Assist.onClick.AddListener(Assist_PressHandler);
 
-        if (ShowAssistantButton && AssistantButtonAnimationController != null)
-            InputManager.Instance.OnInputStateChange += AssistantButtonAnimationController.PlayAnimation;
+            if (Button_Weapon != null)
+                Button_Weapon.onClick.AddListener(Weapon_PressHandler);
 
-        if (ShowWeaponButton && WeaponButtonAnimationController != null)
-			InputManager.Instance.OnInputStateChange += WeaponButtonAnimationController.PlayAnimation;
-	}
+            //Animation Controller
+            InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
 
-    public void Assist_PressHandler()
-    {
-        GameManager.Instance.GameState.Player.UseAssistant();
-    }
+            if (ShowAssistantButton && AssistantButtonAnimationController != null)
+                InputManager.Instance.OnInputStateChange += AssistantButtonAnimationController.PlayAnimation;
 
-    public void Weapon_PressHandler()
-    {
-        GameManager.Instance.GameState.Player.UseWeapon();
-    }
+            if (ShowWeaponButton && WeaponButtonAnimationController != null)
+                InputManager.Instance.OnInputStateChange += WeaponButtonAnimationController.PlayAnimation;
 
-    public UIWindow_Base ShowWindow(UIWindow_Base source)
-    {
-        return m_WindowsManager.ShowWindow(source);
+            if (ShowCompass && CompassAnimationController != null)
+                InputManager.Instance.OnInputStateChange += CompassAnimationController.PlayAnimation;
+        }
+
+        public void Assist_PressHandler()
+        {
+            GameManager.Instance.GameState.Player.UseAssistant();
+        }
+
+        public void Weapon_PressHandler()
+        {
+            GameManager.Instance.GameState.Player.UseWeapon();
+        }
+
+        public UIWindow_Base ShowWindow(UIWindow_Base source)
+        {
+            return m_WindowsManager.ShowWindow(source);
+        }
     }
 }

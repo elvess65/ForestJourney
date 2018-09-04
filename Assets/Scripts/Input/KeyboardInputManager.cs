@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class KeyboardInputManager : BaseInputManager
+namespace mytest.UI.InputSystem
 {
-    public override void UpdateInput ()
+    public class KeyboardInputManager : BaseInputManager
     {
-        Vector2 dir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        public override void UpdateInput()
+        {
+            Vector2 dir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        if (OnMove != null)
-            OnMove(new Vector3(dir.x, 0, dir.y));
+            if (OnMove != null)
+                OnMove(new Vector3(dir.x, 0, dir.y));
+        }
     }
 }

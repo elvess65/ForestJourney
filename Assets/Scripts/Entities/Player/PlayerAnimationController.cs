@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using mytest.Utils;
+using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class PlayerAnimationController : MonoBehaviour
     public float DampTime = 0.1f;
 
     private bool m_IsPaused = false;
-    private Utils.InterpolationData<float> m_LerpData;
+    private InterpolationData<float> m_LerpData;
     private const string m_ANIMATION_SPEED_NAME = "speedPercent";
 
     public void PlayMoveAnimation(float speed)
@@ -38,7 +39,9 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else 
         {
-			m_LerpData.From = 0;
+            PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, 0);
+
+            m_LerpData.From = 0;
 			m_LerpData.To = 1;
         }
 

@@ -35,11 +35,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4588375823247298}
-  - component: {fileID: 33733683922924340}
-  - component: {fileID: 65880280293277130}
-  - component: {fileID: 23790600520490786}
   - component: {fileID: 114298221569509572}
+  - component: {fileID: 114429813338954156}
   - component: {fileID: 114773838185684258}
+  - component: {fileID: 65880280293277130}
   m_Layer: 0
   m_Name: Event_RotateCamera
   m_TagString: Intaractable
@@ -307,7 +306,7 @@ Transform:
   m_LocalScale: {x: 1.630059, y: 3.1696248, z: 0.8202287}
   m_Children: []
   m_Father: {fileID: 4963954724984700}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4114575846042850
 Transform:
@@ -321,7 +320,7 @@ Transform:
   m_Children:
   - {fileID: 4455496544966968}
   m_Father: {fileID: 4963954724984700}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4137903156578952
 Transform:
@@ -425,7 +424,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005191521949890}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.6, y: 0.57099104, z: 9.96}
+  m_LocalPosition: {x: 12.6, y: 0.57099104, z: 46.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4963954724984700}
@@ -501,46 +500,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4698065912672506}
-  - {fileID: 4114575846042850}
   - {fileID: 4026270258086746}
+  - {fileID: 4114575846042850}
   m_Father: {fileID: 4588375823247298}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23790600520490786
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1005191521949890}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!23 &23808001867235706
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -583,13 +547,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503501626363492}
   m_Mesh: {fileID: 4300012, guid: 611b295d2cfc20f43b1f45039ab13053, type: 3}
---- !u!33 &33733683922924340
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1005191521949890}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65880280293277130
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -600,7 +557,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.77, y: 1, z: 2.43}
+  m_Size: {x: 2, y: 1, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114298221569509572
 MonoBehaviour:
@@ -613,12 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55683be81cc9b347a1e6a64d3d5d4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateCameraOnInteract: 1
-  Angle: 45
-  Speed: 10
-  Clockwise: 1
-  RotateCameraEffectGrahics: {fileID: 1626064335165972}
-  OnRotationFinished: []
+  RotationBehaviour: {fileID: 114429813338954156}
   AssistantPoint: {fileID: 0}
   ActivationKeys: 
 --- !u!114 &114423272448634954
@@ -656,6 +608,23 @@ MonoBehaviour:
   DeactivateEffects:
   - {fileID: 114423272448634954}
   EffectObj: {fileID: 1503501626363492}
+--- !u!114 &114429813338954156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1005191521949890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9335cb6697d4e34448a241ef4d24c10a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Angle: 45
+  Speed: -1
+  Clockwise: 1
+  UnlockInputOnRotationFinished: 1
+  RotateCameraEffectGrahics: {fileID: 1626064335165972}
+  OnRotationFinished: []
 --- !u!114 &114692157945250500
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Запускает или останавливает проигрывание списка партиклов
-/// </summary>
-public class Effect_Particles : Effect_Base
+namespace mytest.Effects
 {
-    [Space(10)]
-    public ParticleSystem[] ParticleSystems;
-
-    public override void Activate()
+    /// <summary>
+    /// Запускает или останавливает проигрывание списка партиклов
+    /// </summary>
+    public class Effect_Particles : Effect_Base
     {
-        base.Activate();
+        [Space(10)]
+        public ParticleSystem[] ParticleSystems;
 
-		for (int i = 0; i < ParticleSystems.Length; i++)
-            ParticleSystems[i].Play();
-    }
+        public override void Activate()
+        {
+            base.Activate();
 
-    public override void Deactivate()
-    {
-        for (int i = 0; i < ParticleSystems.Length; i++)
-            ParticleSystems[i].Stop();
-    }
+            for (int i = 0; i < ParticleSystems.Length; i++)
+                ParticleSystems[i].Play();
+        }
 
-    protected override void PerformAutodetectEffects()
-    {
-        ParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        public override void Deactivate()
+        {
+            for (int i = 0; i < ParticleSystems.Length; i++)
+                ParticleSystems[i].Stop();
+        }
+
+        protected override void PerformAutodetectEffects()
+        {
+            ParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        }
     }
 }

@@ -1,53 +1,56 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ControlledFadeImage : FadeImageController 
+namespace mytest.UI.Effects
 {
-	[Tooltip("Для спрайтов, которые могут плавно появляться")]
-	public bool AutoFadeOut = false;
-    public float FadeTime = 3;
-    public float InitAlpha = 0;
-    [Header("Fade delay")]
-    public float FadeOutDelay = 1;
-    public float FadeInDelay = 1;
-
-    protected override void Awake()
+    public class ControlledFadeImage : FadeImageController
     {
-        if (AutoFadeOut)
+        [Tooltip("Для спрайтов, которые могут плавно появляться")]
+        public bool AutoFadeOut = false;
+        public float FadeTime = 3;
+        public float InitAlpha = 0;
+        [Header("Fade delay")]
+        public float FadeOutDelay = 1;
+        public float FadeInDelay = 1;
+
+        protected override void Awake()
         {
-            m_FadeTime = FadeTime;
-            m_InitAlpha = InitAlpha;
+            if (AutoFadeOut)
+            {
+                m_FadeTime = FadeTime;
+                m_InitAlpha = InitAlpha;
+            }
+
+            base.Awake();
         }
 
-        base.Awake();
-    }
-
-	void Start()
-	{
-		if (AutoFadeOut)
-			FadeOut();
-	}
+        void Start()
+        {
+            if (AutoFadeOut)
+                FadeOut();
+        }
 
 
-    public override void FadeIn()
-    {
-        StartCoroutine(WaitFadeInDelay());
-    }
+        public override void FadeIn()
+        {
+            StartCoroutine(WaitFadeInDelay());
+        }
 
-    public override void FadeOut()
-    {
-        StartCoroutine(WaitFadeOutDelay());
-    }
+        public override void FadeOut()
+        {
+            StartCoroutine(WaitFadeOutDelay());
+        }
 
-	IEnumerator WaitFadeInDelay()
-	{
-		yield return new WaitForSeconds(FadeOutDelay);
-		base.FadeIn();
-	}
+        IEnumerator WaitFadeInDelay()
+        {
+            yield return new WaitForSeconds(FadeOutDelay);
+            base.FadeIn();
+        }
 
-    IEnumerator WaitFadeOutDelay()
-    {
-        yield return new WaitForSeconds(FadeOutDelay);
-        base.FadeOut();
+        IEnumerator WaitFadeOutDelay()
+        {
+            yield return new WaitForSeconds(FadeOutDelay);
+            base.FadeOut();
+        }
     }
 }

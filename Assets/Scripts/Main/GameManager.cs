@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using mytest.CameraSystem;
+using mytest.Main;
+using mytest.UI;
+using mytest.UI.InputSystem;
+using mytest.UI.Loading;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +17,7 @@ public class GameManager : MonoBehaviour
     public CameraController CameraController;
     public GameStateController GameState;
     public Transform PlayerSpawnPoint;
-    
+
     private bool m_IsActive = false;
     private PrefabsLibrary m_PrefabsLibrary;
 
@@ -33,8 +38,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         CreateMainEntities();
-		CreatePlayer();
-		StartLoop();
+        CreatePlayer();
+        StartLoop();
     }
 
     public void FinishRound()
