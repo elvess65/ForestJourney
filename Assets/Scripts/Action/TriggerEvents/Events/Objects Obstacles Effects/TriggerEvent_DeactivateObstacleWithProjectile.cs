@@ -1,23 +1,23 @@
-﻿using UnityEngine;
+﻿using mytest.Effects.Custom.Obstacle;
+using mytest.Effects.Custom.Projectile;
+using UnityEngine;
 
 namespace mytest.ActionTrigger.Events
 {
     /// <summary>
-    /// Выключить объект после попадания снаряда
+    /// Выключить преграду после попадания снаряда
     /// </summary>
     public class TriggerEvent_DeactivateObstacleWithProjectile : TriggerAction_Event
     {
         [Space(10)]
+        [Tooltip("Объект преграды (реализует тип уничтожения преграды при попадании снаряда)")]
         public Obstacle_Base ObstacleObject;
+        [Tooltip("Контроллер запуска снаряда")]
+        public ProjectileLauncher_Behaviour ProjectileLauncher;
+        [Tooltip("Точка, куда летит снаряд (нужна если снаряд летит не по пути)")]
         public Transform HitPoint;
-        public Projectile_Launcher_Behaviour ProjectileLauncher;
-
+   
         protected override void CallEvent()
-        {
-            CreateProjectile();
-        }
-
-        void CreateProjectile()
         {
             ProjectileLauncher.LaunchProjectile(HitPoint.position, ProjectileImpact_Handler);
         }

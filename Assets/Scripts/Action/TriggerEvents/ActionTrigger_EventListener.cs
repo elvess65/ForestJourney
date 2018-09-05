@@ -6,11 +6,15 @@ using UnityEngine;
 namespace mytest.ActionTrigger
 {
     /// <summary>
-    /// Класс для отслеживания события взаимодейтсвия с триггером
+    /// Класс для отслеживания события взаимодейтсвия с триггером. 
+    /// Содержит списки событий, которые должны вызваться
+    /// Сам подписываеться на ActionTrigger.Interact/InteractionFinished
     /// </summary>
     public class ActionTrigger_EventListener : MonoBehaviour
     {
+        [Tooltip("Вызываеться при взаимодействии с триггером")]
         public TriggerAction_Event[] OnInteractEvents;
+        [Tooltip("Отслеживаеться и вызываеться если на тригере присутствует EffectController")]
         public TriggerAction_Event[] OnInteractionFinishedEvents;
 
         protected iInteractable m_Trigger;
@@ -44,10 +48,11 @@ namespace mytest.ActionTrigger.Events
     public abstract class TriggerAction_Event : MonoBehaviour
     {
         public float Delay = 0;
+        [Tooltip("События окончания этого события. Вызываеться каждой реализацией и может вообще не вызываться (DisableInput, EnableInput)")]
         public TriggerAction_Event[] OnEventFinished;
 
         /// <summary>
-        /// Вызов события (с задержкой или без)
+        /// Вызов события с задержкой или без. Используеться для вызова события из ActionTrigger_EventListener
         /// </summary>
         public virtual void StartEvent()
         {

@@ -1,18 +1,18 @@
-﻿using mytest.Interaction;
+﻿using mytest.ActionTrigger.Effects;
+using mytest.Interaction;
 using mytest.Main;
 using UnityEngine;
 
 namespace mytest.ActionTrigger
 {
     /// <summary>
-    /// Класс триггера. Осуществляет проверку на наличие ключей и показывает эффекты.
-    /// Дополнительные действия осуществляються дополнительными копмпонентами на события OnIntercat() 
-    /// и OnInteractionFinished()
+    /// Класс триггера. Обрабатывает вход игрока в зону коллайдера. 
+    /// События при взаимодейтсвии вызываються дополнительными копмпонентам ActionTrigger_EventListener
     /// </summary>
     public class ActionTrigger : MonoBehaviour, iInteractable
     {
-        public event System.Action OnInteract;
-        public event System.Action OnInteractionFinished;
+        public event System.Action OnInteract;              //Вызываеться при взаимодействии с триггером
+        public event System.Action OnInteractionFinished;   //Отслеживаеться и вызываеться если на тригере присутствует компонент iActionTrigger_EffectController
 
         [Header("Rotation")]
         public CameraRotation_EffectBehaviour RotationBehaviour;
@@ -25,11 +25,12 @@ namespace mytest.ActionTrigger
 
         protected bool m_IsActive = true;
         protected BoxCollider m_Collider;
-        protected iActionTrigger_EffectController m_EffectController;
+        protected iActionTrigger_EffectController m_EffectController;   //Контроллер эффектов (активируеться при взаимодейтсвии, отслеживает конец еффекта и вызывает OnInteractionFinished)
 
         protected virtual void Start()
         {
             m_Collider = GetComponent<BoxCollider>();
+
             m_EffectController = GetComponent<iActionTrigger_EffectController>();
             if (m_EffectController != null)
                 m_EffectController.Init(EffectFinishedHandler);

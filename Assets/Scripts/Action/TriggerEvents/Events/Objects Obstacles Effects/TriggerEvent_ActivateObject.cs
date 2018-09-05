@@ -10,7 +10,7 @@ namespace mytest.ActionTrigger.Events
         [Space(10)]
         public GameObject ActivateObject;
 
-        void Start()
+        void Awake()
         {
             ActivateObject.SetActive(false);
         }

@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Projectile: {fileID: 114013873401042376}
-  RandomPath: 0
+  CurvedPath: 0
 --- !u!114 &114493097042136698
 MonoBehaviour:
   m_ObjectHideFlags: 1

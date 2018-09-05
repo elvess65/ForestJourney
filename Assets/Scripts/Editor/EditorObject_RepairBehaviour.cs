@@ -1,7 +1,8 @@
-﻿using UnityEditor;
+﻿using mytest.Effects.Custom.RepairObject;
+using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Object_RepairBehaviour))]
+[CustomEditor(typeof(RepairObjectBehaviour))]
 public class EditorObject_RepairBehaviour : Editor
 {
     private bool m_IsRepaired = true;
@@ -10,12 +11,12 @@ public class EditorObject_RepairBehaviour : Editor
     {
         base.OnInspectorGUI();
 
-        Object_RepairBehaviour source = (Object_RepairBehaviour)target;
+        RepairObjectBehaviour source = (RepairObjectBehaviour)target;
 
         if (GUILayout.Button("Save as Repaired"))
         {
             if (source.ObjectItems == null)
-                source.ObjectItems = new System.Collections.Generic.List<Object_RepairBehaviour_Item>();
+                source.ObjectItems = new System.Collections.Generic.List<RepairObjectBehaviour_Item>();
             else
                 source.ObjectItems.Clear();
 
@@ -23,9 +24,9 @@ public class EditorObject_RepairBehaviour : Editor
             MeshRenderer[] renderers = source.transform.GetComponentsInChildren<MeshRenderer>();
             for (int i = 0; i < renderers.Length; i++)
             {
-                Object_RepairBehaviour_Item item = renderers[i].gameObject.GetComponent<Object_RepairBehaviour_Item>();
+                RepairObjectBehaviour_Item item = renderers[i].gameObject.GetComponent<RepairObjectBehaviour_Item>();
                 if (item == null)
-                    item = renderers[i].gameObject.AddComponent<Object_RepairBehaviour_Item>();
+                    item = renderers[i].gameObject.AddComponent<RepairObjectBehaviour_Item>();
                 
                 item.SaveTransformAsRepaired();
 
@@ -37,7 +38,7 @@ public class EditorObject_RepairBehaviour : Editor
         {
             if (GUILayout.Button("Save as Destroyed"))
             {
-                foreach (Object_RepairBehaviour_Item item in source.ObjectItems)
+                foreach (RepairObjectBehaviour_Item item in source.ObjectItems)
                     item.SaveTransfromAsDestroyed();
             }
 
@@ -55,7 +56,7 @@ public class EditorObject_RepairBehaviour : Editor
 
 			if (GUILayout.Button("Clear"))
 			{
-				foreach (Object_RepairBehaviour_Item item in source.ObjectItems)
+				foreach (RepairObjectBehaviour_Item item in source.ObjectItems)
 					DestroyImmediate (item);
 
 				source.ObjectItems.Clear ();

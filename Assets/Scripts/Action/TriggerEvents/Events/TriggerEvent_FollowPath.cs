@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using mytest.Effects.Custom.FollowPath;
+using UnityEngine;
 
 namespace mytest.ActionTrigger.Events
 {
