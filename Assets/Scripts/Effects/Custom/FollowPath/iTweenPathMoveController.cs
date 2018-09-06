@@ -28,6 +28,9 @@ namespace mytest.Effects.Custom.FollowPath
         {
             try
             {
+                if (m_PathController == null)
+                    m_PathController = GetComponent<iTweenPath>();
+
                 iTweenPath.GetPath(m_PathController.pathName)[index] = pos;
             }
             catch (System.IndexOutOfRangeException)
