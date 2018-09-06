@@ -45,6 +45,11 @@ namespace mytest.UI.Loading
             LoadLevel(nextLevelIndex);
         }
 
+        public void RestartRound()
+        {
+            LoadLevel(SceneManager.GetActiveScene().buildIndex);
+        }
+
         IEnumerator LoadLevelAsync(int index)
         {
             if (ProgressBar != null)

@@ -15,7 +15,7 @@ namespace mytest.UI
         public BaseUIAnimationController JoystickAnimationController;
         public BaseUIAnimationController AssistantButtonAnimationController;
         public BaseUIAnimationController WeaponButtonAnimationController;
-        public BaseUIAnimationController CompassAnimationController;
+        public BaseUIAnimationController CompassAnimationController;        
         [Header("Animation Controllers Init settings")]
         public bool ShowAssistantButton = true;
         public bool ShowWeaponButton = true;

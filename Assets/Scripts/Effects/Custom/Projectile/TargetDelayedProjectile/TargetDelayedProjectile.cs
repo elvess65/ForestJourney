@@ -14,6 +14,7 @@ namespace mytest.Effects.Custom.Projectile
         public GameObject TargetGraphics;    //Графика (без коллайдера)
         public GameObject ToImpactTimer;     //Таймер до попадения (часть графики)
         public ProjectileLauncher_Behaviour ProjectileLauncher;
+        public Effect_Base DamageAreaEffect;
         [Header("Settings")]
         public float SpawnDelay;                //Задержка перед выстрелом
         public float DamageAreaDestroyDelay;    //Задержка перед удалением зоны, которая наносит урон
@@ -33,7 +34,7 @@ namespace mytest.Effects.Custom.Projectile
 
             //На старте выключить снаряд и цель
             ProjectileLauncher.gameObject.SetActive(false);
-            TargetCollider.gameObject.SetActive(false);
+            TargetCollider.enabled = false;
             TargetGraphics.SetActive(false);
 
             //Время полета до цели
@@ -71,6 +72,9 @@ namespace mytest.Effects.Custom.Projectile
         {
             //Включить зону поражения
             TargetCollider.enabled = true;
+      
+            //Включить эффект зоны поражения
+            DamageAreaEffect.Activate();
 
             //Выключить эффект ожидания для цели
             TargetGraphics.gameObject.SetActive(false);
@@ -95,6 +99,9 @@ namespace mytest.Effects.Custom.Projectile
 
             //Выключить зону поражения
             TargetCollider.enabled = false;
+
+            //Выключить эффект зоны поражения
+            DamageAreaEffect.Deactivate();
         }
 
         void Update()

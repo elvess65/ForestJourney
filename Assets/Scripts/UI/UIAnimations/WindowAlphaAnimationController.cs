@@ -3,7 +3,7 @@
 namespace mytest.UI.Animations
 {
     /// <summary>
-    /// Контролирует анимацию изменения прозрачности
+    /// Контролирует анимацию изменения прозрачности для CanvasGroup
     /// </summary>
     public class WindowAlphaAnimationController : OneValueAnimationController
     {

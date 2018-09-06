@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartRound()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        m_IsActive = false;
+
+        GameState.GameOver();
     }
 
     void StartLoop()

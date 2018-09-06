@@ -8,6 +8,11 @@ namespace mytest.UI.Animations
         public event System.Action OnShowFinished;
         public event System.Action OnHideFinished;
 
+        [Header("Animation")]
+        public float DelayBeforeShow = 0;
+        public float TimeToTargetPosition = 1.0f;
+        public bool PingPong = false;
+
         public  abstract void PlayAnimation(bool playShowAnimation);
 
         protected void CallShowFinished()
@@ -28,14 +33,15 @@ namespace mytest.UI.Animations
     /// </summary>
     public abstract class UIAnimationController<T> : BaseUIAnimationController
     {
-        [Header("Animation")]
-        public float TimeToTargetPosition = 1.0f;
+        [Space(10)]
         public T StartPosition;
         public AnimationCurve CurveShow;
         public AnimationCurve CurveHide;
 
         protected T m_TargetPosition;
         protected float m_TotalDistance = 0;
+
+        private Coroutine m_Coroitune;
 
         protected virtual void Awake()
         {
@@ -48,14 +54,20 @@ namespace mytest.UI.Animations
 
         public override void PlayAnimation(bool playShowAnimation)
         {
+            if (m_Coroitune != null)
+                StopCoroutine(m_Coroitune);
+
             if (playShowAnimation)
-                StartCoroutine(Show());
+                m_Coroitune = StartCoroutine(Show());
             else
-                StartCoroutine(Hide());
+                m_Coroitune = StartCoroutine(Hide());
         }
 
         IEnumerator Show()
         {
+            if (DelayBeforeShow > 0)
+                yield return new WaitForSeconds(DelayBeforeShow);
+
             ShowStarted();
             float speed = 1.0f / TimeToTargetPosition;
 
@@ -75,7 +87,15 @@ namespace mytest.UI.Animations
 
         protected virtual void ShowFinished()
         {
+            m_Coroitune = null;
+
             CallShowFinished();
+
+            if (PingPong)
+            {
+                DelayBeforeShow = 0;
+                PlayAnimation(false);
+            }
         }
 
 
@@ -100,7 +120,15 @@ namespace mytest.UI.Animations
 
         protected virtual void HideFinished()
         {
+            m_Coroitune = null;
+
             CallHideFinished();
+
+            if (PingPong)
+            {
+                DelayBeforeShow = 0;
+                PlayAnimation(true);
+            }
         }
 
 

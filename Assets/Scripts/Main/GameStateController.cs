@@ -8,6 +8,7 @@ namespace mytest.Main
         public CompassWorldBehaviour GlobalCompass;
 
         private PlayerController m_Player;
+        private GameOverController m_GameOverController;
         private List<EnemyController> m_Enemies;
 
         public enum KeyTypes
@@ -32,6 +33,11 @@ namespace mytest.Main
 
                 return m_Enemies;
             }
+        }
+
+        private void Start()
+        {
+            m_GameOverController = GetComponent<GameOverController>();
         }
 
         public void AddEnemy(EnemyController enemy)
@@ -75,6 +81,11 @@ namespace mytest.Main
             }
 
             return result;
+        }
+
+        public void GameOver()
+        {
+            m_GameOverController.GameOver();
         }
     }
 }
