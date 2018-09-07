@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using mytest.Main.MiniGames;
+using UnityEngine;
 
 namespace mytest.UI.InputSystem
 {
     public class InputManager : MonoBehaviour
     {
+        public MiniGameController MiniGame;
+        public MiniGame_Base Game;
+
         public static InputManager Instance;
         public System.Action<bool> OnInputStateChange;
 
@@ -56,6 +60,26 @@ namespace mytest.UI.InputSystem
 
             if (Input.GetKeyDown(KeyCode.U))
                 InputIsEnabled = true;
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                InputIsEnabled = false;
+                MiniGame.OnGameStarted += Started;
+                MiniGame.OnGameFinished += Finished;
+                MiniGame.StartGame(Game);
+            }
+        }
+
+        void Started()
+        {
+            Debug.Log("Game started");
+        }
+
+        void Finished()
+        {
+            Debug.Log("Game finished");
+
+            InputIsEnabled = true;
         }
 
         public void UnlockInput()
