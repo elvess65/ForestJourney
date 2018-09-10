@@ -10,21 +10,18 @@ namespace mytest.ActionTrigger
     /// Отслеживает вход/выход зоны взаимодествия
     /// При тапе ведет себе аналогично ActionTrigger. 
     /// </summary>
-    public class ActionToggle : ActionTrigger, iInteractableByTap, iExitableFromInteractionArea
+    public class ActionToggle : ActionToggle_Base
     {
-        [Header(" - DERRIVED -")]
+       [Space(10)]
         public MeshRenderer GraphicEmissionRenderer;
-        public AnimatedAppearDisappearObject SelectionAnimatedObject;
         public Effect_Base IdleEffect;
         public Effect_Base[] SelectionEffects;
 
-        private bool m_CanInteract = false;
         private EmissionBehaviour m_EmissionBehaviour;
 
-        public void ExitFromInteractableArea()
+        public override void ExitFromInteractableArea()
         {
-            //Снять выделение
-            Unselect();
+            base.ExitFromInteractableArea();
 
             //Анимация свечения
             m_EmissionBehaviour = new IdleEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
@@ -33,12 +30,9 @@ namespace mytest.ActionTrigger
             IdleEffect.Activate();
         }
 
-        public void InteractByTap()
+        public override void InteractByTap()
         {
-            base.Interact();
-
-            //Снять выделение
-            Unselect();
+            base.InteractByTap();
 
             //Анимация свечения
             m_EmissionBehaviour = new DisableEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
@@ -46,15 +40,11 @@ namespace mytest.ActionTrigger
 
         public override void Interact()
         {
-            //Разрешить использовать объект
-            m_CanInteract = true;
-
-            //Показать выделение
-            SelectionAnimatedObject.OnAnimationFinished = null;
-            SelectionAnimatedObject.Show();
+            base.Interact();
 
             //Выключить пасивный эффект
             IdleEffect.Deactivate();
+
             //Включить активный эффект 
             for (int i = 0; i < SelectionEffects.Length; i++)
                 SelectionEffects[i].Activate();
@@ -63,25 +53,15 @@ namespace mytest.ActionTrigger
             m_EmissionBehaviour = new SelectedEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
         }
 
-        void Unselect()
-        {
-            //Запретить использовать объект
-            m_CanInteract = false;
 
-            //Спрятать выделение
-            SelectionAnimatedObject.OnAnimationFinished += SelectionAnimationFinishedHandler;
-            SelectionAnimatedObject.Hide();
+        protected override void Unselect()
+        {
+            base.Unselect();
 
             //Выключить активный эффект
             for (int i = 0; i < SelectionEffects.Length; i++)
                 SelectionEffects[i].Deactivate();
         }
-
-        void SelectionAnimationFinishedHandler()
-        {
-            SelectionAnimatedObject.gameObject.SetActive(false);
-        }
-
 
         protected override void Start()
         {
@@ -98,25 +78,14 @@ namespace mytest.ActionTrigger
             IdleEffect.Activate();
         }
 
-        void Update()
+        protected override void Update()
         {
             if (GraphicEmissionRenderer == null)
                 return;
 
             m_EmissionBehaviour.Update();
 
-            if (m_CanInteract && Input.GetMouseButtonDown(0))
-            {
-                RaycastHit hit;
-                Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    iInteractableByTap obj = hit.collider.GetComponentInParent<iInteractableByTap>();
-                    if (obj != null)
-                        obj.InteractByTap();
-                }
-            }
+            base.Update();
         }
 
 

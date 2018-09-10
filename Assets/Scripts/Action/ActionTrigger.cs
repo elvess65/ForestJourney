@@ -33,7 +33,7 @@ namespace mytest.ActionTrigger
 
             m_EffectController = GetComponent<iActionTrigger_EffectController>();
             if (m_EffectController != null)
-                m_EffectController.Init(EffectFinishedHandler);
+                m_EffectController.Init(InteractionFinishedHandler);
         }
 
         public virtual void Interact()
@@ -88,7 +88,7 @@ namespace mytest.ActionTrigger
         /// <summary>
         /// Окончание проигрывания эффекта взаимодейтсвия
         /// </summary>
-        protected virtual void EffectFinishedHandler()
+        protected virtual void InteractionFinishedHandler()
         {
             if (OnInteractionFinished != null)
                 OnInteractionFinished();

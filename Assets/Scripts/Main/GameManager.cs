@@ -1,5 +1,6 @@
 ﻿using mytest.CameraSystem;
 using mytest.Main;
+using mytest.Main.MiniGames;
 using mytest.UI;
 using mytest.UI.InputSystem;
 using mytest.UI.Loading;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public CameraController CameraController;
     public GameStateController GameState;
     public Transform PlayerSpawnPoint;
+    public MiniGameController MiniGameController;
 
     private bool m_IsActive = false;
     private PrefabsLibrary m_PrefabsLibrary;

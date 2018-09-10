@@ -18,6 +18,7 @@ namespace mytest.Effects.Custom.RepairObject
         public MinMaxRangeSlider.MinMaxPair ProgressToNextItem = new MinMaxRangeSlider.MinMaxPair(0.2f, 0.5f);
         public AnimationCurve CurvePosition = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1) });
 
+        private Collider m_Collider;
         private TransformData m_From;
         private TransformData m_To;
         private float m_ProgressToNextItem;
@@ -63,9 +64,20 @@ namespace mytest.Effects.Custom.RepairObject
         public void Animate()
         {
             if (m_IsRepaired)
+            {
+                if (m_Collider != null)
+                    m_Collider.enabled = false;
+
+                transform.Translate(Vector3.forward, Space.World);
                 OnAnimationFinished = SetDestroyedImmediate;
+            }
             else
+            {
+                if (m_Collider != null)
+                    m_Collider.enabled = true;
+
                 OnAnimationFinished = SetRepairedImmediate;
+            }
 
             m_To = m_IsRepaired ? DestroyedTransformData : RepairedTransfromData;
 
@@ -79,6 +91,10 @@ namespace mytest.Effects.Custom.RepairObject
             m_IsAnimating = true;
         }
 
+        void Start()
+        {
+            m_Collider = GetComponent<Collider>();
+        }
 
         void Update()
         {
