@@ -28,6 +28,7 @@ namespace mytest.CameraSystem
         private float m_FocusingTime;
         private System.Action m_OnFocusingFinished;
         private System.Action m_OnFocusDelayFinished;
+        private System.Action m_OnFocusDelayStarted;
         //Rotation
         private float m_Angle;
         private float m_Speed;
@@ -75,13 +76,15 @@ namespace mytest.CameraSystem
         /// <param name="focusingTime">Время фокусировки на объекте</param>
         /// <param name="onFocusingFinished">Окончания фокусировки (камера вернулась на предыдущую цель)</param>
         /// <param name="onFocusDelayFinished">Окончание задержки фокусировки (камера начинает возвращаться на предыдущую цель)</param>
-        public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished, System.Action onFocusDelayFinished)
+        /// <param name="onFocusDelayStarted">Начало задержки фокусировки (камера окончила движение к цели)</param>
+        public void FocusSomeTimeAt(Transform target, float focusingTime, System.Action onFocusingFinished, System.Action onFocusDelayFinished, System.Action onFocusDelayStarted)
         {
             m_FollowingBehaviour.PauseFollowing();
 
             m_FocusingTime = focusingTime;
             m_OnFocusingFinished = onFocusingFinished;
             m_OnFocusDelayFinished = onFocusDelayFinished;
+            m_OnFocusDelayStarted = onFocusDelayStarted;
 
             m_FocusingBehaviour.OnFinished += FocusedOnTargetHandler;
             m_FocusingBehaviour.MoveToWithOffset(target, CacheOffset());   //Кеш оффсета на момент начала движения (если было вращение камеры)
@@ -94,6 +97,9 @@ namespace mytest.CameraSystem
 
         IEnumerator WaitFocusDelay()
         {
+            if (m_OnFocusDelayStarted != null)
+                m_OnFocusDelayStarted();
+
             yield return new WaitForSeconds(m_FocusingTime);
 
             if (m_OnFocusDelayFinished != null)

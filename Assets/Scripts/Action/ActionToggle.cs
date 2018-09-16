@@ -22,6 +22,8 @@ namespace mytest.ActionTrigger
         [Header("Emissions")]
         [Tooltip("Список контроллеров эмиссии (на самом объекте и руны")]
         public EmissionEffectBehaviour[] EmissionBehaviours;
+        [Tooltip("Отключить только первый эффект при взаимодействии (если руны нужно отключить позже)")]
+        public bool DisableOnlyFirst = false;
 
         public override void ExitFromInteractableArea()
         {
@@ -39,10 +41,14 @@ namespace mytest.ActionTrigger
         {
             base.InteractByTap();
 
-
 			//Изменить состояние эммиссии
-			for (int i = 0; i < EmissionBehaviours.Length; i++)
-				EmissionBehaviours[i].SetDisable();
+            if (DisableOnlyFirst)
+                EmissionBehaviours[0].SetDisable();
+            else 
+            {
+                for (int i = 0; i < EmissionBehaviours.Length; i++)
+                    EmissionBehaviours[i].SetDisable();
+            }
         }
 
         public override void Interact()

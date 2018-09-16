@@ -1,20 +1,48 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace mytest.Effects.Custom
 {
     public class EmissionEffectBehaviour : MonoBehaviour
     {
+        public int GroupID = 0;
         public MeshRenderer GraphicEmissionRenderer;
         public Effect_Base[] DisableEffects;
+        [Header("Timing Settings")]
+        [MinMaxRangeSlider.MinMax(0, 10)]
+        public MinMaxRangeSlider.MinMaxPair IdleSmoothTime = new MinMaxRangeSlider.MinMaxPair(0.5f, 2f);
+        [MinMaxRangeSlider.MinMax(0, 10)]
+        public MinMaxRangeSlider.MinMaxPair SelectedSmoothTime = new MinMaxRangeSlider.MinMaxPair(1.0f, 1.5f);
+        [MinMaxRangeSlider.MinMax(0, 10)]
+        public MinMaxRangeSlider.MinMaxPair DisableSmoothTime = new MinMaxRangeSlider.MinMaxPair(5f, 5f);
 
         private EmissionBehaviour m_EmissionBehaviour;
         private Material m_EmissionMaterial;
+        private EmissionAnimation m_Data;
+
+        private static Dictionary<int, EmissionAnimation> m_GROUP_EMISSION_DATA;
 
         void Start()
         {
-			//Создать копию материала и применить ее к объекту
-			m_EmissionMaterial = new Material(GraphicEmissionRenderer.sharedMaterial);
+            //Тайминги для групы (для каждой групы одинаковые тайминги)
+            if (m_GROUP_EMISSION_DATA == null)
+                m_GROUP_EMISSION_DATA = new Dictionary<int, EmissionAnimation>();
+
+            
+            //Если еще не созданы данные для групы - создать
+            if (!m_GROUP_EMISSION_DATA.ContainsKey(GroupID))
+            {
+                m_Data = new EmissionAnimation(Random.Range(IdleSmoothTime.Min, IdleSmoothTime.Max),
+                                             Random.Range(SelectedSmoothTime.Min, SelectedSmoothTime.Max),
+                                             Random.Range(DisableSmoothTime.Min, DisableSmoothTime.Max));
+
+                m_GROUP_EMISSION_DATA.Add(GroupID, m_Data);
+            }
+            else //Если уже созданы данные для групы - получить
+                m_Data = m_GROUP_EMISSION_DATA[GroupID]; 
+
+            //Создать копию материала и применить ее к объекту
+            m_EmissionMaterial = new Material(GraphicEmissionRenderer.sharedMaterial);
 			GraphicEmissionRenderer.sharedMaterial = m_EmissionMaterial;
 
             SetIdle();
@@ -24,24 +52,24 @@ namespace mytest.Effects.Custom
 		{
 			if (m_EmissionBehaviour != null)
 				m_EmissionBehaviour.Update();
-
-            if (Input.GetKeyDown(KeyCode.M))
-                SetDisable();
 		}
+
 
         public void SetIdle()
         {
-            m_EmissionBehaviour = new IdleEmissionBehaviour(m_EmissionBehaviour == null ? m_EmissionMaterial : m_EmissionBehaviour.Material, 0);
+            m_EmissionBehaviour = new IdleEmissionBehaviour(m_EmissionBehaviour == null ? m_EmissionMaterial : m_EmissionBehaviour.Material,
+                                                            m_EmissionBehaviour == null ? 0                  : m_EmissionBehaviour.Intensity,
+                                                            m_Data.IdleSmoothTime);
         }
 
         public void SetMax()
         {
-			m_EmissionBehaviour = new SelectedEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
+            m_EmissionBehaviour = new SelectedEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity, m_Data.SelectedSmoothTime);
         }
 
         public void SetDisable()
         {
-			m_EmissionBehaviour = new DisableEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity);
+            m_EmissionBehaviour = new DisableEmissionBehaviour(m_EmissionBehaviour.Material, m_EmissionBehaviour.Intensity, m_Data.DisableSmoothTime);
 
             for (int i = 0; i < DisableEffects.Length; i++)
                 DisableEffects[i].Activate();
@@ -66,7 +94,7 @@ namespace mytest.Effects.Custom
 				get { return m_Material; }
 			}
 
-			public EmissionBehaviour(Material mat, float curIntensity)
+			public EmissionBehaviour(Material mat)
 			{
 				m_Material = mat;
 				m_BaseColor = Color.white;
@@ -111,14 +139,13 @@ namespace mytest.Effects.Custom
 		{
 			private float m_CurTime = 0;
 			private const float m_INTENSITY_VALUE = 1;
-			private const float m_SMOOTH_TIME = 1;
 
-			public IdleEmissionBehaviour(Material mat, float curIntensity) : base(mat, curIntensity)
+			public IdleEmissionBehaviour(Material mat, float curIntensity, float smoothTime) : base(mat)
 			{
 				m_CurTime = 0;
 
 				if (curIntensity >= 0)
-					StartSmoothAnimation(curIntensity, m_INTENSITY_VALUE, m_SMOOTH_TIME);
+					StartSmoothAnimation(curIntensity, m_INTENSITY_VALUE, smoothTime);
 			}
 
 			protected override float GetIntensity()
@@ -131,11 +158,10 @@ namespace mytest.Effects.Custom
 		class SelectedEmissionBehaviour : EmissionBehaviour
 		{
 			private const float m_INTENSITY_VALUE = 5;
-			private const float m_SMOOTH_TIME = 1;
 
-			public SelectedEmissionBehaviour(Material mat, float curIntensity) : base(mat, curIntensity)
+            public SelectedEmissionBehaviour(Material mat, float curIntensity, float smoothTime) : base(mat)
 			{
-				StartSmoothAnimation(curIntensity, m_INTENSITY_VALUE, m_SMOOTH_TIME);
+				StartSmoothAnimation(curIntensity, m_INTENSITY_VALUE, smoothTime);
 			}
 
 			protected override float GetIntensity()
@@ -147,13 +173,12 @@ namespace mytest.Effects.Custom
 		class DisableEmissionBehaviour : EmissionBehaviour
 		{
 			private const float m_INTENSITY_VALUE = -1;
-			private const float m_SMOOTH_TIME = 5;
 
-			public DisableEmissionBehaviour(Material mat, float curIntensity) : base(mat, curIntensity)
+			public DisableEmissionBehaviour(Material mat, float curIntensity, float smoothTime) : base(mat)
 			{
 				m_Intensity = curIntensity;
 
-				StartSmoothAnimation(m_Intensity, m_INTENSITY_VALUE, m_SMOOTH_TIME);
+				StartSmoothAnimation(m_Intensity, m_INTENSITY_VALUE, smoothTime);
 			}
 
 			protected override float GetIntensity()
@@ -161,5 +186,20 @@ namespace mytest.Effects.Custom
 				return m_Intensity;
 			}
 		}
+
+
+        struct EmissionAnimation
+        {
+            public float IdleSmoothTime;
+            public float SelectedSmoothTime;
+            public float DisableSmoothTime;
+
+            public EmissionAnimation(float idleSmoothTime, float selectedSmoothTime, float disableSmoothTime)
+            {
+                IdleSmoothTime = idleSmoothTime;
+                SelectedSmoothTime = selectedSmoothTime;
+                DisableSmoothTime = disableSmoothTime;
+            }
+        }
     }
 }

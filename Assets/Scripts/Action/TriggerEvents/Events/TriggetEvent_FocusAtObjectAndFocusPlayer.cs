@@ -11,24 +11,32 @@ namespace mytest.ActionTrigger.Events
         [Space(10)]
         public Transform FocusingObject;
         public float FocusingTime = 1;
+        public TriggerAction_Event[] OnFocusingDelayStartedEvents;
         public TriggerAction_Event[] OnFocusingDelayFinishedEvents;
 
         protected override void CallEvent()
         {
             InputManager.Instance.InputIsEnabled = false;
-            GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, FocusingTime, FocusingFinishedHandler, FocusingTimeFinishedHandler);
+            GameManager.Instance.CameraController.FocusSomeTimeAt(FocusingObject, FocusingTime, FocusingFinishedHandler, FocusingTimeFinishedHandler, FocusingTimeStartedHandler);
         }
 
-        void FocusingFinishedHandler()
+
+        void FocusingTimeStartedHandler()
         {
-            if (!CallEventFinished())
-                InputManager.Instance.InputIsEnabled = true;
+            for (int i = 0; i < OnFocusingDelayStartedEvents.Length; i++)
+                OnFocusingDelayStartedEvents[i].StartEvent();
         }
 
         void FocusingTimeFinishedHandler()
         {
             for (int i = 0; i < OnFocusingDelayFinishedEvents.Length; i++)
                 OnFocusingDelayFinishedEvents[i].StartEvent();
+        }
+
+        void FocusingFinishedHandler()
+        {
+            if (!CallEventFinished())
+                InputManager.Instance.InputIsEnabled = true;
         }
     }
 }
