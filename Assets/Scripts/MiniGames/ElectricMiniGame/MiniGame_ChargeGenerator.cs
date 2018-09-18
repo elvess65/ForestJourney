@@ -56,10 +56,10 @@ namespace mytest.Main.MiniGames.ChargeGenerator
         {
             ItemCharger.Init();
 
-            m_ItemChargeFactory = Instantiate(ItemChargeFactoryPrefab, ItemsParent);
-            Transform target = ItemChargeFactoryPositions[Random.Range(0, ItemChargeFactoryPositions.Length)];
-            m_ItemChargeFactory.transform.position = target.position;
-            m_ItemChargeFactory.transform.rotation = target.rotation;
+            //m_ItemChargeFactory = Instantiate(ItemChargeFactoryPrefab, ItemsParent);
+            //Transform target = ItemChargeFactoryPositions[Random.Range(0, ItemChargeFactoryPositions.Length)];
+            //m_ItemChargeFactory.transform.position = target.position;
+            //m_ItemChargeFactory.transform.rotation = target.rotation;
         }
 
 
