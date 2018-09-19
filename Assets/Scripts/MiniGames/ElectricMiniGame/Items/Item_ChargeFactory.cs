@@ -5,6 +5,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
     public class Item_ChargeFactory : BaseItem
     {
         public Item_Charge ChargeItemPrefab;
+        public Transform ChargeSpawnPoint;
 
         private Item_Charge m_ItemCharge;
 
@@ -15,7 +16,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 
         public void CreateCharge(Camera cam)
         {
-            m_ItemCharge = Instantiate(ChargeItemPrefab, transform.position, Quaternion.identity, transform.parent);
+            m_ItemCharge = Instantiate(ChargeItemPrefab, ChargeSpawnPoint.position, Quaternion.identity, transform.parent);
             m_ItemCharge.Init(cam);
         }
 

@@ -39,6 +39,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 
             Vector3 cursorScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_ScreenPoint.z);
             Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorScreenPoint) + m_Offset;
+            cursorPosition.z = transform.position.z;
 
             transform.position = cursorPosition;
         }
