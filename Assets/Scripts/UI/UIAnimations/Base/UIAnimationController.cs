@@ -9,8 +9,11 @@ namespace mytest.UI.Animations
         public event System.Action OnHideFinished;
 
         [Header("Animation")]
+        [Tooltip("Задержка перед началом анимации")]
         public float DelayBeforeShow = 0;
+        [Tooltip("Время анимации")]
         public float TimeToTargetPosition = 1.0f;
+        [Tooltip("Объект анимируеться туда сюда")]
         public bool PingPong = false;
 
         public  abstract void PlayAnimation(bool playShowAnimation);

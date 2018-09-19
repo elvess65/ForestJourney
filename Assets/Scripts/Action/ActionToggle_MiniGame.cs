@@ -16,17 +16,12 @@ namespace mytest.ActionTrigger
         {
             base.InteractByTap();
 
-            StartMiniGame();
-        }
-
-        void StartMiniGame()
-        {
             GameManager.Instance.MiniGameController.OnGameStarted += StartedHandler;
             GameManager.Instance.MiniGameController.OnGameFinished += FinishedHandler;
             GameManager.Instance.MiniGameController.StartGame(GameController);
         }
 
-        void  StartedHandler()
+        void StartedHandler()
         {
             GameManager.Instance.MiniGameController.OnGameStarted -= StartedHandler;
         }

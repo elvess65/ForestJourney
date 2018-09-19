@@ -1,4 +1,5 @@
 ﻿using mytest.Main.MiniGames.ChargeGenerator.UI;
+using mytest.UI.Animations;
 using UnityEngine;
 
 namespace mytest.Main.MiniGames.ChargeGenerator
@@ -27,5 +28,17 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 namespace mytest.Main.MiniGames.ChargeGenerator.UI
 {
     public abstract class UI_Base : MonoBehaviour
-    { }
+    {
+        public abstract void ShowUI(bool state);
+    }
+
+    public abstract class UI_Base_AnimationShow : UI_Base
+    {
+        public BaseUIAnimationController AnimationController;
+
+        public override void ShowUI(bool state)
+        {
+            AnimationController.PlayAnimation(state);
+        }
+    }
 }

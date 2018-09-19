@@ -62,13 +62,22 @@ namespace mytest.Main.MiniGames.ChargeGenerator
             ItemUI.SetProgress(progress);
         }
 
+
         void UpdateEffect()
         {
-            Effect.gameObject.SetActive(m_CurrentCharge >= 1);
+            int particlesCount = Mathf.RoundToInt(m_CurrentCharge / 10f);
+            if (particlesCount < 1)
+                Effect.gameObject.SetActive(false);
+            else
+            {
+                if (!Effect.gameObject.activeSelf)
+                    Effect.gameObject.SetActive(true);
 
-            ParticleSystem.MainModule main = Effect.main;
-            main.maxParticles = Mathf.RoundToInt(m_CurrentCharge / 10);
-            main.startColor = m_CurrentCharge >= ChargeData[m_Index].MaxPowerForCharge ? Color.red : Color.white;
+                ParticleSystem.MainModule main = Effect.main;
+                main.maxParticles = particlesCount;
+
+                main.startColor = m_CurrentCharge >= ChargeData[m_Index].MaxPowerForCharge ? Color.red : Color.white;
+            } 
         }
 
         [System.Serializable]

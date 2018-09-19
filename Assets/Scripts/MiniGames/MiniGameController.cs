@@ -15,7 +15,7 @@ namespace mytest.Main.MiniGames
 
         public void StartGame(MiniGame_Base game)
         {
-            MiniGameCamera.gameObject.SetActive(true);
+            //MiniGameCamera.gameObject.SetActive(true);
 
             m_MiniGame = game;
             m_MiniGame.OnGameStarted += GameStartedHandler;

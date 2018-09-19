@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using mytest.Effects.Custom;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace mytest.Main.MiniGames.ChargeGenerator
@@ -11,38 +13,45 @@ namespace mytest.Main.MiniGames.ChargeGenerator
         [Header("Objects")]
         public Item_Charger ItemCharger;
         public Item_Generator ItemGenerator;
-        public Item_ChargeFactory ItemChargeFactoryPrefab;
-        [Header("Positions")]
-        public Transform[] ItemChargeFactoryPositions;
+        public Item_ChargeFactory ItemChargeFactory;
 
         private bool m_Active = false;
         private BaseItem.ItemTypes m_LastHitItemType;
-        private Item_ChargeFactory m_ItemChargeFactory;
+        private World2CameraMoveHehaviour m_Behaviour;
 
         public override void StartGame(Camera cam, LayerMask layer)
         {
-            ItemGenerator.OnCharged += GeneratorChargedhandler;
+            Graphics.gameObject.SetActive(true);
 
+            //Генератор инициализируеться только раз
+            ItemGenerator.OnCharged += GeneratorChargedhandler;
             ItemGenerator.Init();
 
+            //Генерация объектов на каждой итерации
             Generate();
 
+            //Данные для анимации объектов (движение к камере)
+            float animationTime = 2;
+            float distance = 7;
+
+            //Объекты, которые нужно переместить
+            List<Transform> objectsToMove = new List<Transform>();
+            objectsToMove.Add(ItemCharger.transform);
+            objectsToMove.Add(ItemGenerator.transform);
+            objectsToMove.Add(ItemChargeFactory.transform);
+
+            //Координаты на экране
+            List<Vector3> destinationViewport = new List<Vector3>();
+            destinationViewport.Add(new Vector3(0.75f, 0.5f, distance));
+            destinationViewport.Add(new Vector3(0.25f, 0.5f, distance));
+            destinationViewport.Add(new Vector3(0.5f, 0.5f, distance));
+
+            //Анимация
+            World2CameraMoveHehaviour.MoveData mData = new World2CameraMoveHehaviour.MoveData(AppearAnimationFinishedHandler, animationTime, objectsToMove.ToArray(), destinationViewport.ToArray());
+            m_Behaviour = World2CameraMoveHehaviour.CreateWorld2CameraMoveHehaviour();
+            m_Behaviour.Move(mData);
+
             base.StartGame(cam, layer);
-
-            m_Active = true;
-        }
-
-        void GeneratorChargedhandler()
-        {
-            m_Active = false;
-
-            StartCoroutine(Wait());
-        }
-
-        IEnumerator Wait()
-        {
-            yield return new WaitForSeconds(1);
-            FinishGame();
         }
 
         public override void FinishGame()
@@ -50,16 +59,6 @@ namespace mytest.Main.MiniGames.ChargeGenerator
             Graphics.SetActive(false);
 
             base.FinishGame();
-        }
-
-        void Generate()
-        {
-            ItemCharger.Init();
-
-            //m_ItemChargeFactory = Instantiate(ItemChargeFactoryPrefab, ItemsParent);
-            //Transform target = ItemChargeFactoryPositions[Random.Range(0, ItemChargeFactoryPositions.Length)];
-            //m_ItemChargeFactory.transform.position = target.position;
-            //m_ItemChargeFactory.transform.rotation = target.rotation;
         }
 
 
@@ -70,10 +69,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 
             ItemCharger.UpdateItem(deltaTime);
             ItemGenerator.UpdateItem(deltaTime);
-            m_ItemChargeFactory.UpdateItem(deltaTime);
-
-            if (Input.GetKeyDown(KeyCode.F))
-                FinishGame();
+            ItemChargeFactory.UpdateItem(deltaTime);
 
             if (Input.GetMouseButtonDown(0))
                 HandleMouseDown();
@@ -84,6 +80,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
             if (Input.GetMouseButtonUp(0))
                 HandleMouseUp();
         }
+
 
         void HandleMouseDown()
         {
@@ -105,7 +102,7 @@ namespace mytest.Main.MiniGames.ChargeGenerator
                         break;
 
                     case BaseItem.ItemTypes.Charge:
-                        m_ItemChargeFactory.Item.HandleMouseDown();
+                        ItemChargeFactory.Item.HandleMouseDown();
                         break;
                 }
             }
@@ -113,34 +110,31 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 
         void HandleMousePress(float deltaTime)
         {
-            if (m_ItemChargeFactory.Item != null)
-                m_ItemChargeFactory.Item.UpdateItem(deltaTime);
+            if (ItemChargeFactory.Item != null)
+                ItemChargeFactory.Item.UpdateItem(deltaTime);
         }
 
         void HandleMouseUp()
         {
-            if (m_ItemChargeFactory.Item != null)
-                m_ItemChargeFactory.Item.HandleMouseUp();
+            if (ItemChargeFactory.Item != null)
+                ItemChargeFactory.Item.HandleMouseUp();
 
             BaseItem item = Raycast();
             if (item != null)
             {
-                Debug.Log(m_LastHitItemType);
-                Debug.Log(item.ItemType);
-
                 switch (item.ItemType)
                 {
                     case BaseItem.ItemTypes.ChargeFactory:
                         if (m_LastHitItemType == BaseItem.ItemTypes.Charger)
                         {
                             if (ItemCharger.CanSpark())
-                                m_ItemChargeFactory.CreateCharge(m_Cam);
+                                ItemChargeFactory.CreateCharge(m_Cam);
                         }
                         break;
                     case BaseItem.ItemTypes.Generator:
                         if (m_LastHitItemType == BaseItem.ItemTypes.Charge)
                         {
-                            m_ItemChargeFactory.HideCharge();
+                            ItemChargeFactory.HideCharge();
 
                             if (!ItemGenerator.AddCharge())
                                 Generate();
@@ -148,6 +142,41 @@ namespace mytest.Main.MiniGames.ChargeGenerator
                         break;
                 }
             }
+        }
+
+
+        void Generate()
+        {
+            ItemCharger.Init();
+        }
+
+
+        void AppearAnimationFinishedHandler()
+        {
+            ItemCharger.ItemUI.ShowUI(true);
+            ItemGenerator.ItemUI.ShowUI(true);
+
+            m_Active = true;
+        }
+
+        void DissappearAnimationFinishedHandler()
+        {
+            FinishGame();
+        }
+
+        void GeneratorChargedhandler()
+        {
+            m_Active = false;
+
+            StartCoroutine(WaitBeforeFinish());
+        }
+
+
+        IEnumerator WaitBeforeFinish()
+        {
+            yield return new WaitForSeconds(1);
+
+            m_Behaviour.MoveReserve(DissappearAnimationFinishedHandler);
         }
 
         BaseItem Raycast()

@@ -15,8 +15,6 @@ namespace mytest.Main.MiniGames.ChargeGenerator
 
         public void CreateCharge(Camera cam)
         {
-            gameObject.SetActive(false);
-
             m_ItemCharge = Instantiate(ChargeItemPrefab, transform.position, Quaternion.identity, transform.parent);
             m_ItemCharge.Init(cam);
         }
