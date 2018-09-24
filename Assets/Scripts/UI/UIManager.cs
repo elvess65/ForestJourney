@@ -40,8 +40,6 @@ namespace mytest.UI
                 Button_Weapon.onClick.AddListener(Weapon_PressHandler);
 
             //Animation Controller
-            InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
-
             if (ShowAssistantButton && AssistantButtonAnimationController != null)
                 InputManager.Instance.OnInputStateChange += AssistantButtonAnimationController.PlayAnimation;
 
@@ -50,6 +48,13 @@ namespace mytest.UI
 
             if (ShowCompass && CompassAnimationController != null)
                 InputManager.Instance.OnInputStateChange += CompassAnimationController.PlayAnimation;
+
+#if UNITY_EDITOR
+            if (InputManager.Instance.PreferVirtualJoystickInEditor)
+                InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+#else
+            InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+#endif
         }
 
         public void Assist_PressHandler()

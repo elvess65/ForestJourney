@@ -1,4 +1,5 @@
-﻿using mytest.Utils;
+﻿using MalbersAnimations;
+using mytest.Utils;
 using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
@@ -9,29 +10,38 @@ public class PlayerAnimationController : MonoBehaviour
 
     private bool m_IsPaused = false;
     private InterpolationData<float> m_LerpData;
-    private const string m_ANIMATION_SPEED_NAME = "speedPercent";
 
-    public void PlayMoveAnimation(float speed)
+    public void PlayMoveAnimation(float speed, Vector3 lastActiveMoveDir, Quaternion targetRot)
     {
         if (m_IsPaused)
             return;
 
-        PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, speed, DampTime, Time.deltaTime);
+        bool isStand = speed <= 0 && Quaternion.Angle(transform.rotation, targetRot).Equals(0);
+        PlayerAnimator.SetBool(Hash.Stand, isStand);
+
+        if (!isStand)
+        {
+            Vector3 perpendicularToForward = new Vector3(transform.forward.z, 0, -transform.forward.x);
+            float dot = Vector3.Dot(perpendicularToForward, lastActiveMoveDir);
+
+            PlayerAnimator.SetFloat(Hash.Vertical, speed, DampTime, Time.deltaTime);
+            PlayerAnimator.SetFloat(Hash.Horizontal, dot);
+        }
     }
 
     public void StopPlayerMoveAnimation()
     {
         if (m_IsPaused)
             return;
-        
-        PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, 0);
+
+        PlayerAnimator.SetBool(Hash.Stand, true);
     }
 
     public void PauseAnimations(bool isPaused)
     {
         m_IsPaused = isPaused;
 
-        m_LerpData.TotalTime = 0.1f;
+        m_LerpData.TotalTime = PlayerController.ReduceSpeedAtLockInputTime;
         if (isPaused)
         {
             m_LerpData.From = 1;
@@ -39,8 +49,6 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else 
         {
-            PlayerAnimator.SetFloat(m_ANIMATION_SPEED_NAME, 0);
-
             m_LerpData.From = 0;
 			m_LerpData.To = 1;
         }
@@ -53,11 +61,15 @@ public class PlayerAnimationController : MonoBehaviour
         if (m_LerpData.IsStarted)
         {
             m_LerpData.Increment();
-            PlayerAnimator.speed = Mathf.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
+
+            if (PlayerAnimator != null)
+                PlayerAnimator.speed = Mathf.Lerp(m_LerpData.From, m_LerpData.To, m_LerpData.Progress);
 
             if (m_LerpData.Overtime())
             {
-                PlayerAnimator.speed = m_LerpData.To;
+                if (PlayerAnimator != null)
+                    PlayerAnimator.speed = m_LerpData.To;
+
                 m_LerpData.Stop();
             }
         }

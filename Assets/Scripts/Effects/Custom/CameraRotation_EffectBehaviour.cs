@@ -36,7 +36,8 @@ public class CameraRotation_EffectBehaviour : MonoBehaviour
         GameManager.Instance.CameraController.RotateAroundTarget(Angle, Speed, Clockwise, UnlockInputOnRotationFinished);
 
         //Показать компас
-        GameManager.Instance.GameState.GlobalCompass.Show();
+        if (GameManager.Instance.GameState.GlobalCompass != null)
+            GameManager.Instance.GameState.GlobalCompass.Show();
     }
 
     void RotationFinishedHandler()
@@ -44,7 +45,8 @@ public class CameraRotation_EffectBehaviour : MonoBehaviour
         GameManager.Instance.CameraController.OnRotationFinished -= RotationFinishedHandler;
 
         //Анимировать компас
-        GameManager.Instance.GameState.GlobalCompass.Animate();
+        if (GameManager.Instance.GameState.GlobalCompass != null)
+            GameManager.Instance.GameState.GlobalCompass.Animate();
 
         //Начать проигрывать эффект окончания вращения
         if (m_EffectController != null)

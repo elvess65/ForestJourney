@@ -63,6 +63,7 @@ namespace mytest.UI.InputSystem
     public abstract class BaseInputManager : MonoBehaviour
     {
         public System.Action<Vector3> OnMove;
+        public System.Action OnJump;
 
         public abstract void UpdateInput();
     }

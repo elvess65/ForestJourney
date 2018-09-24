@@ -2,6 +2,7 @@
 using System.Collections;
 using mytest.UI.InputSystem;
 using UnityEngine;
+using MalbersAnimations;
 
 [RequireComponent(typeof(PlayerCollisionController))]
 [RequireComponent(typeof(PlayerAnimationController))]
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public float MoveSpeed = 3;
     public float RotateSpeed = 5;
 
-    private Vector3 m_MoveDir = Vector3.zero;
+    protected Vector3 m_MoveDir = Vector3.zero;
     private CollisionController m_CollisionController;
     private CharacterController m_CharacterController;
     private PlayerAnimationController m_PlayerAnimationController;
@@ -20,8 +21,9 @@ public class PlayerController : MonoBehaviour
     private WeaponController m_Weapon;
     private Quaternion m_TargetRot;
 
-	private Vector3 m_MoveDirAtLockInput;
-	private IEnumerator m_ReduceSpeedCoroutine;
+    private Vector3 m_LastActiveMoveDir;
+    private Vector3 m_MoveDirAtLockInput;
+    private IEnumerator m_ReduceSpeedCoroutine;
 
     public const float ReduceSpeedAtLockInputTime = 0.5f;
 
@@ -30,24 +32,43 @@ public class PlayerController : MonoBehaviour
         get { return m_MoveDir; }
     }
 
-    void Start()
+    void Awake()
     {
         m_CharacterController = GetComponent<CharacterController>();
         m_CollisionController = GetComponent<PlayerCollisionController>();
         m_PlayerAnimationController = GetComponent<PlayerAnimationController>();
+    }
 
+    void Start()
+    {
         m_TargetRot = transform.rotation;
 
-        InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
+        //Подписаться на события
+#if UNITY_EDITOR
         InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+        InputManager.Instance.KeyboardInput.OnJump += Jump;
+
+        if (InputManager.Instance.PreferVirtualJoystickInEditor)
+            InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
+#else
+        InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
+#endif
+
         InputManager.Instance.OnInputStateChange += InputStatusChangeHandler;
     }
 
     void Update()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
-		m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
-	}
+        m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
+    }
+
+    void LateUpdate()
+    {
+        //Move animation
+        m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude, m_LastActiveMoveDir, m_TargetRot);
+    }
+
 
     public void MoveInDir(Vector3 dir)
     {
@@ -58,10 +79,14 @@ public class PlayerController : MonoBehaviour
             //Rotate in move dir
             float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
             m_TargetRot = Quaternion.AngleAxis(angle, Vector3.up);
-        }
 
-        //Move animation
-        m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude);
+            m_LastActiveMoveDir = m_MoveDir;
+        }
+    }
+
+    public void Jump()
+    {
+
     }
 
     public void PauseAnimations(bool isPaused)
@@ -74,7 +99,7 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.VirtualJoystickInput.OnMove -= MoveInDir;
         InputManager.Instance.KeyboardInput.OnMove -= MoveInDir;
 
-        m_PlayerAnimationController.PlayMoveAnimation(0);
+        m_PlayerAnimationController.PlayMoveAnimation(0, Vector3.zero, Quaternion.identity);
         m_PlayerAnimationController.enabled = false;
         m_CollisionController.enabled = false;
         enabled = false;
@@ -103,7 +128,7 @@ public class PlayerController : MonoBehaviour
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime * speed)
 		{
             m_MoveDir = Vector3.Lerp(m_MoveDirAtLockInput, Vector3.zero, t);
-            m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude);
+            m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude, m_MoveDir, m_TargetRot);
 			yield return null;
         }
 
