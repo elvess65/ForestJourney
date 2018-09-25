@@ -11,12 +11,15 @@ public class PlayerAnimationController : MonoBehaviour
     private bool m_IsPaused = false;
     private InterpolationData<float> m_LerpData;
 
-    public void PlayMoveAnimation(float speed, Vector3 lastActiveMoveDir, Quaternion targetRot)
+    public void PlayMoveAnimation(float speed, Vector3 lastActiveMoveDir, Quaternion targetRot, bool isInAir = false, bool jumpLastFrame = false)
     {
         if (m_IsPaused)
             return;
 
-        bool isStand = speed <= 0 && Quaternion.Angle(transform.rotation, targetRot).Equals(0);
+        bool isStand = speed <= 0 && 
+                       (Quaternion.Angle(transform.rotation, targetRot) <= 1) && 
+                       !isInAir;
+
         PlayerAnimator.SetBool(Hash.Stand, isStand);
 
         if (!isStand)
@@ -26,7 +29,13 @@ public class PlayerAnimationController : MonoBehaviour
 
             PlayerAnimator.SetFloat(Hash.Vertical, speed, DampTime, Time.deltaTime);
             PlayerAnimator.SetFloat(Hash.Horizontal, dot);
+
+            //Прыжок
+            if (isInAir)
+                PlayerAnimator.SetBool(Hash._Jump, jumpLastFrame);
         }
+        else
+            PlayerAnimator.SetFloat(Hash.Vertical, 0);
     }
 
     public void StopPlayerMoveAnimation()

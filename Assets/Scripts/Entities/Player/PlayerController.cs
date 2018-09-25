@@ -9,21 +9,29 @@ using MalbersAnimations;
 public class PlayerController : MonoBehaviour
 {
     [Header("Settings")]
+    [Header(" - Move")]
     public float MoveSpeed = 3;
     public float RotateSpeed = 5;
+    [Header(" - Jump")]
+    public float JumpSpeed = 3.0f;
+    public float Gravity = 9.8f;
 
-    protected Vector3 m_MoveDir = Vector3.zero;
+    //Objects
     private CollisionController m_CollisionController;
     private CharacterController m_CharacterController;
     private PlayerAnimationController m_PlayerAnimationController;
-
     private Item_Base m_Assistant;
     private WeaponController m_Weapon;
-    private Quaternion m_TargetRot;
+    private IEnumerator m_ReduceSpeedCoroutine;
 
+    //Values
+    private Vector3 m_MoveDir = Vector3.zero;
     private Vector3 m_LastActiveMoveDir;
     private Vector3 m_MoveDirAtLockInput;
-    private IEnumerator m_ReduceSpeedCoroutine;
+    private Quaternion m_TargetRot;
+    private float m_CurVerticalSpeed = 0;   //Текущая вертикальная скорость
+    private bool m_IsInAir = false;         //Находиться ли игрок в воздухе         
+    private bool m_JumpLastFrame = false;   //Совершен ли пріжок в последнем кадре
 
     public const float ReduceSpeedAtLockInputTime = 0.5f;
 
@@ -44,12 +52,14 @@ public class PlayerController : MonoBehaviour
         m_TargetRot = transform.rotation;
 
         //Подписаться на события
-#if UNITY_EDITOR
-        InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+#if UNITY_EDITOR  
         InputManager.Instance.KeyboardInput.OnJump += Jump;
 
         if (InputManager.Instance.PreferVirtualJoystickInEditor)
             InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
+        else
+            InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+
 #else
         InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
 #endif
@@ -59,16 +69,42 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
-        m_CharacterController.SimpleMove(m_MoveDir * MoveSpeed);
+        //Горизонтальное направление зависит от скорости передвижения
+        Vector3 moveSpeed = m_MoveDir * MoveSpeed;               
+
+        //Если прыгали и приземлились (m_CharacterController.isGrounded отслеживает приземление)
+        if (m_IsInAir && m_CharacterController.isGrounded)
+            m_IsInAir = false;
+
+        //Если на змемле - разрешить вращение
+        if (!m_IsInAir) 
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
+        }
+        //Если в воздухе - дейтсвие гравитации
+        else
+        {
+            m_CurVerticalSpeed -= Gravity * Time.deltaTime;
+            moveSpeed.y = m_CurVerticalSpeed;  //Вертикальная скорость не зависит от скорости передвижения  
+        }
+
+        Debug.Log(moveSpeed);
+        m_CharacterController.Move(moveSpeed * Time.deltaTime);
     }
 
     void LateUpdate()
     {
         //Move animation
-        m_PlayerAnimationController.PlayMoveAnimation(m_MoveDir.magnitude, m_LastActiveMoveDir, m_TargetRot);
-    }
+        m_PlayerAnimationController.PlayMoveAnimation(new Vector2(m_MoveDir.x, m_MoveDir.z).magnitude, 
+                                                      m_LastActiveMoveDir, 
+                                                      m_TargetRot, 
+                                                      m_IsInAir,
+                                                      m_JumpLastFrame);
 
+        //Если игрок в воздухе и на предыдущем кадре совершен прыжок
+        if (m_IsInAir && m_JumpLastFrame)
+            m_JumpLastFrame = false;
+    }
 
     public void MoveInDir(Vector3 dir)
     {
@@ -86,7 +122,12 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
+        if (m_IsInAir)
+            return;
 
+        m_CurVerticalSpeed = JumpSpeed;
+        m_JumpLastFrame = true;
+        m_IsInAir = true;
     }
 
     public void PauseAnimations(bool isPaused)

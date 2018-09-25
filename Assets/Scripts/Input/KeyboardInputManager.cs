@@ -13,7 +13,6 @@ namespace mytest.UI.InputSystem
 
             if (Input.GetKeyUp(KeyCode.Space))
                 OnJump();
-
         }
     }
 }
