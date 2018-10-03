@@ -74,3 +74,15 @@ public class GameManager : MonoBehaviour
         GameState.Player = Instantiate(m_PrefabsLibrary.PlayerPrefab, PlayerSpawnPoint.position, Quaternion.identity);
     }
 }
+
+/*
+ * Дизайн 2 и 3-го уровней
+ * 4-ый уровень с прыжками на платформы и головоломкой
+ * Убрать с обучения подсветку при затемнении
+ * Текстура тотемов
+ * Анимации взаимодейтсвия
+ * Кнопка для прыжка 
+ * - Кнопка
+ * - Показ кнопки при необходимости
+ * - Откат кнопки
+ */
