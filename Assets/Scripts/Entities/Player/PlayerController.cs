@@ -53,12 +53,17 @@ public class PlayerController : MonoBehaviour
 
         //Подписаться на события
 #if UNITY_EDITOR  
-        InputManager.Instance.KeyboardInput.OnJump += Jump;
-
         if (InputManager.Instance.PreferVirtualJoystickInEditor)
+        {
+            InputManager.Instance.VirtualJoystickInput.OnJump += Jump;
             InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
+            
+        }
         else
+        {
+            InputManager.Instance.KeyboardInput.OnJump += Jump;
             InputManager.Instance.KeyboardInput.OnMove += MoveInDir;
+        }
 
 #else
         InputManager.Instance.VirtualJoystickInput.OnMove += MoveInDir;
@@ -69,27 +74,30 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //Горизонтальное направление зависит от скорости передвижения
-        Vector3 moveSpeed = m_MoveDir * MoveSpeed;               
-
-        //Если прыгали и приземлились (m_CharacterController.isGrounded отслеживает приземление)
-        if (m_IsInAir && m_CharacterController.isGrounded)
-            m_IsInAir = false;
-
         //Если на змемле - разрешить вращение
         if (!m_IsInAir) 
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, m_TargetRot, Time.deltaTime * RotateSpeed);
         }
-        //Если в воздухе - дейтсвие гравитации
+        //Если в воздухе - кэшировать целевое вращение (для анимации)
         else
         {
-            m_CurVerticalSpeed -= Gravity * Time.deltaTime;
-            moveSpeed.y = m_CurVerticalSpeed;  //Вертикальная скорость не зависит от скорости передвижения  
+            m_TargetRot = transform.rotation;
         }
 
-        Debug.Log(moveSpeed);
+        //Горизонтальное направление зависит от скорости передвижения
+        Vector3 moveSpeed = m_MoveDir * MoveSpeed;
+
+        //Действие гравитации (текущая гравитация ограничена между силой гравитации и силой прыжка)
+        m_CurVerticalSpeed = Mathf.Clamp(m_CurVerticalSpeed - Gravity * Time.deltaTime, -Gravity, JumpSpeed);
+        moveSpeed.y = m_CurVerticalSpeed;  //Вертикальная скорость не зависит от скорости передвижения  
+
+        //Передвижение
         m_CharacterController.Move(moveSpeed * Time.deltaTime);
+
+        //Если прыгали и приземлились (m_CharacterController.isGrounded отслеживает приземление)
+        if (m_IsInAir && m_CharacterController.isGrounded)
+            m_IsInAir = false;
     }
 
     void LateUpdate()
@@ -108,14 +116,20 @@ public class PlayerController : MonoBehaviour
 
     public void MoveInDir(Vector3 dir)
     {
+        if (m_IsInAir)
+            return;
+
+        //Кэш направления передвижения
         m_MoveDir = dir;
 
+        //Если игрок хочет переместиться
         if (m_MoveDir != Vector3.zero)
         {
-            //Rotate in move dir
+            //Вращение в направлении движения
             float angle = Mathf.Atan2(m_MoveDir.x, m_MoveDir.z) * Mathf.Rad2Deg;
             m_TargetRot = Quaternion.AngleAxis(angle, Vector3.up);
 
+            //Кэш последнего направления движения
             m_LastActiveMoveDir = m_MoveDir;
         }
     }
@@ -125,8 +139,11 @@ public class PlayerController : MonoBehaviour
         if (m_IsInAir)
             return;
 
+        //Скорость  движения 
         m_CurVerticalSpeed = JumpSpeed;
+        //На последнем кадре был совершен прыжок
         m_JumpLastFrame = true;
+        //Игрок сейчас в воздухе
         m_IsInAir = true;
     }
 
