@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using mytest.Effects.Custom.Compass;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace mytest.Main

@@ -65,6 +65,9 @@ namespace mytest.UI.InputSystem
         public System.Action<Vector3> OnMove;
         public System.Action OnJump;
 
+        protected virtual void Start()
+        { }
+
         public abstract void UpdateInput();
     }
 }

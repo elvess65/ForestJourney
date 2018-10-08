@@ -15,11 +15,13 @@ namespace mytest.UI
         public BaseUIAnimationController JoystickAnimationController;
         public BaseUIAnimationController AssistantButtonAnimationController;
         public BaseUIAnimationController WeaponButtonAnimationController;
-        public BaseUIAnimationController CompassAnimationController;        
+        public BaseUIAnimationController CompassAnimationController;
+        public BaseUIAnimationController JumpButtonAnimationController;
         [Header("Animation Controllers Init settings")]
         public bool ShowAssistantButton = true;
         public bool ShowWeaponButton = true;
         public bool ShowCompass = true;
+        public bool ShowJumpButton = true;
 
         private UIWindowsManager m_WindowsManager;
 
@@ -51,25 +53,35 @@ namespace mytest.UI
 
 #if UNITY_EDITOR
             if (InputManager.Instance.PreferVirtualJoystickInEditor)
-                InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+                SubscribeForVirtualJoystick();
 #else
-            InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+            SubscribeForVirtualJoystick();
 #endif
-        }
-
-        public void Assist_PressHandler()
-        {
-            GameManager.Instance.GameState.Player.UseAssistant();
-        }
-
-        public void Weapon_PressHandler()
-        {
-            GameManager.Instance.GameState.Player.UseWeapon();
         }
 
         public UIWindow_Base ShowWindow(UIWindow_Base source)
         {
             return m_WindowsManager.ShowWindow(source);
+        }
+
+
+        void Assist_PressHandler()
+        {
+            GameManager.Instance.GameState.Player.UseAssistant();
+        }
+
+        void Weapon_PressHandler()
+        {
+            GameManager.Instance.GameState.Player.UseWeapon();
+        }
+
+
+        void SubscribeForVirtualJoystick()
+        {
+            InputManager.Instance.OnInputStateChange += JoystickAnimationController.PlayAnimation;
+
+            if (ShowJumpButton && JumpButtonAnimationController != null)
+                InputManager.Instance.OnInputStateChange += JumpButtonAnimationController.PlayAnimation;
         }
     }
 }
