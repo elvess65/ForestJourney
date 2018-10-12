@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 
-public class ScriptEffect_RotateAround : MonoBehaviour
+namespace mytest.Effects.Custom
 {
-    public float RotationSpeed = 20;
-    public Vector3 Axis = Vector3.forward;
-
-	void Update ()
+    /// <summary>
+    /// Вращение вокруг оси с определенной скоростью
+    /// </summary>
+    public class ScriptEffect_RotateAround : MonoBehaviour
     {
-        transform.Rotate(Axis, Time.deltaTime * RotationSpeed);
-	}
+        public float RotationSpeed = 20;
+        public Vector3 Axis = Vector3.forward;
+
+        void Update()
+        {
+            transform.Rotate(Axis, Time.deltaTime * RotationSpeed);
+        }
+    }
 }
