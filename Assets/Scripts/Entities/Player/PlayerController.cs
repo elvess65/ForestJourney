@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header(" - Jump")]
     public float JumpSpeed = 3.0f;
     public float Gravity = 9.8f;
+    [Header("Points")]
+    public Transform PointBonusCollect;
 
     //Objects
     private CollisionController m_CollisionController;

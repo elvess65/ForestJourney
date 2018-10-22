@@ -1,15 +1,22 @@
 ﻿using mytest.Effects.Custom;
+using mytest.Effects.Custom.Projectile;
 using mytest.Interaction;
 using UnityEngine;
 
 namespace mytest.ActionTrigger
 {
+    /// <summary>
+    /// Объект, который можно подобрать и получить какой-то бонус
+    /// </summary>
     public class ActionToggle_PickableItem : ActionToggle_Base
     {
         [Space(10)]
         public ScriptEffect_CurveScale InteractScale;
-        public ScriptEffect_PingPongMove TapMove;
-        public Collider TapCollider;
+        public ScriptEffect_JumpObject InteractJump;
+        public Collider InteractCollider;
+        [Header("Effects")]
+        public Projectile_Behaviour ContentPrefab;
+        public GameObject CrashEffectPrefab;
 
         private bool m_Interacted = false;
 
@@ -17,15 +24,16 @@ namespace mytest.ActionTrigger
         {
             base.ExitFromInteractableArea();
 
-            TapCollider.enabled = false;
+            InteractScale.Play();
+            InteractCollider.enabled = false;
         }
 
         public override void InteractByTap()
         {
             base.InteractByTap();
 
-            TapMove.OnAnimationFinished += Crash;
-            TapMove.Play();
+            InteractJump.OnAnimationFinished += Crash;
+            InteractJump.Play();
             m_Interacted = true;
         }
 
@@ -34,7 +42,7 @@ namespace mytest.ActionTrigger
             base.Interact();
 
             InteractScale.Play();
-            TapCollider.enabled = true;
+            InteractCollider.enabled = true;
         }
 
 
@@ -42,7 +50,7 @@ namespace mytest.ActionTrigger
         {
             base.Start();
 
-            TapCollider.enabled = false;
+            InteractCollider.enabled = false;
         }
 
         protected override void Update()
@@ -52,13 +60,13 @@ namespace mytest.ActionTrigger
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, m_RAY_DISTANCE, InteractLayerMask))
                 {
                     iInteractableByTap obj = hit.collider.GetComponentInParent<iInteractableByTap>();
                     if (obj != null)
                     {
                         Crash();
-                        Spawn();
+                        SpawnObject();
                     }
                 }
             }
@@ -67,15 +75,18 @@ namespace mytest.ActionTrigger
         }
 
 
-        void Crash()
+        //Создать объект, который храниться внутри (бонус)
+        void SpawnObject()
         {
-            Debug.Log("Crash");
-            Destroy(gameObject);
+            Projectile_Behaviour ob = Instantiate(ContentPrefab, InteractJump.transform.position, Quaternion.identity);
+            ob.Launch(GameManager.Instance.GameState.Player.PointBonusCollect);
         }
 
-        void Spawn()
+        //Уничтожить объект
+        void Crash()
         {
-            Debug.Log("Spawn");
+            Destroy(Instantiate(CrashEffectPrefab, InteractJump.transform.position, Quaternion.identity), 2);
+            Destroy(gameObject);
         }
     }
 }

@@ -33,8 +33,11 @@ namespace mytest.Interaction
     {
         [Space(10)]
         public AnimatedAppearDisappearObject SelectionAnimatedObject;
+        public LayerMask InteractLayerMask;
 
         protected bool m_CanInteract = false;
+   
+        protected const float m_RAY_DISTANCE = 100;
 
 
         public virtual void ExitFromInteractableArea()
@@ -85,7 +88,8 @@ namespace mytest.Interaction
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit))
+                Debug.Log(InteractLayerMask);
+                if (Physics.Raycast(ray, out hit, m_RAY_DISTANCE, InteractLayerMask))
                 {
                     iInteractableByTap obj = hit.collider.GetComponentInParent<iInteractableByTap>();
                     if (obj != null)
