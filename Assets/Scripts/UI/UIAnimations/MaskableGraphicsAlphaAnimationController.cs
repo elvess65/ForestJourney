@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace mytest.UI.Animations
+namespace FrameworkPackage.UI.Animations
 {
     /// <summary>
     /// Контролирует анимацию изменения прозрачности для MaskableGraphic(картинка, текст)
     /// </summary>
-    public class MaskableGraphicsAlphaAnimationController : OneValueAnimationController
+    public class MaskableGraphicsAlphaAnimationController : UIAnimationController_OneValue
     {
         [Header("Link")]
         public MaskableGraphic Element;

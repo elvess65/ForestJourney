@@ -1,4 +1,4 @@
-﻿namespace mytest.UI.Windows
+﻿namespace FrameworkPackage.UI.Windows
 {
     /// <summary>
     /// Реализация простого окна без кнопок (Затемнение)

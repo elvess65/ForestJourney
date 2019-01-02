@@ -1,4 +1,5 @@
-﻿using mytest.UI.InputSystem;
+﻿using FrameworkPackage.UI.Animations;
+using mytest.UI.InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ namespace mytest.ActionTrigger.Events
         [Space(10)]
         public RectTransform ButtonHightlight;
         public Button Target;
-        public UI.Animations.BaseUIAnimationController AnimationController;
+        public UIAnimationController_Base AnimationController;
 
         private RectTransform m_ButtonHightlght;
 

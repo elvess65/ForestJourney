@@ -1,4 +1,5 @@
-﻿using mytest.UI.InputSystem;
+﻿using FrameworkPackage.UI.Animations;
+using mytest.UI.InputSystem;
 using UnityEngine;
 
 namespace mytest.ActionTrigger.Events
@@ -10,7 +11,7 @@ namespace mytest.ActionTrigger.Events
     {
         [Tooltip("Проигрывать эту анимацию в дальнейшем при изменения состояния ввода")]
         public bool SubscribeShowOnInput = true;
-        public UI.Animations.BaseUIAnimationController AnimationController;
+        public UIAnimationController_Base AnimationController;
 
         protected override void CallEvent()
         {

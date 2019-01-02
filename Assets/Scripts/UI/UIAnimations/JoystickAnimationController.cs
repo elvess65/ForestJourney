@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FrameworkPackage.UI.Animations;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace mytest.UI.Animations
@@ -6,7 +7,7 @@ namespace mytest.UI.Animations
     /// <summary>
     /// Контролирует анимацию расположения джойстика
     /// </summary>
-    public class JoystickAnimationController : OneValueAnimationController
+    public class JoystickAnimationController : UIAnimationController_OneValue
     {
         [Header("Link")]
         public UltimateJoystick Joystick;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace mytest.UI.Animations
+namespace FrameworkPackage.UI.Animations
 {
-    public abstract class VectorAnimationController : UIAnimationController<Vector3>
+    public abstract class UIAnimationController_Vector : UIAnimationController<Vector3>
     {
         protected override float GetTotalDistance()
         {

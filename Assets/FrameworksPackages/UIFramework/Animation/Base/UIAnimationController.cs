@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace mytest.UI.Animations
+namespace FrameworkPackage.UI.Animations
 {
-    public abstract class BaseUIAnimationController : MonoBehaviour
+    /// <summary>
+    /// Базовый класс для всех контроллеров анимации
+    /// </summary>
+    public abstract class UIAnimationController_Base : MonoBehaviour
     {
         public event System.Action OnShowFinished;
         public event System.Action OnHideFinished;
@@ -34,7 +37,7 @@ namespace mytest.UI.Animations
     /// <summary>
     /// Базовый класс для контроля над UI анимациями
     /// </summary>
-    public abstract class UIAnimationController<T> : BaseUIAnimationController
+    public abstract class UIAnimationController<T> : UIAnimationController_Base
     {
         [Space(10)]
         public T StartPosition;

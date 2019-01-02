@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FrameworkPackage.UI.Animations;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace mytest.UI.Animations
@@ -6,7 +7,7 @@ namespace mytest.UI.Animations
     /// <summary>
     /// Контролирует анимацию расположения кнопок
     /// </summary>
-    public class ButtonAnimationController : OneValueAnimationController
+    public class ButtonAnimationController : UIAnimationController_OneValue
     {
         [Header("Link")]
         public Button UIButton;

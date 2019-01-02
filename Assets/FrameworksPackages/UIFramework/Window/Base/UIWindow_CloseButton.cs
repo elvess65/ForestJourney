@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace mytest.UI.Windows
+namespace FrameworkPackage.UI.Windows
 {
     /// <summary>
     /// Окно с кнопкой Закрыть

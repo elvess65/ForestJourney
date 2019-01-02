@@ -1,6 +1,6 @@
-﻿namespace mytest.UI.Animations
+﻿namespace FrameworkPackage.UI.Animations
 {
-    public abstract class OneValueAnimationController : UIAnimationController<float>
+    public abstract class UIAnimationController_OneValue : UIAnimationController<float>
     {
         protected override float GetTotalDistance()
         {

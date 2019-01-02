@@ -1,6 +1,6 @@
-﻿using mytest.UI.Animations;
+﻿using FrameworkPackage.UI.Animations;
+using FrameworkPackage.UI.Windows;
 using mytest.UI.InputSystem;
-using mytest.UI.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,11 +12,11 @@ namespace mytest.UI
         public Button Button_Assist;
         public Button Button_Weapon;
         [Header("Animation Controllers")]
-        public BaseUIAnimationController JoystickAnimationController;
-        public BaseUIAnimationController AssistantButtonAnimationController;
-        public BaseUIAnimationController WeaponButtonAnimationController;
-        public BaseUIAnimationController CompassAnimationController;
-        public BaseUIAnimationController JumpButtonAnimationController;
+        public UIAnimationController_Base JoystickAnimationController;
+        public UIAnimationController_Base AssistantButtonAnimationController;
+        public UIAnimationController_Base WeaponButtonAnimationController;
+        public UIAnimationController_Base CompassAnimationController;
+        public UIAnimationController_Base JumpButtonAnimationController;
         [Header("Animation Controllers Init settings")]
         public bool ShowAssistantButton = true;
         public bool ShowWeaponButton = true;

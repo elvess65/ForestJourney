@@ -1,4 +1,5 @@
-﻿using mytest.Effects.PostProcessing;
+﻿using FrameworkPackage.UI.Animations;
+using mytest.Effects.PostProcessing;
 using mytest.UI.Animations;
 using mytest.UI.InputSystem;
 using mytest.UI.Loading;
@@ -10,9 +11,9 @@ namespace mytest.Main
     {
         public GameObject Parent;
         [Header("Animation Controllers")]
-        public BaseUIAnimationController UIAnimationController_Image_BG;
-        public BaseUIAnimationController UIAnimationController_Text_Tap;
-        public BaseUIAnimationController UIAnimationController_Text_GameOver;
+        public UIAnimationController_Base UIAnimationController_Image_BG;
+        public UIAnimationController_Base UIAnimationController_Text_Tap;
+        public UIAnimationController_Base UIAnimationController_Text_GameOver;
         
         private bool m_AnimationFinished = false;
 

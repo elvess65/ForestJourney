@@ -1,4 +1,4 @@
-﻿using mytest.UI.Animations;
+﻿using FrameworkPackage.UI.Animations;
 using mytest.UI.InputSystem;
 using mytest.Utils;
 using UnityEngine;
@@ -29,7 +29,7 @@ namespace mytest.Effects.Custom.Compass
         private InterpolationData<Vector3> m_PosLerpData;
         private InterpolationData<float> m_ScaleLerpData;
         private InterpolationData<Quaternion> m_RotLerpData;
-        private BaseUIAnimationController m_AnimationController;
+        private UIAnimationController_Base m_AnimationController;
 
         private const string m_APPEAR_ANIMATION_NAME = "Appear";
 

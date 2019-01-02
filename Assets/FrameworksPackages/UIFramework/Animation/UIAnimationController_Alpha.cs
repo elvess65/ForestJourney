@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace mytest.UI.Animations
+namespace FrameworkPackage.UI.Animations
 {
     /// <summary>
     /// Контролирует анимацию изменения прозрачности для CanvasGroup
     /// </summary>
-    public class WindowAlphaAnimationController : OneValueAnimationController
+    public class UIAnimationController_Alpha : UIAnimationController_OneValue
     {
         [Header("Link")]
         public CanvasGroup Group;

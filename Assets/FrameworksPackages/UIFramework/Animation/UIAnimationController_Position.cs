@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace mytest.UI.Animations
+namespace FrameworkPackage.UI.Animations
 {
     /// <summary>
     /// Контролирует анимацию расположения MaskableGraphic(картинка, текст)
     /// </summary>
-    public class MaskableGraphicsPositionAnimationController : VectorAnimationController
+    public class UIAnimationController_Position : UIAnimationController_Vector
     {
         [Header("Link")]
         public RectTransform Target;

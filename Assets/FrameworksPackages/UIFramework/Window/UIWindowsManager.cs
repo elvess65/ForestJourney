@@ -1,8 +1,7 @@
-﻿using mytest.UI.Windows;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace mytest.UI
+namespace FrameworkPackage.UI.Windows
 {
     public class UIWindowsManager : MonoBehaviour
     {
@@ -38,7 +37,7 @@ namespace mytest.UI
             UIWindow_Base wnd = CreateWindow(source, WindowParent);
             m_WindowQueue.Push(wnd);
 
-            wnd.OnWindowClose += WindowCloseHandler;
+            wnd.OnUIBeginHiding += WindowCloseHandler;
             wnd.Show();
 
             return wnd;
@@ -64,13 +63,17 @@ namespace mytest.UI
 
         public void ShowScreenFade()
         {
-            m_ScreenFade = CreateWindow(UIWindow_ScreenFade, FadeParent);
-            m_ScreenFade.Show();
+            if (UIWindow_ScreenFade != null)
+            {
+                m_ScreenFade = CreateWindow(UIWindow_ScreenFade, FadeParent);
+                m_ScreenFade.Show();
+            }
         }
 
         public void HideScreenFade()
         {
-            m_ScreenFade.Hide();
+            if (m_ScreenFade != null)
+                m_ScreenFade.Hide();
         }
     }
 }

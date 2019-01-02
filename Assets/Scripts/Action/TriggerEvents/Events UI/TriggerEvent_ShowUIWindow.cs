@@ -1,4 +1,5 @@
-﻿using mytest.UI;
+﻿using FrameworkPackage.UI.Windows;
+using mytest.UI;
 using mytest.UI.InputSystem;
 using mytest.UI.Windows;
 
@@ -32,7 +33,7 @@ namespace mytest.ActionTrigger.Events
             //Создать окно
             UIWindow_Base wnd = GameManager.Instance.UIManager.ShowWindow(UIWindowsTutorialLibrary.Instance.TutorialWindowPrefab);
             (wnd as UIWindow_Tutorial).InitWithType(TutorialWindowType);
-            wnd.OnWindowHided += WindowHidedHandler;
+            wnd.OnUIHided += WindowHidedHandler;
         }
 
         void WindowHidedHandler()
